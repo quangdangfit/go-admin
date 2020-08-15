@@ -1,4 +1,4 @@
-# Go Shop
+# Go Admin
 
 RBAC scaffolding based on Gin + Gorm + Casbin + Dig
 

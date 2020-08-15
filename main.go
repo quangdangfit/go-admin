@@ -28,8 +28,9 @@ func main() {
 
 	go func() {
 		// service connections
+		logger.Info("Listen at:", server.Addr)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Fatalf("Listen: %s\n", err)
+			logger.Fatalf("Error: %s\n", err)
 		}
 	}()
 
