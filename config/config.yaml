@@ -1,0 +1,18 @@
+database:
+  host: 127.0.0.1
+  name: go-admin
+  port: 5432
+  env: native
+  user: postgres
+  password: 1234
+
+redis:
+  enable: true
+  host: localhost
+  port: 6397
+  password:
+  database: 0
+
+cache:
+  enable: true
+  expiry_time: 3600

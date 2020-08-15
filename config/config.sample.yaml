@@ -1,0 +1,17 @@
+database:
+  host: localhost:27017
+  name: database
+  env: native
+  user: ######
+  password: ######
+
+redis:
+  enable: true
+  host: localhost
+  port:
+  password:
+  database: 0
+
+cache:
+  enable: true
+  expiry_time: 3600
