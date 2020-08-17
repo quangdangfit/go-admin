@@ -5,21 +5,21 @@ import (
 	"go.uber.org/dig"
 
 	"go-admin/app/api"
-	"go-admin/app/repositories"
-	"go-admin/app/services"
+	repoImpl "go-admin/app/repositories/impl"
+	serviceImpl "go-admin/app/services/impl"
 )
 
 func BuildContainer() *dig.Container {
 	container := dig.New()
 
 	// Inject repositories
-	err := repositories.Inject(container)
+	err := repoImpl.Inject(container)
 	if err != nil {
 		logger.Error("Failed to inject repositories", err)
 	}
 
 	// Inject services
-	err = services.Inject(container)
+	err = serviceImpl.Inject(container)
 	if err != nil {
 		logger.Error("Failed to inject services", err)
 	}

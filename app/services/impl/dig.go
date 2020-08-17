@@ -1,4 +1,4 @@
-package services
+package impl
 
 import (
 	"go.uber.org/dig"

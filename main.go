@@ -16,10 +16,9 @@ import (
 )
 
 func main() {
-	migrations.Migrate()
-
 	container := app.BuildContainer()
 	engine := router.InitGinEngine(container)
+	migrations.Migrate(container)
 
 	server := &http.Server{
 		Addr:    ":8888",
