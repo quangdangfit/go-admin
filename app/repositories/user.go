@@ -8,5 +8,5 @@ import (
 type IUserRepository interface {
 	Login(item *schema.Login) (*models.User, error)
 	Register(item *schema.Register) (*models.User, error)
-	GetUserByID(uuid string) (*models.User, error)
+	GetUserByID(id string) (*models.User, error)
 }

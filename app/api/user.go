@@ -29,8 +29,8 @@ func (u *User) validate(r schema.Register) bool {
 		})
 }
 
-func (u *User) checkPermission(uuid string, data map[string]interface{}) bool {
-	return data["uuid"] == uuid
+func (u *User) checkPermission(id string, data map[string]interface{}) bool {
+	return data["id"] == id
 }
 
 func (u *User) Login(c *gin.Context) {
@@ -86,9 +86,9 @@ func (u *User) Register(c *gin.Context) {
 }
 
 func (u *User) GetUserByID(c *gin.Context) {
-	userUUID := c.Param("uuid")
+	userID := c.Param("id")
 	ctx := c.Request.Context()
-	user, err := u.service.GetUserByID(ctx, userUUID)
+	user, err := u.service.GetUserByID(ctx, userID)
 	if err != nil {
 		logger.Error(err.Error())
 		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), utils.ErrorNotExistUser))

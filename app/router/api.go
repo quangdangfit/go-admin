@@ -27,7 +27,7 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 		//--------------------------------API-----------------------------------
 		apiV1 := r.Group("api/v1")
 		{
-			apiV1.GET("/users/:uuid", user.GetUserByID)
+			apiV1.GET("/users/:id", user.GetUserByID)
 		}
 		return nil
 	})

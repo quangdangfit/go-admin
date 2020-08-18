@@ -18,8 +18,8 @@ func NewUserService(repo repositories.IUserRepository) services.IUserService {
 	return &UserService{repo: repo}
 }
 
-func (u *UserService) checkPermission(uuid string, data map[string]interface{}) bool {
-	return data["uuid"] == uuid
+func (u *UserService) checkPermission(id string, data map[string]interface{}) bool {
+	return data["id"] == id
 }
 
 func (u *UserService) Login(ctx context.Context, item *schema.Login) (*models.User, string, error) {
@@ -42,8 +42,8 @@ func (u *UserService) Register(ctx context.Context, item *schema.Register) (*mod
 	return user, token, nil
 }
 
-func (u *UserService) GetUserByID(ctx context.Context, uuid string) (*models.User, error) {
-	user, err := u.repo.GetUserByID(uuid)
+func (u *UserService) GetUserByID(ctx context.Context, id string) (*models.User, error) {
+	user, err := u.repo.GetUserByID(id)
 	if err != nil {
 		return nil, err
 	}

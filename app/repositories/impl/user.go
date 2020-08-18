@@ -48,9 +48,9 @@ func (u *UserRepo) Register(item *schema.Register) (*models.User, error) {
 	return &user, nil
 }
 
-func (u *UserRepo) GetUserByID(uuid string) (*models.User, error) {
+func (u *UserRepo) GetUserByID(id string) (*models.User, error) {
 	user := models.User{}
-	if dbs.Database.Where("uuid = ? ", uuid).First(&user).RecordNotFound() {
+	if dbs.Database.Where("id = ? ", id).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
 	}
 
