@@ -1,7 +1,7 @@
 package schema
 
 type User struct {
-	UUID     string      `json:"uuid"`
+	ID       string      `json:"id"`
 	Username string      `json:"username"`
 	Email    string      `json:"email"`
 	Extra    interface{} `json:"extra,omitempty"`
@@ -11,7 +11,7 @@ type Register struct {
 	Username string `json:"username" validate:"required"`
 	Email    string `json:"email" validate:"required"`
 	Password string `json:"password" validate:"required"`
-	RoleUUID string `json:"role_uuid"`
+	RoleID   string `json:"role_id"`
 }
 
 type Login struct {

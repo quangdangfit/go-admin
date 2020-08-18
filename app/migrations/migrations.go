@@ -25,7 +25,7 @@ func createAdmin(container *dig.Container) error {
 			Username: "admin",
 			Password: "admin",
 			Email:    "admin@admin.com",
-			RoleUUID: role.UUID,
+			RoleID:   role.ID,
 		})
 		if err != nil {
 			return err
@@ -40,7 +40,7 @@ func Migrate(container *dig.Container) {
 	Role := models.Role{}
 
 	dbs.Database.AutoMigrate(&User, &Role)
-	dbs.Database.Model(&User).AddForeignKey("role_uuid", "roles(uuid)", "RESTRICT", "RESTRICT")
+	dbs.Database.Model(&User).AddForeignKey("role_id", "roles(id)", "RESTRICT", "RESTRICT")
 
 	err := createAdmin(container)
 	if err != nil {
