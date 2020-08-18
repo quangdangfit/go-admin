@@ -11,11 +11,15 @@ import (
 )
 
 type UserService struct {
-	repo repositories.IUserRepository
+	userRepo repositories.IUserRepository
+	roleRepo repositories.IRoleRepository
 }
 
-func NewUserService(repo repositories.IUserRepository) services.IUserService {
-	return &UserService{repo: repo}
+func NewUserService(user repositories.IUserRepository, role repositories.IRoleRepository) services.IUserService {
+	return &UserService{
+		userRepo: user,
+		roleRepo: role,
+	}
 }
 
 func (u *UserService) checkPermission(id string, data map[string]interface{}) bool {
@@ -23,7 +27,7 @@ func (u *UserService) checkPermission(id string, data map[string]interface{}) bo
 }
 
 func (u *UserService) Login(ctx context.Context, item *schema.Login) (*models.User, string, error) {
-	user, err := u.repo.Login(item)
+	user, err := u.userRepo.Login(item)
 	if err != nil {
 		return nil, "", err
 	}
@@ -33,7 +37,16 @@ func (u *UserService) Login(ctx context.Context, item *schema.Login) (*models.Us
 }
 
 func (u *UserService) Register(ctx context.Context, item *schema.Register) (*models.User, string, error) {
-	user, err := u.repo.Register(item)
+	if item.RoleID == "" {
+		role, err := u.roleRepo.GetRoleByName("user")
+		if err != nil {
+			return nil, "", err
+		}
+
+		item.RoleID = role.ID
+	}
+
+	user, err := u.userRepo.Register(item)
 	if err != nil {
 		return nil, "", err
 	}
@@ -43,7 +56,7 @@ func (u *UserService) Register(ctx context.Context, item *schema.Register) (*mod
 }
 
 func (u *UserService) GetUserByID(ctx context.Context, id string) (*models.User, error) {
-	user, err := u.repo.GetUserByID(id)
+	user, err := u.userRepo.GetUserByID(id)
 	if err != nil {
 		return nil, err
 	}

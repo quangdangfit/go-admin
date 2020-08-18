@@ -1,6 +1,8 @@
 package impl
 
 import (
+	"errors"
+
 	"github.com/jinzhu/copier"
 	"github.com/jinzhu/gorm"
 
@@ -16,6 +18,15 @@ type RoleRepo struct {
 
 func NewRoleRepository() repositories.IRoleRepository {
 	return &RoleRepo{db: dbs.Database}
+}
+
+func (r *RoleRepo) GetRoleByName(name string) (*models.Role, error) {
+	var role models.Role
+	if dbs.Database.Where("name = ? ", name).First(&role).RecordNotFound() {
+		return nil, errors.New("user not found")
+	}
+
+	return &role, nil
 }
 
 func (r *RoleRepo) CreateRole(req *schema.RoleBodyParam) (*models.Role, error) {

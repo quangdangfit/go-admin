@@ -11,14 +11,14 @@ import (
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
 	"go-admin/app"
-	"go-admin/app/migrations"
+	"go-admin/app/migration"
 	"go-admin/app/router"
 )
 
 func main() {
 	container := app.BuildContainer()
 	engine := router.InitGinEngine(container)
-	migrations.Migrate(container)
+	migration.Migrate(container)
 
 	server := &http.Server{
 		Addr:    ":8888",

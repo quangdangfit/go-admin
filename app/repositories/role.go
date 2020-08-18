@@ -7,4 +7,5 @@ import (
 
 type IRoleRepository interface {
 	CreateRole(req *schema.RoleBodyParam) (*models.Role, error)
+	GetRoleByName(name string) (*models.Role, error)
 }

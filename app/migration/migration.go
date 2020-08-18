@@ -1,4 +1,4 @@
-package migrations
+package migration
 
 import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -16,7 +16,8 @@ func createAdmin(container *dig.Container) error {
 		userRepo repositories.IUserRepository,
 		roleRepo repositories.IRoleRepository,
 	) error {
-		role, err := roleRepo.CreateRole(&schema.RoleBodyParam{Name: "admin", Description: "Admin"})
+		admin, err := roleRepo.CreateRole(&schema.RoleBodyParam{Name: "admin", Description: "Admin"})
+		_, err = roleRepo.CreateRole(&schema.RoleBodyParam{Name: "user", Description: "User"})
 		if err != nil {
 			return err
 		}
@@ -25,7 +26,7 @@ func createAdmin(container *dig.Container) error {
 			Username: "admin",
 			Password: "admin",
 			Email:    "admin@admin.com",
-			RoleID:   role.ID,
+			RoleID:   admin.ID,
 		})
 		if err != nil {
 			return err
