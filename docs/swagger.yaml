@@ -1,11 +1,54 @@
-basePath: /api/v1
+definitions:
+  schema.BaseResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: object
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  schema.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
 info:
   contact: {}
   description: Swagger API for Golang Admin API.
   license: {}
   title: Go Admin API Documents
   version: "1.0"
-paths: {}
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: api login
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.BaseResponse'
+      summary: api login
+      tags:
+      - Private
 securityDefinitions:
   ApiKeyAuth:
     in: header

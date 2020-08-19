@@ -26,8 +26,6 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-
-// @BasePath /api/v1
 func main() {
 	container := app.BuildContainer()
 	engine := router.InitGinEngine(container)

@@ -33,6 +33,15 @@ func (u *User) checkPermission(id string, data map[string]interface{}) bool {
 	return data["id"] == id
 }
 
+// Login godoc
+// @Tags Private
+// @Summary api login
+// @Description api login
+// @Accept  json
+// @Produce json
+// @Param body body schema.Login true "Body"
+// @Success 200 {object} schema.BaseResponse
+// @Router /login [post]
 func (u *User) Login(c *gin.Context) {
 	var item schema.Login
 	if err := c.ShouldBindJSON(&item); err != nil {
