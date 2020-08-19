@@ -63,3 +63,11 @@ func (u *UserService) GetUserByID(ctx context.Context, id string) (*models.User,
 
 	return user, nil
 }
+func (u *UserService) List(ctx context.Context, queryParam *schema.UserQueryParam) (*[]models.User, error) {
+	user, err := u.userRepo.GetUsers(queryParam)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}

@@ -1,8 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
-
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 )
 

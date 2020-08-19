@@ -6,10 +6,12 @@ import (
 	"go.uber.org/dig"
 
 	"go-admin/app/api"
+	"go-admin/pkg/jwt"
 )
 
 func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 	err := container.Invoke(func(
+		jwt jwt.IJWTAuth,
 		user *api.User,
 		role *api.Role,
 	) error {
@@ -24,9 +26,10 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 		}
 
 		//--------------------------------API-----------------------------------
-		apiV1 := r.Group("/api/v1")
+		api := r.Group("/api/v1")
 		{
-			apiV1.GET("/users/:id", user.GetUserByID)
+			api.GET("/users/:id", user.GetUserByID)
+			api.GET("/users", user.List)
 		}
 		return nil
 	})

@@ -1,6 +1,8 @@
 package impl
 
 import (
+	"encoding/json"
+
 	"github.com/jinzhu/copier"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
@@ -51,6 +53,19 @@ func (u *UserRepo) Register(item *schema.Register) (*models.User, error) {
 func (u *UserRepo) GetUserByID(id string) (*models.User, error) {
 	user := models.User{}
 	if dbs.Database.Where("id = ? ", id).First(&user).RecordNotFound() {
+		return nil, errors.New("user not found")
+	}
+
+	return &user, nil
+}
+
+func (u *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, error) {
+	var query map[string]interface{}
+	data, _ := json.Marshal(queryParam)
+	json.Unmarshal(data, &queryParam)
+
+	var user []models.User
+	if dbs.Database.Where(query).Find(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
 	}
 

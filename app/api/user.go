@@ -108,3 +108,22 @@ func (u *User) GetUserByID(c *gin.Context) {
 	copier.Copy(&res, &user)
 	c.JSON(http.StatusOK, utils.PrepareResponse(res, "OK", ""))
 }
+
+func (u *User) List(c *gin.Context) {
+	var queryParam schema.UserQueryParam
+	if err := c.ShouldBindQuery(&queryParam); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user, err := u.service.List(c, &queryParam)
+	if err != nil {
+		logger.Error(err.Error())
+		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), utils.ErrorNotExistUser))
+		return
+	}
+
+	var res []schema.User
+	copier.Copy(&res, &user)
+	c.JSON(http.StatusOK, utils.PrepareResponse(res, "OK", ""))
+}
