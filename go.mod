@@ -3,6 +3,7 @@ module go-admin
 go 1.14
 
 require (
+	github.com/LyricTian/queue v1.2.0
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.6.3
@@ -11,12 +12,14 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/jinzhu/copier v0.0.0-20190924061706-b57f9002281a
 	github.com/jinzhu/gorm v1.9.14
-	github.com/pkg/errors v0.8.1
+	github.com/pkg/errors v0.9.1
+	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/viper v1.7.0
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.5.1
 	gitlab.com/quangdangfit/gocommon v1.0.5
+	go.mongodb.org/mongo-driver v1.4.0
 	go.uber.org/dig v1.10.0
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 )

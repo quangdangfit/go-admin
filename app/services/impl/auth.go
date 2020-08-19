@@ -3,8 +3,6 @@ package impl
 import (
 	"context"
 
-	jwtMiddle "go-admin/app/middleware/jwt"
-	"go-admin/app/models"
 	"go-admin/app/repositories"
 	"go-admin/app/schema"
 	"go-admin/app/services"
@@ -17,7 +15,8 @@ type AuthService struct {
 	roleRepo repositories.IRoleRepository
 }
 
-func NewAuthService(jwt jwt.IJWTAuth, user repositories.IUserRepository, role repositories.IRoleRepository) services.IAuthService {
+func NewAuthService(jwt jwt.IJWTAuth, user repositories.IUserRepository,
+	role repositories.IRoleRepository) services.IAuthService {
 	return &AuthService{
 		jwt:      jwt,
 		userRepo: user,
@@ -25,31 +24,57 @@ func NewAuthService(jwt jwt.IJWTAuth, user repositories.IUserRepository, role re
 	}
 }
 
-func (a *AuthService) Login(ctx context.Context, item *schema.Login) (*models.User, string, error) {
+func (a *AuthService) Login(ctx context.Context, item *schema.LoginBodyParam) (*schema.UserTokenInfo, error) {
 	user, err := a.userRepo.Login(item)
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
 
 	token, _ := a.jwt.GenerateToken(user.ID)
-	return user, token.GetAccessToken(), nil
+	values := schema.UserUpdateBodyParam{RefreshToken: token.GetRefreshToken()}
+	_, err = a.userRepo.Update(user.ID, &values)
+	if err != nil {
+		return nil, err
+	}
+
+	tokenInfo := schema.UserTokenInfo{
+		AccessToken:  token.GetAccessToken(),
+		RefreshToken: token.GetRefreshToken(),
+		TokenType:    token.GetTokenType(),
+		ExpiresAt:    token.GetExpiresAt(),
+	}
+
+	return &tokenInfo, nil
 }
 
-func (u *AuthService) Register(ctx context.Context, item *schema.Register) (*models.User, string, error) {
+func (a *AuthService) Register(ctx context.Context, item *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
 	if item.RoleID == "" {
-		role, err := u.roleRepo.GetRoleByName("user")
+		role, err := a.roleRepo.GetRoleByName("user")
 		if err != nil {
-			return nil, "", err
+			return nil, err
 		}
 
 		item.RoleID = role.ID
 	}
 
-	user, err := u.userRepo.Register(item)
+	user, err := a.userRepo.Register(item)
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
 
-	token := jwtMiddle.GenerateToken(user)
-	return user, token, nil
+	token, _ := a.jwt.GenerateToken(user.ID)
+	values := schema.UserUpdateBodyParam{RefreshToken: token.GetRefreshToken()}
+	_, err = a.userRepo.Update(user.ID, &values)
+	if err != nil {
+		return nil, err
+	}
+
+	tokenInfo := schema.UserTokenInfo{
+		AccessToken:  token.GetAccessToken(),
+		RefreshToken: token.GetRefreshToken(),
+		TokenType:    token.GetTokenType(),
+		ExpiresAt:    token.GetExpiresAt(),
+	}
+
+	return &tokenInfo, nil
 }

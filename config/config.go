@@ -29,6 +29,13 @@ type Schema struct {
 		Enable     bool `mapstructure:"enable"`
 		ExpiryTime int  `mapstructure:"expiry_time"`
 	} `mapstructure:"cache"`
+
+	JWTAuth struct {
+		SigningKey          string `mapstructure:"signing_key"`
+		Expired             int    `mapstructure:"expired"`
+		SigningRefreshKey   string `mapstructure:"signing_refresh_key"`
+		ExpiredRefreshToken int    `mapstructure:"expired_refresh_token"`
+	} `mapstructure:"jwt_auth"`
 }
 
 var Config Schema

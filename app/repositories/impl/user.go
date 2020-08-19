@@ -23,7 +23,7 @@ func NewUserRepository() repositories.IUserRepository {
 	return &UserRepo{db: dbs.Database}
 }
 
-func (u *UserRepo) Login(item *schema.Login) (*models.User, error) {
+func (u *UserRepo) Login(item *schema.LoginBodyParam) (*models.User, error) {
 	user := &models.User{}
 	if dbs.Database.Where("username = ? ", item.Username).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
@@ -37,7 +37,7 @@ func (u *UserRepo) Login(item *schema.Login) (*models.User, error) {
 	return user, nil
 }
 
-func (u *UserRepo) Register(item *schema.Register) (*models.User, error) {
+func (u *UserRepo) Register(item *schema.RegisterBodyParam) (*models.User, error) {
 	var user models.User
 	copier.Copy(&user, &item)
 	hashedPassword := utils.HashAndSalt([]byte(item.Password))
@@ -62,7 +62,7 @@ func (u *UserRepo) GetUserByID(id string) (*models.User, error) {
 func (u *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, error) {
 	var query map[string]interface{}
 	data, _ := json.Marshal(queryParam)
-	json.Unmarshal(data, &queryParam)
+	json.Unmarshal(data, &query)
 
 	var user []models.User
 	if dbs.Database.Where(query).Find(&user).RecordNotFound() {
@@ -70,4 +70,17 @@ func (u *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, 
 	}
 
 	return &user, nil
+}
+
+func (u *UserRepo) Update(userId string, bodyParam *schema.UserUpdateBodyParam) (*models.User, error) {
+	var body map[string]interface{}
+	data, _ := json.Marshal(bodyParam)
+	json.Unmarshal(data, &body)
+
+	var change models.User
+	if err := dbs.Database.Model(&change).Where("id = ?", userId).Update(body).Error; err != nil {
+		return nil, err
+	}
+
+	return &change, nil
 }

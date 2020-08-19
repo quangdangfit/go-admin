@@ -15,3 +15,9 @@ redis:
 cache:
   enable: true
   expiry_time: 3600
+
+jwt_auth:
+  signing_key: access
+  expired: 900
+  signing_refresh_key: refresh
+  expired_refresh_token: 1

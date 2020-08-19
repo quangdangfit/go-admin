@@ -20,7 +20,7 @@ func NewUserAPI(service services.IUserService) *User {
 	return &User{service: service}
 }
 
-func (u *User) validate(r schema.Register) bool {
+func (u *User) validate(r schema.RegisterBodyParam) bool {
 	return utils.Validate(
 		[]utils.Validation{
 			{Value: r.Username, Valid: "username"},
