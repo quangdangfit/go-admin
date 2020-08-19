@@ -12,4 +12,5 @@ type IUserRepository interface {
 	GetUserByToken(token string) (*models.User, error)
 	GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, error)
 	Update(userId string, bodyParam *schema.UserUpdateBodyParam) (*models.User, error)
+	RemoveToken(userId string) (*models.User, error)
 }

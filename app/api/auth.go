@@ -107,3 +107,23 @@ func (a *Auth) Refresh(c *gin.Context) {
 
 	c.JSON(http.StatusOK, utils.PrepareResponse(tokenInfo, "OK", ""))
 }
+
+// Logout godoc
+// @Tags Auth
+// @Summary api logout
+// @Description api logout
+// @Accept  json
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} schema.BaseResponse
+// @Router /logout [post]
+func (a *Auth) Logout(c *gin.Context) {
+	err := a.service.Logout(c)
+	if err != nil {
+		logger.Error(err.Error())
+		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), ""))
+		return
+	}
+
+	c.JSON(http.StatusOK, utils.PrepareResponse(nil, "OK", ""))
+}

@@ -93,3 +93,13 @@ func (u *UserRepo) Update(userId string, bodyParam *schema.UserUpdateBodyParam) 
 
 	return &change, nil
 }
+
+func (u *UserRepo) RemoveToken(userId string) (*models.User, error) {
+	var body = map[string]interface{}{"refresh_token": ""}
+	var change models.User
+	if err := dbs.Database.Model(&change).Where("id = ?", userId).Update(body).Error; err != nil {
+		return nil, err
+	}
+
+	return &change, nil
+}

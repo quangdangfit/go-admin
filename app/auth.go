@@ -2,8 +2,8 @@ package app
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"go-admin/config"
 
+	"go-admin/config"
 	"go-admin/pkg/errors"
 	jwtAuth "go-admin/pkg/jwt"
 )

@@ -71,6 +71,23 @@ paths:
       summary: api login
       tags:
       - Auth
+  /logout:
+    post:
+      consumes:
+      - application/json
+      description: api logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.BaseResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: api logout
+      tags:
+      - Auth
   /refresh:
     post:
       consumes:

@@ -6,6 +6,7 @@ import (
 	"go.uber.org/dig"
 
 	"go-admin/app/api"
+	"go-admin/app/middleware"
 	"go-admin/pkg/jwt"
 )
 
@@ -20,6 +21,7 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 			r.POST("/register", auth.Register)
 			r.POST("/login", auth.Login)
 			r.POST("/refresh", auth.Refresh)
+			r.POST("/logout", middleware.UserAuthMiddleware(jwt), auth.Logout)
 		}
 
 		admin := r.Group("/admin")

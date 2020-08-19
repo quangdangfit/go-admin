@@ -6,6 +6,7 @@ import (
 	"go-admin/app/repositories"
 	"go-admin/app/schema"
 	"go-admin/app/services"
+	"go-admin/pkg/app"
 	"go-admin/pkg/errors"
 	"go-admin/pkg/jwt"
 )
@@ -104,4 +105,13 @@ func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBody
 	}
 
 	return &tokenInfo, nil
+}
+
+func (a *AuthService) Logout(ctx context.Context) error {
+	_, err := a.userRepo.RemoveToken(app.GetUserID(ctx))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
