@@ -22,7 +22,7 @@ func createAdmin(container *dig.Container) error {
 			return err
 		}
 
-		_, err = userRepo.Register(&schema.Register{
+		_, err = userRepo.Register(&schema.RegisterBodyParam{
 			Username: "admin",
 			Password: "admin",
 			Email:    "admin@admin.com",

@@ -15,6 +15,17 @@ import (
 	"go-admin/app/router"
 )
 
+// @title Go Admin API Documents
+// @version 1.0
+// @description Swagger API for Golang Admin API.
+
+// @securityDefinitions.basic BasicAuth
+// @in header
+// @name Authorization
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	container := app.BuildContainer()
 	engine := router.InitGinEngine(container)

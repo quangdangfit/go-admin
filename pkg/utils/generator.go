@@ -34,7 +34,7 @@ func GenerateCode(prefix string) string {
 	} else {
 		d = fmt.Sprintf("%d", t.Day())
 	}
-	code := fmt.Sprintf("%s%s%s%s%s", prefix, y, m, d, genStringWithLength(RandLength))
+	code := fmt.Sprintf("%s%s%s%s%s", prefix, y, m, d, RandomString(RandLength))
 	return strings.ToUpper(code)
 }
 
@@ -46,6 +46,6 @@ func stringWithCharset(length int) string {
 	return string(b)
 }
 
-func genStringWithLength(length int) string {
+func RandomString(length int) string {
 	return stringWithCharset(length)
 }

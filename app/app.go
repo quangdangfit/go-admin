@@ -7,13 +7,19 @@ import (
 	"go-admin/app/api"
 	repoImpl "go-admin/app/repositories/impl"
 	serviceImpl "go-admin/app/services/impl"
+	"go-admin/pkg/jwt"
 )
 
 func BuildContainer() *dig.Container {
 	container := dig.New()
 
+	authen, err := InitAuth()
+	_ = container.Provide(func() jwt.IJWTAuth {
+		return authen
+	})
+
 	// Inject repositories
-	err := repoImpl.Inject(container)
+	err = repoImpl.Inject(container)
 	if err != nil {
 		logger.Error("Failed to inject repositories", err)
 	}

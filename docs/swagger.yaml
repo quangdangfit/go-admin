@@ -1,5 +1,142 @@
+definitions:
+  schema.BaseResponse:
+    properties:
+      code:
+        type: string
+      data:
+        type: object
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  schema.LoginBodyParam:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  schema.RefreshBodyParam:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  schema.RegisterBodyParam:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role_id:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
 info:
   contact: {}
+  description: Swagger API for Golang Admin API.
   license: {}
-paths: {}
+  title: Go Admin API Documents
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: api login
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.LoginBodyParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.BaseResponse'
+      summary: api login
+      tags:
+      - Auth
+  /logout:
+    post:
+      consumes:
+      - application/json
+      description: api logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.BaseResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: api logout
+      tags:
+      - Auth
+  /refresh:
+    post:
+      consumes:
+      - application/json
+      description: api refresh token
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RefreshBodyParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.BaseResponse'
+      summary: api refresh token
+      tags:
+      - Auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: api register
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RegisterBodyParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.BaseResponse'
+      summary: api register
+      tags:
+      - Auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
 swagger: "2.0"
