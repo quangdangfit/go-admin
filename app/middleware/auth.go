@@ -5,6 +5,8 @@ import (
 
 	"go-admin/app/icontext"
 	"go-admin/pkg/app"
+	gohttp "go-admin/pkg/http"
+	"go-admin/pkg/http/wrapper"
 	"go-admin/pkg/jwt"
 	"go-admin/pkg/logger"
 )
@@ -26,7 +28,8 @@ func UserAuthMiddleware(a jwt.IJWTAuth, skippers ...SkipperFunc) gin.HandlerFunc
 
 		userID, err := a.ParseUserID(app.GetToken(c), false)
 		if err != nil {
-			app.ResError(c, err)
+			wrapper.Translate(c, gohttp.Response{Error: err})
+			c.Abort()
 			return
 		}
 		wrapUserAuthContext(c, userID)

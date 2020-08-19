@@ -127,7 +127,7 @@ func (a *JWTAuth) parseToken(tokenString string, refresh bool) (*jwt.StandardCla
 	if err != nil {
 		if ve, ok := err.(*jwt.ValidationError); ok {
 			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
-				return nil, errors.ErrTokenMalforaled
+				return nil, errors.ErrTokenMalformed
 			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
 				// Token is expired
 				return nil, errors.ErrTokenExpired
@@ -184,7 +184,7 @@ func (jwtAuth *JWTAuth) generateAccess(userID string) (string, error) {
 	})
 	tokenString, err := token.SignedString(jwtAuth.opts.signingKey)
 	if err != nil {
-		return "", err
+		return "", errors.New("generate token fail", errors.WithStackTrace())
 	}
 
 	return tokenString, nil
@@ -200,7 +200,7 @@ func (jwtAuth *JWTAuth) generateRefresh(userID string) (string, error) {
 	})
 	tokenString, err := token.SignedString(jwtAuth.opts.signingRefreshKey)
 	if err != nil {
-		return "", err
+		return "", errors.New("generate token fail", errors.WithStackTrace())
 	}
 
 	return tokenString, nil

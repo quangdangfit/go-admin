@@ -1,15 +1,14 @@
 package api
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
 	"go-admin/app/schema"
 	"go-admin/app/services"
-	"go-admin/pkg/utils"
+	"go-admin/pkg/errors"
+	gohttp "go-admin/pkg/http"
 )
 
 type Auth struct {
@@ -29,22 +28,28 @@ func NewAuthAPI(service services.IAuthService) *Auth {
 // @Param body body schema.LoginBodyParam true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /login [post]
-func (a *Auth) Login(c *gin.Context) {
+func (a *Auth) Login(c *gin.Context) gohttp.Response {
 	var item schema.LoginBodyParam
 	if err := c.ShouldBindJSON(&item); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		logger.Error(err.Error())
+		return gohttp.Response{
+			Error: errors.InvalidParams.New(),
+		}
 	}
 
 	ctx := c.Request.Context()
 	tokenInfo, err := a.service.Login(ctx, &item)
 	if err != nil {
 		logger.Error(err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), ""))
-		return
+		return gohttp.Response{
+			Error: err,
+		}
 	}
 
-	c.JSON(http.StatusOK, utils.PrepareResponse(tokenInfo, "OK", ""))
+	return gohttp.Response{
+		Error: errors.Success.New(),
+		Data:  tokenInfo,
+	}
 }
 
 // Register godoc
@@ -56,22 +61,28 @@ func (a *Auth) Login(c *gin.Context) {
 // @Param body body schema.RegisterBodyParam true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /register [post]
-func (a *Auth) Register(c *gin.Context) {
+func (a *Auth) Register(c *gin.Context) gohttp.Response {
 	var item schema.RegisterBodyParam
 	if err := c.ShouldBindJSON(&item); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		logger.Error(err.Error())
+		return gohttp.Response{
+			Error: errors.InvalidParams.New(),
+		}
 	}
 
 	ctx := c.Request.Context()
 	tokenInfo, err := a.service.Register(ctx, &item)
 	if err != nil {
 		logger.Error(err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), ""))
-		return
+		return gohttp.Response{
+			Error: err,
+		}
 	}
 
-	c.JSON(http.StatusOK, utils.PrepareResponse(tokenInfo, "OK", ""))
+	return gohttp.Response{
+		Error: errors.Success.New(),
+		Data:  tokenInfo,
+	}
 }
 
 // Refresh godoc
@@ -83,29 +94,36 @@ func (a *Auth) Register(c *gin.Context) {
 // @Param body body schema.RefreshBodyParam true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /refresh [post]
-func (a *Auth) Refresh(c *gin.Context) {
+func (a *Auth) Refresh(c *gin.Context) gohttp.Response {
 	var bodyParam schema.RefreshBodyParam
 	if err := c.ShouldBindJSON(&bodyParam); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		logger.Error(err.Error())
+		return gohttp.Response{
+			Error: errors.InvalidParams.New(),
+		}
 	}
 
 	validate := validator.New()
 	if err := validate.Struct(bodyParam); err != nil {
 		logger.Error("Body is invalid: ", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		return gohttp.Response{
+			Error: errors.InvalidParams.New(),
+		}
 	}
 
 	ctx := c.Request.Context()
 	tokenInfo, err := a.service.Refresh(ctx, &bodyParam)
 	if err != nil {
 		logger.Error(err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), ""))
-		return
+		return gohttp.Response{
+			Error: err,
+		}
 	}
 
-	c.JSON(http.StatusOK, utils.PrepareResponse(tokenInfo, "OK", ""))
+	return gohttp.Response{
+		Error: errors.Success.New(),
+		Data:  tokenInfo,
+	}
 }
 
 // Logout godoc
@@ -117,13 +135,16 @@ func (a *Auth) Refresh(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Success 200 {object} schema.BaseResponse
 // @Router /logout [post]
-func (a *Auth) Logout(c *gin.Context) {
+func (a *Auth) Logout(c *gin.Context) gohttp.Response {
 	err := a.service.Logout(c)
 	if err != nil {
 		logger.Error(err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), ""))
-		return
+		return gohttp.Response{
+			Error: err,
+		}
 	}
 
-	c.JSON(http.StatusOK, utils.PrepareResponse(nil, "OK", ""))
+	return gohttp.Response{
+		Error: errors.Success.New(),
+	}
 }

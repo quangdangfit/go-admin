@@ -32,7 +32,11 @@ func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyPara
 		return nil, err
 	}
 
-	token, _ := a.jwt.GenerateToken(user.ID)
+	token, err := a.jwt.GenerateToken(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
 	values := schema.UserUpdateBodyParam{RefreshToken: token.GetRefreshToken()}
 	_, err = a.userRepo.Update(user.ID, &values)
 	if err != nil {
@@ -82,7 +86,7 @@ func (a *AuthService) Register(ctx context.Context, bodyParam *schema.RegisterBo
 func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBodyParam) (*schema.UserTokenInfo, error) {
 	user, err := a.userRepo.GetUserByToken(bodyParam.RefreshToken)
 	if err != nil {
-		return nil, errors.New("token is invalid")
+		return nil, errors.ErrorTokenInvalid.New()
 	}
 
 	token, err := a.jwt.RefreshToken(bodyParam.RefreshToken)

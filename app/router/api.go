@@ -7,6 +7,7 @@ import (
 
 	"go-admin/app/api"
 	"go-admin/app/middleware"
+	"go-admin/pkg/http/wrapper"
 	"go-admin/pkg/jwt"
 )
 
@@ -18,10 +19,10 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 		role *api.Role,
 	) error {
 		{
-			r.POST("/register", auth.Register)
-			r.POST("/login", auth.Login)
-			r.POST("/refresh", auth.Refresh)
-			r.POST("/logout", middleware.UserAuthMiddleware(jwt), auth.Logout)
+			r.POST("/register", wrapper.Wrap(auth.Register))
+			r.POST("/login", wrapper.Wrap(auth.Login))
+			r.POST("/refresh", wrapper.Wrap(auth.Refresh))
+			r.POST("/logout", middleware.UserAuthMiddleware(jwt), wrapper.Wrap(auth.Logout))
 		}
 
 		admin := r.Group("/admin")
