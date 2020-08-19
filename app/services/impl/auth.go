@@ -43,7 +43,6 @@ func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyPara
 		AccessToken:  token.GetAccessToken(),
 		RefreshToken: token.GetRefreshToken(),
 		TokenType:    token.GetTokenType(),
-		ExpiresAt:    token.GetExpiresAt(),
 	}
 
 	return &tokenInfo, nil
@@ -75,7 +74,6 @@ func (a *AuthService) Register(ctx context.Context, bodyParam *schema.RegisterBo
 		AccessToken:  token.GetAccessToken(),
 		RefreshToken: token.GetRefreshToken(),
 		TokenType:    token.GetTokenType(),
-		ExpiresAt:    token.GetExpiresAt(),
 	}
 
 	return &tokenInfo, nil
@@ -101,7 +99,6 @@ func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBody
 		AccessToken:  token.GetAccessToken(),
 		RefreshToken: token.GetRefreshToken(),
 		TokenType:    token.GetTokenType(),
-		ExpiresAt:    token.GetExpiresAt(),
 	}
 
 	return &tokenInfo, nil

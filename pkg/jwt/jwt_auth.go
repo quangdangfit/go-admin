@@ -100,34 +100,19 @@ func WithSigningKeyRefresh(key interface{}) Option {
 }
 
 func (jwtAuth *JWTAuth) GenerateToken(userID string) (TokenInfo, error) {
-	now := time.Now()
-	expiresAt := now.Add(time.Duration(jwtAuth.opts.expired) * time.Second).Unix()
-
-	token := jwt.NewWithClaims(jwtAuth.opts.signingMethod, jwt.StandardClaims{
-		IssuedAt:  now.Unix(),
-		ExpiresAt: expiresAt,
-		NotBefore: now.Unix(),
-		Subject:   userID,
-	})
-	tokenString, err := token.SignedString(jwtAuth.opts.signingKey)
+	accessToken, err := jwtAuth.generateAccess(userID)
 	if err != nil {
 		return nil, err
 	}
-	refreshToken := jwt.NewWithClaims(jwtAuth.opts.signingMethod, jwt.StandardClaims{
-		IssuedAt:  now.Unix(),
-		ExpiresAt: now.Add(time.Duration(jwtAuth.opts.expiredRefresh) * time.Hour).Unix(),
-		NotBefore: now.Unix(),
-		Subject:   userID,
-	})
-	rt, err := refreshToken.SignedString(jwtAuth.opts.signingRefreshKey)
+
+	refreshToken, err := jwtAuth.generateRefresh(userID)
 	if err != nil {
 		return nil, err
 	}
 	tokenInfo := &tokenInfo{
-		ExpiresAt:    expiresAt,
 		TokenType:    jwtAuth.opts.tokenType,
-		AccessToken:  tokenString,
-		RefreshToken: rt,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 	}
 	return tokenInfo, nil
 }
@@ -168,33 +153,55 @@ func (jwtAuth *JWTAuth) ParseUserID(tokenString string, refresh bool) (string, e
 }
 
 func (jwtAuth *JWTAuth) RefreshToken(refreshToken string) (TokenInfo, error) {
-	userId, err := jwtAuth.ParseUserID(refreshToken, true)
+	userID, err := jwtAuth.ParseUserID(refreshToken, true)
 	if err != nil {
 		if err == errors.ErrTokenExpired {
-			return jwtAuth.GenerateToken(userId)
+			return jwtAuth.GenerateToken(userID)
 		}
 		return nil, err
 	}
 
-	now := time.Now()
-	expiresAt := now.Add(time.Duration(jwtAuth.opts.expired) * time.Second).Unix()
-
-	token := jwt.NewWithClaims(jwtAuth.opts.signingMethod, jwt.StandardClaims{
-		IssuedAt:  now.Unix(),
-		ExpiresAt: expiresAt,
-		NotBefore: now.Unix(),
-		Subject:   userId,
-	})
-	tokenString, err := token.SignedString(jwtAuth.opts.signingKey)
+	accessToken, err := jwtAuth.generateAccess(userID)
 	if err != nil {
 		return nil, err
 	}
 
 	tokenInfo := &tokenInfo{
-		ExpiresAt:    expiresAt,
 		TokenType:    jwtAuth.opts.tokenType,
-		AccessToken:  tokenString,
+		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}
 	return tokenInfo, nil
+}
+
+func (jwtAuth *JWTAuth) generateAccess(userID string) (string, error) {
+	now := time.Now()
+	token := jwt.NewWithClaims(jwtAuth.opts.signingMethod, jwt.StandardClaims{
+		IssuedAt:  now.Unix(),
+		ExpiresAt: now.Add(time.Duration(jwtAuth.opts.expired) * time.Second).Unix(),
+		NotBefore: now.Unix(),
+		Subject:   userID,
+	})
+	tokenString, err := token.SignedString(jwtAuth.opts.signingKey)
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
+}
+
+func (jwtAuth *JWTAuth) generateRefresh(userID string) (string, error) {
+	now := time.Now()
+	token := jwt.NewWithClaims(jwtAuth.opts.signingMethod, jwt.StandardClaims{
+		IssuedAt:  now.Unix(),
+		ExpiresAt: now.Add(time.Duration(jwtAuth.opts.expiredRefresh) * time.Hour).Unix(),
+		NotBefore: now.Unix(),
+		Subject:   userID,
+	})
+	tokenString, err := token.SignedString(jwtAuth.opts.signingRefreshKey)
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
 }
