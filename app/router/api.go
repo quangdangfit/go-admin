@@ -19,6 +19,7 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 		{
 			r.POST("/register", auth.Register)
 			r.POST("/login", auth.Login)
+			r.POST("/refresh", auth.Refresh)
 		}
 
 		admin := r.Group("/admin")

@@ -10,8 +10,8 @@ import (
 
 type IJWTAuth interface {
 	GenerateToken(userID string) (TokenInfo, error)
+	RefreshToken(refreshToken string) (TokenInfo, error)
 	ParseUserID(accessToken string, refresh bool) (string, error)
-	RefreshToken(refreshToken string) (RefreshInfo, error)
 }
 
 const defaultKey = "gin-go"
@@ -167,7 +167,15 @@ func (jwtAuth *JWTAuth) ParseUserID(tokenString string, refresh bool) (string, e
 	return claims.Subject, nil
 }
 
-func (jwtAuth *JWTAuth) RefreshToken(userId string) (RefreshInfo, error) {
+func (jwtAuth *JWTAuth) RefreshToken(refreshToken string) (TokenInfo, error) {
+	userId, err := jwtAuth.ParseUserID(refreshToken, true)
+	if err != nil {
+		if err == errors.ErrTokenExpired {
+			return jwtAuth.GenerateToken(userId)
+		}
+		return nil, err
+	}
+
 	now := time.Now()
 	expiresAt := now.Add(time.Duration(jwtAuth.opts.expired) * time.Second).Unix()
 
@@ -182,10 +190,11 @@ func (jwtAuth *JWTAuth) RefreshToken(userId string) (RefreshInfo, error) {
 		return nil, err
 	}
 
-	tokenInfo := &refreshInfo{
-		ExpiresAt:   expiresAt,
-		TokenType:   jwtAuth.opts.tokenType,
-		AccessToken: tokenString,
+	tokenInfo := &tokenInfo{
+		ExpiresAt:    expiresAt,
+		TokenType:    jwtAuth.opts.tokenType,
+		AccessToken:  tokenString,
+		RefreshToken: refreshToken,
 	}
 	return tokenInfo, nil
 }

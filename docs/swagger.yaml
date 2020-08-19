@@ -10,7 +10,7 @@ definitions:
       status:
         type: integer
     type: object
-  schema.Login:
+  schema.LoginBodyParam:
     properties:
       password:
         type: string
@@ -20,7 +20,14 @@ definitions:
     - password
     - username
     type: object
-  schema.Register:
+  schema.RefreshBodyParam:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  schema.RegisterBodyParam:
     properties:
       email:
         type: string
@@ -53,7 +60,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/schema.Login'
+          $ref: '#/definitions/schema.LoginBodyParam'
       produces:
       - application/json
       responses:
@@ -63,7 +70,29 @@ paths:
             $ref: '#/definitions/schema.BaseResponse'
       summary: api login
       tags:
-      - Private
+      - Auth
+  /refresh:
+    post:
+      consumes:
+      - application/json
+      description: api refresh token
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.RefreshBodyParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.BaseResponse'
+      summary: api refresh token
+      tags:
+      - Auth
   /register:
     post:
       consumes:
@@ -75,7 +104,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/schema.Register'
+          $ref: '#/definitions/schema.RegisterBodyParam'
       produces:
       - application/json
       responses:
@@ -85,7 +114,7 @@ paths:
             $ref: '#/definitions/schema.BaseResponse'
       summary: api register
       tags:
-      - Private
+      - Auth
 securityDefinitions:
   ApiKeyAuth:
     in: header

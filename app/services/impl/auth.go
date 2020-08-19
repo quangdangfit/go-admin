@@ -6,6 +6,7 @@ import (
 	"go-admin/app/repositories"
 	"go-admin/app/schema"
 	"go-admin/app/services"
+	"go-admin/pkg/errors"
 	"go-admin/pkg/jwt"
 )
 
@@ -24,8 +25,8 @@ func NewAuthService(jwt jwt.IJWTAuth, user repositories.IUserRepository,
 	}
 }
 
-func (a *AuthService) Login(ctx context.Context, item *schema.LoginBodyParam) (*schema.UserTokenInfo, error) {
-	user, err := a.userRepo.Login(item)
+func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyParam) (*schema.UserTokenInfo, error) {
+	user, err := a.userRepo.Login(bodyParam)
 	if err != nil {
 		return nil, err
 	}
@@ -47,17 +48,17 @@ func (a *AuthService) Login(ctx context.Context, item *schema.LoginBodyParam) (*
 	return &tokenInfo, nil
 }
 
-func (a *AuthService) Register(ctx context.Context, item *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
-	if item.RoleID == "" {
+func (a *AuthService) Register(ctx context.Context, bodyParam *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
+	if bodyParam.RoleID == "" {
 		role, err := a.roleRepo.GetRoleByName("user")
 		if err != nil {
 			return nil, err
 		}
 
-		item.RoleID = role.ID
+		bodyParam.RoleID = role.ID
 	}
 
-	user, err := a.userRepo.Register(item)
+	user, err := a.userRepo.Register(bodyParam)
 	if err != nil {
 		return nil, err
 	}
@@ -67,6 +68,32 @@ func (a *AuthService) Register(ctx context.Context, item *schema.RegisterBodyPar
 	_, err = a.userRepo.Update(user.ID, &values)
 	if err != nil {
 		return nil, err
+	}
+
+	tokenInfo := schema.UserTokenInfo{
+		AccessToken:  token.GetAccessToken(),
+		RefreshToken: token.GetRefreshToken(),
+		TokenType:    token.GetTokenType(),
+		ExpiresAt:    token.GetExpiresAt(),
+	}
+
+	return &tokenInfo, nil
+}
+
+func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBodyParam) (*schema.UserTokenInfo, error) {
+	user, err := a.userRepo.GetUserByToken(bodyParam.RefreshToken)
+	if err != nil {
+		return nil, errors.New("token is invalid")
+	}
+
+	token, err := a.jwt.RefreshToken(bodyParam.RefreshToken)
+	if err != nil {
+		return nil, err
+	}
+
+	if token.GetRefreshToken() != user.RefreshToken {
+		values := schema.UserUpdateBodyParam{RefreshToken: token.GetRefreshToken()}
+		_, err = a.userRepo.Update(user.ID, &values)
 	}
 
 	tokenInfo := schema.UserTokenInfo{

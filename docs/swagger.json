@@ -18,7 +18,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Private"
+                    "Auth"
                 ],
                 "summary": "api login",
                 "parameters": [
@@ -28,7 +28,41 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.Login"
+                            "$ref": "#/definitions/schema.LoginBodyParam"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh": {
+            "post": {
+                "description": "api refresh token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "api refresh token",
+                "parameters": [
+                    {
+                        "description": "Body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RefreshBodyParam"
                         }
                     }
                 ],
@@ -52,7 +86,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Private"
+                    "Auth"
                 ],
                 "summary": "api register",
                 "parameters": [
@@ -62,7 +96,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.Register"
+                            "$ref": "#/definitions/schema.RegisterBodyParam"
                         }
                     }
                 ],
@@ -95,7 +129,7 @@
                 }
             }
         },
-        "schema.Login": {
+        "schema.LoginBodyParam": {
             "type": "object",
             "required": [
                 "password",
@@ -110,7 +144,18 @@
                 }
             }
         },
-        "schema.Register": {
+        "schema.RefreshBodyParam": {
+            "type": "object",
+            "required": [
+                "refresh_token"
+            ],
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RegisterBodyParam": {
             "type": "object",
             "required": [
                 "email",

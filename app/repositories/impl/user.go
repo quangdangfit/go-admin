@@ -59,6 +59,15 @@ func (u *UserRepo) GetUserByID(id string) (*models.User, error) {
 	return &user, nil
 }
 
+func (u *UserRepo) GetUserByToken(token string) (*models.User, error) {
+	var user models.User
+	if dbs.Database.Where("refresh_token = ? ", token).First(&user).RecordNotFound() {
+		return nil, errors.New("user not found")
+	}
+
+	return &user, nil
+}
+
 func (u *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, error) {
 	var query map[string]interface{}
 	data, _ := json.Marshal(queryParam)

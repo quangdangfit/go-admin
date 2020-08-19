@@ -35,7 +35,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Private"
+                    "Auth"
                 ],
                 "summary": "api login",
                 "parameters": [
@@ -45,7 +45,41 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.Login"
+                            "$ref": "#/definitions/schema.LoginBodyParam"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh": {
+            "post": {
+                "description": "api refresh token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "api refresh token",
+                "parameters": [
+                    {
+                        "description": "Body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.RefreshBodyParam"
                         }
                     }
                 ],
@@ -69,7 +103,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Private"
+                    "Auth"
                 ],
                 "summary": "api register",
                 "parameters": [
@@ -79,7 +113,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.Register"
+                            "$ref": "#/definitions/schema.RegisterBodyParam"
                         }
                     }
                 ],
@@ -112,7 +146,7 @@ var doc = `{
                 }
             }
         },
-        "schema.Login": {
+        "schema.LoginBodyParam": {
             "type": "object",
             "required": [
                 "password",
@@ -127,7 +161,18 @@ var doc = `{
                 }
             }
         },
-        "schema.Register": {
+        "schema.RefreshBodyParam": {
+            "type": "object",
+            "required": [
+                "refresh_token"
+            ],
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.RegisterBodyParam": {
             "type": "object",
             "required": [
                 "email",

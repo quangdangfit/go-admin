@@ -19,6 +19,10 @@ type LoginBodyParam struct {
 	Password string `json:"password" validate:"required"`
 }
 
+type RefreshBodyParam struct {
+	RefreshToken string `json:"refresh_token,omitempty" validate:"required"`
+}
+
 type UserQueryParam struct {
 	Username string `json:"username,omitempty" form:"username,omitempty"`
 	Email    string `json:"email,omitempty" form:"email,omitempty"`
