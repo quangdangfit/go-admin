@@ -1,8 +1,22 @@
 {
     "swagger": "2.0",
     "info": {
+        "description": "Swagger API for Golang Admin API.",
+        "title": "Go Admin API Documents",
         "contact": {},
-        "license": {}
+        "license": {},
+        "version": "1.0"
     },
-    "paths": {}
+    "basePath": "/api/v1",
+    "paths": {},
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
 }
