@@ -12,12 +12,13 @@ import (
 func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 	err := container.Invoke(func(
 		jwt jwt.IJWTAuth,
+		auth *api.Auth,
 		user *api.User,
 		role *api.Role,
 	) error {
 		{
-			r.POST("/register", user.Register)
-			r.POST("/login", user.Login)
+			r.POST("/register", auth.Register)
+			r.POST("/login", auth.Login)
 		}
 
 		admin := r.Group("/admin")
