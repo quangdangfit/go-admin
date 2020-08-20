@@ -8,7 +8,7 @@ import (
 
 const (
 	Success                    ErrorType = 200
-	Unknown                    ErrorType = 500
+	Error                      ErrorType = 500
 	InvalidParams              ErrorType = 400
 	ErrorBadRequest            ErrorType = 421
 	ErrorNoPermission          ErrorType = 403
@@ -80,7 +80,6 @@ func (errType ErrorType) Wrapf(err error, msg string, args ...interface{}) error
 }
 
 var (
-	ErrInternalServer = Unknown.New()
 	ErrMethodNotAllow = ErrorMethodNotAllow.New()
 	ErrNoPermission   = ErrorNoPermission.New()
 	ErrNotFound       = ErrorNotFound.New()

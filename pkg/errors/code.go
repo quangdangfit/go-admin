@@ -2,7 +2,7 @@ package errors
 
 var ErrorCodeMap = map[ErrorType]string{
 	Success:                    "SUCCESS",
-	Unknown:                    "UNKNOWN",
+	Error:                      "ERROR",
 	InvalidParams:              "INVALID_PARAMS",
 	ErrorAuthCheckTokenFail:    "ERROR_AUTH_CHECK_TOKEN_FAIL",
 	ErrorAuthCheckTokenTimeout: "ERROR_AUTH_CHECK_TOKEN_TIMEOUT",
@@ -29,7 +29,7 @@ var ErrorCodeMap = map[ErrorType]string{
 	ErrorNotExistRole:          "ERROR_NOT_EXIST_ROLE",
 	ErrorTokenExpired:          "ERROR_TOKEN_EXPIRED",
 	ErrorTokenInvalid:          "ERROR_TOKEN_INVALID",
-	ErrorTokenMalformed:        "ERROR_TOKEN_MALFORMALED",
+	ErrorTokenMalformed:        "ERROR_TOKEN_MALFORMED",
 }
 
 func GetCode(status int) string {
@@ -37,5 +37,5 @@ func GetCode(status int) string {
 	if ok {
 		return msg
 	}
-	return ErrorCodeMap[Unknown]
+	return ErrorCodeMap[Error]
 }

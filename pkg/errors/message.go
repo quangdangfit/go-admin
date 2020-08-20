@@ -7,7 +7,7 @@ var MsgMap = map[ErrorType]string{
 	ErrorAuthCheckTokenTimeout: "Token time out",
 	ErrorAuthToken:             "Token build failed",
 	ErrorAuth:                  "Token error",
-	Unknown:                    "Unknown",
+	Error:                      "Error occurred",
 	ErrorInternalServer:        "Server error",
 	ErrorExistEmail:            "The Email Address entered already exists in the system",
 	ErrorBadRequest:            "Request error",
@@ -37,5 +37,5 @@ func GetMsg(status int) string {
 	if ok {
 		return msg
 	}
-	return MsgMap[Unknown]
+	return MsgMap[Error]
 }

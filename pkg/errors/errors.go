@@ -13,25 +13,9 @@ type CustomError struct {
 	errType      ErrorType
 	wrappedError error
 	context      errorContext
-	opt          *option
-}
-
-type option struct {
-	stacktrace bool
-}
-
-type Option func(*option)
-
-func WithStackTrace() Option {
-	return func(opt *option) {
-		opt.stacktrace = true
-	}
 }
 
 func (err CustomError) Error() string {
-	if err.opt != nil && err.opt.stacktrace {
-		return err.Stacktrace()
-	}
 	return err.wrappedError.Error()
 }
 
@@ -40,18 +24,13 @@ func (err CustomError) Stacktrace() string {
 }
 
 // New creates a no type error
-func New(msg string, opts ...Option) error {
-	o := option{}
-	for _, opt := range opts {
-		opt(&o)
-	}
-
-	return CustomError{errType: Unknown, wrappedError: errors.New(msg), opt: &o}
+func New(msg string) error {
+	return CustomError{errType: Error, wrappedError: errors.New(msg)}
 }
 
 // Newf creates a no type error with formatted message
 func Newf(msg string, args ...interface{}) error {
-	return CustomError{errType: Unknown, wrappedError: errors.New(fmt.Sprintf(msg, args...))}
+	return CustomError{errType: Error, wrappedError: errors.New(fmt.Sprintf(msg, args...))}
 }
 
 // Wrap wrans an error with a string
@@ -75,7 +54,7 @@ func Wrapf(err error, msg string, args ...interface{}) error {
 		}
 	}
 
-	return CustomError{errType: Unknown, wrappedError: wrappedError}
+	return CustomError{errType: Error, wrappedError: wrappedError}
 }
 
 // Get Stacktrace of error
