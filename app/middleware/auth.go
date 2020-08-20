@@ -3,19 +3,15 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 
-	"go-admin/app/icontext"
 	"go-admin/pkg/app"
 	gohttp "go-admin/pkg/http"
 	"go-admin/pkg/http/wrapper"
 	"go-admin/pkg/jwt"
-	"go-admin/pkg/logger"
 )
 
 func wrapUserAuthContext(c *gin.Context, userID string) {
 	app.SetUserID(c, userID)
-	ctx := icontext.NewUserID(c.Request.Context(), userID)
-	ctx = logger.NewUserIDContext(ctx, userID)
-	c.Request = c.Request.WithContext(ctx)
+	c.Request = c.Request.WithContext(c)
 }
 
 // User Auth Middleware
