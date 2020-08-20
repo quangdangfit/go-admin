@@ -184,7 +184,7 @@ func (jwtAuth *JWTAuth) generateAccess(userID string) (string, error) {
 	})
 	tokenString, err := token.SignedString(jwtAuth.opts.signingKey)
 	if err != nil {
-		return "", errors.New("generate token fail", errors.WithStackTrace())
+		return "", errors.New("generate token fail")
 	}
 
 	return tokenString, nil
@@ -200,7 +200,7 @@ func (jwtAuth *JWTAuth) generateRefresh(userID string) (string, error) {
 	})
 	tokenString, err := token.SignedString(jwtAuth.opts.signingRefreshKey)
 	if err != nil {
-		return "", errors.New("generate token fail", errors.WithStackTrace())
+		return "", errors.New("generate token fail")
 	}
 
 	return tokenString, nil
