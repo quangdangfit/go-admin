@@ -17,7 +17,7 @@ func AddErrorContext(err error, field, message string) error {
 	}
 
 	return CustomError{
-		errType:      Unknown,
+		errType:      Error,
 		wrappedError: err,
 		context:      context,
 	}
@@ -43,5 +43,5 @@ func GetType(err error) ErrorType {
 		return customErr.errType
 	}
 
-	return Unknown
+	return Error
 }

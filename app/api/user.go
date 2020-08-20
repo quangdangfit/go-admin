@@ -9,6 +9,8 @@ import (
 
 	"go-admin/app/schema"
 	"go-admin/app/services"
+	"go-admin/pkg/errors"
+	gohttp "go-admin/pkg/http"
 	"go-admin/pkg/utils"
 )
 
@@ -48,21 +50,27 @@ func (u *User) GetUserByID(c *gin.Context) {
 	c.JSON(http.StatusOK, utils.PrepareResponse(res, "OK", ""))
 }
 
-func (u *User) List(c *gin.Context) {
+func (u *User) List(c *gin.Context) gohttp.Response {
 	var queryParam schema.UserQueryParam
 	if err := c.ShouldBindQuery(&queryParam); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		logger.Error(err.Error())
+		return gohttp.Response{
+			Error: errors.InvalidParams.New(),
+		}
 	}
 
 	user, err := u.service.List(c, &queryParam)
 	if err != nil {
 		logger.Error(err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), utils.ErrorNotExistUser))
-		return
+		return gohttp.Response{
+			Error: err,
+		}
 	}
 
 	var res []schema.User
 	copier.Copy(&res, &user)
-	c.JSON(http.StatusOK, utils.PrepareResponse(res, "OK", ""))
+	return gohttp.Response{
+		Error: errors.Success.New(),
+		Data:  res,
+	}
 }

@@ -31,10 +31,10 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 		}
 
 		//--------------------------------API-----------------------------------
-		api := r.Group("/api/v1")
+		api := r.Group("/api/v1", middleware.UserAuthMiddleware(jwt))
 		{
 			api.GET("/users/:id", user.GetUserByID)
-			api.GET("/users", user.List)
+			api.GET("/users", wrapper.Wrap(user.List))
 		}
 		return nil
 	})
