@@ -19,4 +19,4 @@ jobs:
         go-version: 1.15
 
     - name: Set up Go
-      uses: .github/actions/gotest
+      uses: ./.github/actions/gotest
