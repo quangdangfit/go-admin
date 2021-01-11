@@ -8,11 +8,11 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
-	"go-admin/app/models"
-	"go-admin/app/repositories"
-	"go-admin/app/schema"
-	"go-admin/dbs"
-	"go-admin/pkg/utils"
+	"github.com/quangdangfit/go-admin/app/models"
+	"github.com/quangdangfit/go-admin/app/repositories"
+	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/dbs"
+	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 type UserRepo struct {

@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"go-admin/app/models"
-	"go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/app/models"
+	"github.com/quangdangfit/go-admin/app/schema"
 )
 
 type IUserRepository interface {

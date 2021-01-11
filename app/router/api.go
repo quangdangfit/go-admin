@@ -5,10 +5,10 @@ import (
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 	"go.uber.org/dig"
 
-	"go-admin/app/api"
-	"go-admin/app/middleware"
-	"go-admin/pkg/http/wrapper"
-	"go-admin/pkg/jwt"
+	"github.com/quangdangfit/go-admin/app/api"
+	"github.com/quangdangfit/go-admin/app/middleware"
+	"github.com/quangdangfit/go-admin/pkg/http/wrapper"
+	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
 func RegisterAPI(r *gin.Engine, container *dig.Container) error {

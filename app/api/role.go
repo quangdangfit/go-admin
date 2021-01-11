@@ -8,9 +8,9 @@ import (
 	"github.com/jinzhu/copier"
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
-	"go-admin/app/schema"
-	"go-admin/app/services"
-	"go-admin/pkg/utils"
+	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/app/services"
+	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 type Role struct {

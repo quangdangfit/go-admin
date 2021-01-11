@@ -5,7 +5,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "go-admin/docs"
+	_ "github.com/quangdangfit/go-admin/docs"
 )
 
 func Docs(e *gin.Engine) {

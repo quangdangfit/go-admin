@@ -10,9 +10,9 @@ import (
 
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
-	"go-admin/app"
-	"go-admin/app/migration"
-	"go-admin/app/router"
+	"github.com/quangdangfit/go-admin/app"
+	"github.com/quangdangfit/go-admin/app/migration"
+	"github.com/quangdangfit/go-admin/app/router"
 )
 
 // @title Go Admin API Documents

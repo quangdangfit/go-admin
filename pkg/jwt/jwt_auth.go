@@ -5,7 +5,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 
-	"go-admin/pkg/errors"
+	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
 type IJWTAuth interface {

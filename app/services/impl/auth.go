@@ -3,12 +3,12 @@ package impl
 import (
 	"context"
 
-	"go-admin/app/repositories"
-	"go-admin/app/schema"
-	"go-admin/app/services"
-	"go-admin/pkg/app"
-	"go-admin/pkg/errors"
-	"go-admin/pkg/jwt"
+	"github.com/quangdangfit/go-admin/app/repositories"
+	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/app/services"
+	"github.com/quangdangfit/go-admin/pkg/app"
+	"github.com/quangdangfit/go-admin/pkg/errors"
+	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
 type AuthService struct {

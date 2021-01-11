@@ -9,7 +9,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
-	"go-admin/config"
+	"github.com/quangdangfit/go-admin/config"
 )
 
 const (

@@ -4,10 +4,10 @@ import (
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 	"go.uber.org/dig"
 
-	"go-admin/app/api"
-	repoImpl "go-admin/app/repositories/impl"
-	serviceImpl "go-admin/app/services/impl"
-	"go-admin/pkg/jwt"
+	"github.com/quangdangfit/go-admin/app/api"
+	repoImpl "github.com/quangdangfit/go-admin/app/repositories/impl"
+	serviceImpl "github.com/quangdangfit/go-admin/app/services/impl"
+	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
 func BuildContainer() *dig.Container {

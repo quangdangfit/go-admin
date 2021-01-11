@@ -6,10 +6,10 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/jinzhu/gorm"
 
-	"go-admin/app/models"
-	"go-admin/app/repositories"
-	"go-admin/app/schema"
-	"go-admin/dbs"
+	"github.com/quangdangfit/go-admin/app/models"
+	"github.com/quangdangfit/go-admin/app/repositories"
+	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/dbs"
 )
 
 type RoleRepo struct {

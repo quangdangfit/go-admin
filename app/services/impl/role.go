@@ -3,10 +3,10 @@ package impl
 import (
 	"context"
 
-	"go-admin/app/models"
-	"go-admin/app/repositories"
-	"go-admin/app/schema"
-	"go-admin/app/services"
+	"github.com/quangdangfit/go-admin/app/models"
+	"github.com/quangdangfit/go-admin/app/repositories"
+	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/app/services"
 )
 
 type RoleService struct {

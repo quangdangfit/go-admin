@@ -17,7 +17,7 @@ RBAC scaffolding based on Gin + Gorm + Casbin + Dig
 database:
   host: localhost
   port: 5432
-  name: go-admin
+  name: github.com/quangdangfit/go-admin
   env: development
   user: postgres
   password: 1234

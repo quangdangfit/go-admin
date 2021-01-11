@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"go-admin/pkg/errors"
-	gohttp "go-admin/pkg/http"
+	"github.com/quangdangfit/go-admin/pkg/errors"
+	gohttp "github.com/quangdangfit/go-admin/pkg/http"
 )
 
 const (

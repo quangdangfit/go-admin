@@ -3,9 +3,9 @@ package app
 import (
 	"github.com/dgrijalva/jwt-go"
 
-	"go-admin/config"
-	"go-admin/pkg/errors"
-	jwtAuth "go-admin/pkg/jwt"
+	"github.com/quangdangfit/go-admin/config"
+	"github.com/quangdangfit/go-admin/pkg/errors"
+	jwtAuth "github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
 func InitAuth() (jwtAuth.IJWTAuth, error) {

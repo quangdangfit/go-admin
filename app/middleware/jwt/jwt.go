@@ -10,7 +10,7 @@ import (
 	"github.com/jinzhu/copier"
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
-	"go-admin/pkg/utils"
+	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 const (

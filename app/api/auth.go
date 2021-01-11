@@ -5,10 +5,10 @@ import (
 	"github.com/go-playground/validator/v10"
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
-	"go-admin/app/schema"
-	"go-admin/app/services"
-	"go-admin/pkg/errors"
-	gohttp "go-admin/pkg/http"
+	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/app/services"
+	"github.com/quangdangfit/go-admin/pkg/errors"
+	gohttp "github.com/quangdangfit/go-admin/pkg/http"
 )
 
 type Auth struct {

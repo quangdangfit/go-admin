@@ -9,3 +9,5 @@ go get github.com/tokoinofficial/error_lib@develop
 go mod vendor
 
 go test -v ./...
+
+echo "Finished"

@@ -7,7 +7,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"gitlab.com/quangdangfit/gocommon/utils/logger"
 
-	"go-admin/config"
+	"github.com/quangdangfit/go-admin/config"
 )
 
 var Database *gorm.DB

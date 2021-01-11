@@ -1,4 +1,4 @@
-module go-admin
+module github.com/quangdangfit/go-admin
 
 go 1.14
 

@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 
-	"go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/app/schema"
 )
 
 type IAuthService interface {

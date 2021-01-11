@@ -3,10 +3,10 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 
-	"go-admin/pkg/app"
-	gohttp "go-admin/pkg/http"
-	"go-admin/pkg/http/wrapper"
-	"go-admin/pkg/jwt"
+	"github.com/quangdangfit/go-admin/pkg/app"
+	gohttp "github.com/quangdangfit/go-admin/pkg/http"
+	"github.com/quangdangfit/go-admin/pkg/http/wrapper"
+	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
 func wrapUserAuthContext(c *gin.Context, userID string) {

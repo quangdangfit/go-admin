@@ -6,8 +6,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 
-	jwtMiddle "go-admin/app/middleware/jwt"
-	"go-admin/pkg/utils"
+	jwtMiddle "github.com/quangdangfit/go-admin/app/middleware/jwt"
+	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 func CheckAdmin() gin.HandlerFunc {
