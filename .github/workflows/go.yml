@@ -10,13 +10,48 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+
+    env:
+      GIN_MODE: release
+      DATABASE__HOST: 127.0.0.1
+      DATABASE__NAME: goadmin
+      DATABASE__PORT: 5432
+      DATABASE__ENV: native
+      DATABASE__USER: postgres
+      DATABASE__PASSWORD: 1234
+
+    services:
+      postgresql:
+        image: postgres:latest
+        env:
+          POSTGRES_PASSWORD: 1234
+        ports:
+          - 5432:5432
+        volumes:
+          - ./init.sh:/docker-entrypoint-initdb.d/init.sh
+
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.15
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
 
-    - name: Test Go
-      uses: ./.github/actions/gotest
+      - name: Setup SSH Keys and known_hosts
+        uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Go Modules
+        run: |
+          git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+          go mod vendor
+
+      - name: Go Test
+        run: go test -timeout 9000s -cover -a -v ./...
