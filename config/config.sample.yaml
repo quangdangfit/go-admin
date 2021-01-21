@@ -1,5 +1,6 @@
 database:
-  host: localhost:27017
+  host: localhost
+  port: 5432
   name: database
   env: native
   user: ######
