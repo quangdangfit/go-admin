@@ -6,6 +6,8 @@ services:
     image: "go-admin"
     ports:
       - "8888:8888"
+    environment:
+      DATABASE__HOST: "postgres"
     depends_on:
       - postgres
       - redis
