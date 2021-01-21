@@ -55,3 +55,38 @@ jobs:
 
       - name: Go Test
         run: go test -timeout 9000s -cover -a -v ./...
+
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      GIN_MODE: release
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Setup SSH Keys and known_hosts
+        uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Go Modules
+        run: |
+          git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+          go mod vendor
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
