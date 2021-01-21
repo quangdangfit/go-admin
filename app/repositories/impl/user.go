@@ -8,10 +8,10 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/quangdangfit/go-admin/app/dbs"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
-	"github.com/quangdangfit/go-admin/dbs"
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
