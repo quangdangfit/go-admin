@@ -3,7 +3,7 @@ services:
   go-admin:
     restart: always
     build: .
-    image: "go-admin"
+    image: "github.com/quangdangfit/go-admin"
     ports:
       - "8888:8888"
     environment:
