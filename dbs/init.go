@@ -19,7 +19,7 @@ func init() {
 
 	database, err := gorm.Open("postgres", connectionPath)
 	if err != nil {
-		logger.Fatal("Cannot connect to database", err)
+		logger.Fatal("Cannot connect to database: ", err)
 	}
 
 	// Set up connection pool

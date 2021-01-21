@@ -1,5 +1,15 @@
 version: "3.8"
 services:
+  go-admin:
+    restart: always
+    build: .
+    image: "go-admin"
+    ports:
+      - "8888:8888"
+    depends_on:
+      - postgres
+      - redis
+
   redis:
     restart: always
     image: "redis:alpine"
@@ -8,11 +18,14 @@ services:
     volumes:
       - "/.storage/redis_data:/data"
 
-  postgresql:
-    image: postgres:latest
-    env:
+  postgres:
+    restart: always
+    image: "postgres:latest"
+    environment:
+      DATABASE_USER: postgres
       POSTGRES_PASSWORD: 1234
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - ./.github/workflows:/docker-entrypoint-initdb.d
+      - ./.storage/postgres-data:/var/lib/postgresql/data
