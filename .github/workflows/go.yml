@@ -78,4 +78,4 @@ jobs:
           script: |
             cd ${{ secrets.REMOTE_TARGET }}
             git pull
-            sh ./deploy.sh
+            docker-compose up -d
