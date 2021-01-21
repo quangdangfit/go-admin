@@ -20,20 +20,20 @@ jobs:
       DATABASE__USER: postgres
       DATABASE__PASSWORD: 1234
 
-    services:
-      postgresql:
-        image: postgres:latest
-        env:
-          POSTGRES_PASSWORD: 1234
-        ports:
-          - 5432:5432
-        volumes:
-          - ./.github/workflows/init.sh:/docker-entrypoint-initdb.d/init.sh
-
-      redis:
-        image: redis:alpine
-        ports:
-          - 6379:6379
+#    services:
+#      postgresql:
+#        image: postgres:latest
+#        env:
+#          POSTGRES_PASSWORD: 1234
+#        ports:
+#          - 5432:5432
+#        volumes:
+#          - ./.github/workflows/init.sh:/docker-entrypoint-initdb.d/init.sh
+#
+#      redis:
+#        image: redis:alpine
+#        ports:
+#          - 6379:6379
 
     steps:
       - uses: actions/checkout@v2
