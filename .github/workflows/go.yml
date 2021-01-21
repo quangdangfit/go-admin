@@ -94,4 +94,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ secrets.REMOTE_TARGET }}
-            sh deploy.sh
+            sh ./deploy.sh
