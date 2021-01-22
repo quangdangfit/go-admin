@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
-	"gitlab.com/quangdangfit/gocommon/utils/logger"
+	"github.com/quangdangfit/gosdk/utils/logger"
 
 	"github.com/quangdangfit/go-admin/config"
 )

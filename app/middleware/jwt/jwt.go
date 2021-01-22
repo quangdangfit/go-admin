@@ -8,7 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
-	"gitlab.com/quangdangfit/gocommon/utils/logger"
+	"github.com/quangdangfit/gosdk/utils/logger"
 
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )

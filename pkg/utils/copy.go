@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"gitlab.com/quangdangfit/gocommon/utils/logger"
+	"github.com/quangdangfit/gosdk/utils/logger"
 )
 
 func Copy(dest interface{}, src interface{}) error {

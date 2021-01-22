@@ -4,7 +4,7 @@ MAINTAINER quangdp<quangdangfit@gmail.com>
 
 WORKDIR /go/src/go-admin
 COPY . /go/src/go-admin
-RUN go build -mod=vendor -o ./dist/go-admin
+RUN go build -mod=mod -o ./dist/go-admin
 
 FROM alpine:3.11.3
 RUN apk add --update ca-certificates
