@@ -104,4 +104,5 @@ jobs:
             cd ${{ secrets.REMOTE_TARGET }}
             git pull
             git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+            go mod vendor
             docker-compose up -d --build
