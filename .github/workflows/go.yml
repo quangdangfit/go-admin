@@ -30,6 +30,7 @@ jobs:
       - name: Go Build
         run: |
           git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+          go mod vendor
           docker-compose up -d --build
 
   test:
@@ -102,4 +103,6 @@ jobs:
           script: |
             cd ${{ secrets.REMOTE_TARGET }}
             git pull
+            git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+            go mod vendor
             docker-compose up -d --build
