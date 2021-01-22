@@ -1,9 +1,8 @@
 # Go Admin
+![Build](https://github.com/quangdangfit/go-admin/workflows/.github/workflows/go.yml/badge.svg)
 
 RBAC scaffolding based on Gin + Gorm + Casbin + Dig
 
-## Status
-![Build](https://github.com/quangdangfit/go-admin/workflows/.github/workflows/go.yml/badge.svg)
 
 ## How to run
 
