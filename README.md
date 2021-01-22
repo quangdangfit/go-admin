@@ -2,6 +2,9 @@
 
 RBAC scaffolding based on Gin + Gorm + Casbin + Dig
 
+## Status
+![Build](https://github.com/actions/go-admin/workflows/go/badge.svg)
+
 ## How to run
 
 ### Required
