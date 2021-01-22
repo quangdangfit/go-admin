@@ -56,7 +56,7 @@ func main() {
 	}()
 
 	// Wait for interrupt signal to gracefully shutdown the server with
-	// a timeout of 5 seconds.
+	// a timeout of 1 seconds.
 	quit := make(chan os.Signal)
 	// kill (no param) default send syscanll.SIGTERM
 	// kill -2 is syscall.SIGINT
@@ -70,7 +70,7 @@ func main() {
 	if err := server.Shutdown(ctx); err != nil {
 		logger.Fatal("Server Shutdown: ", err)
 	}
-	// catching ctx.Done(). timeout of 5 seconds.
+	// catching ctx.Done(). timeout of 1 seconds.
 	select {
 	case <-ctx.Done():
 		logger.Info("Timeout of 1 seconds.")
