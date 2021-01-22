@@ -79,7 +79,7 @@ jobs:
           go test -timeout 9000s -cover -a -v ./...
 
   deploy:
-    needs: [build, test]
+    needs: [test]
     runs-on: ubuntu-latest
 
     env:
