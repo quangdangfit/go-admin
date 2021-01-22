@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 
 	"github.com/jinzhu/copier"
-	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
@@ -16,16 +15,16 @@ import (
 )
 
 type UserRepo struct {
-	db *gorm.DB
+	db dbs.IDatabase
 }
 
-func NewUserRepository() repositories.IUserRepository {
-	return &UserRepo{db: dbs.Database}
+func NewUserRepository(db dbs.IDatabase) repositories.IUserRepository {
+	return &UserRepo{db: db}
 }
 
-func (u *UserRepo) Login(item *schema.LoginBodyParam) (*models.User, error) {
+func (r *UserRepo) Login(item *schema.LoginBodyParam) (*models.User, error) {
 	user := &models.User{}
-	if dbs.Database.Where("username = ? ", item.Username).First(&user).RecordNotFound() {
+	if r.db.GetInstance().Where("username = ? ", item.Username).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
 	}
 
@@ -37,20 +36,20 @@ func (u *UserRepo) Login(item *schema.LoginBodyParam) (*models.User, error) {
 	return user, nil
 }
 
-func (u *UserRepo) Register(item *schema.RegisterBodyParam) (*models.User, error) {
+func (r *UserRepo) Register(item *schema.RegisterBodyParam) (*models.User, error) {
 	var user models.User
 	copier.Copy(&user, &item)
 	hashedPassword := utils.HashAndSalt([]byte(item.Password))
 	user.Password = hashedPassword
 
-	if err := u.db.Create(&user).Error; err != nil {
+	if err := r.db.GetInstance().Create(&user).Error; err != nil {
 		return nil, err
 	}
 
 	return &user, nil
 }
 
-func (u *UserRepo) GetUserByID(id string) (*models.User, error) {
+func (r *UserRepo) GetUserByID(id string) (*models.User, error) {
 	user := models.User{}
 	if dbs.Database.Where("id = ? ", id).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
@@ -59,7 +58,7 @@ func (u *UserRepo) GetUserByID(id string) (*models.User, error) {
 	return &user, nil
 }
 
-func (u *UserRepo) GetUserByToken(token string) (*models.User, error) {
+func (r *UserRepo) GetUserByToken(token string) (*models.User, error) {
 	var user models.User
 	if dbs.Database.Where("refresh_token = ? ", token).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
@@ -68,7 +67,7 @@ func (u *UserRepo) GetUserByToken(token string) (*models.User, error) {
 	return &user, nil
 }
 
-func (u *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, error) {
+func (r *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, error) {
 	var query map[string]interface{}
 	data, _ := json.Marshal(queryParam)
 	json.Unmarshal(data, &query)
@@ -81,7 +80,7 @@ func (u *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, 
 	return &user, nil
 }
 
-func (u *UserRepo) Update(userId string, bodyParam *schema.UserUpdateBodyParam) (*models.User, error) {
+func (r *UserRepo) Update(userId string, bodyParam *schema.UserUpdateBodyParam) (*models.User, error) {
 	var body map[string]interface{}
 	data, _ := json.Marshal(bodyParam)
 	json.Unmarshal(data, &body)
@@ -94,7 +93,7 @@ func (u *UserRepo) Update(userId string, bodyParam *schema.UserUpdateBodyParam) 
 	return &change, nil
 }
 
-func (u *UserRepo) RemoveToken(userId string) (*models.User, error) {
+func (r *UserRepo) RemoveToken(userId string) (*models.User, error) {
 	var body = map[string]interface{}{"refresh_token": ""}
 	var change models.User
 	if err := dbs.Database.Model(&change).Where("id = ?", userId).Update(body).Error; err != nil {

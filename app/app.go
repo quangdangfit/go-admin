@@ -5,6 +5,7 @@ import (
 	"go.uber.org/dig"
 
 	"github.com/quangdangfit/go-admin/app/api"
+	"github.com/quangdangfit/go-admin/app/dbs"
 	repoImpl "github.com/quangdangfit/go-admin/app/repositories/impl"
 	serviceImpl "github.com/quangdangfit/go-admin/app/services/impl"
 	"github.com/quangdangfit/go-admin/pkg/jwt"
@@ -17,6 +18,12 @@ func BuildContainer() *dig.Container {
 	_ = container.Provide(func() jwt.IJWTAuth {
 		return authen
 	})
+
+	// Inject database
+	err = dbs.Inject(container)
+	if err != nil {
+		logger.Error("Failed to inject database", err)
+	}
 
 	// Inject repositories
 	err = repoImpl.Inject(container)

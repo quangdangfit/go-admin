@@ -5,6 +5,7 @@ database:
   env: native
   user: ######
   password: ######
+  sslmode: disable
 
 redis:
   enable: true
