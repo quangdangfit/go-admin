@@ -7,6 +7,7 @@ import (
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 	"github.com/quangdangfit/go-admin/app/services"
+	"github.com/quangdangfit/go-admin/config"
 	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
@@ -35,8 +36,14 @@ func (u *UserService) GetByID(ctx context.Context, id string) (*models.User, err
 	return user, nil
 }
 
-func (u *UserService) List(ctx context.Context, queryParam *schema.UserQueryParam) (*[]models.User, error) {
-	user, err := u.userRepo.GetUsers(queryParam)
+func (u *UserService) List(ctx context.Context, param *schema.UserQueryParam) (*[]models.User, error) {
+	if param.Limit > config.Config.DefaultLimit {
+		param.Limit = config.Config.MaxLimit
+	} else if param.Limit <= 0 {
+		param.Limit = config.Config.DefaultLimit
+	}
+
+	user, err := u.userRepo.List(param)
 	if err != nil {
 		return nil, err
 	}

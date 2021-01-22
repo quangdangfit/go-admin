@@ -121,3 +121,16 @@ func (r *UserRepo) GetByID(id string) (*models.User, error) {
 
 	return &user, nil
 }
+
+func (r *UserRepo) List(param *schema.UserQueryParam) (*[]models.User, error) {
+	var query map[string]interface{}
+	data, _ := json.Marshal(param)
+	json.Unmarshal(data, &query)
+
+	var user []models.User
+	if err := r.db.GetInstance().Where(query).Offset(param.Offset).Limit(param.Limit).Find(&user).Error; err != nil {
+		return nil, errors.Wrap(err, "UserRepo.List")
+	}
+
+	return &user, nil
+}

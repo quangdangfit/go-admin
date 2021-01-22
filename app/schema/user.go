@@ -26,6 +26,8 @@ type RefreshBodyParam struct {
 type UserQueryParam struct {
 	Username string `json:"username,omitempty" form:"username,omitempty"`
 	Email    string `json:"email,omitempty" form:"email,omitempty"`
+	Offset   int    `json:"-" form:"offset,omitempty"`
+	Limit    int    `json:"-" form:"limit,omitempty"`
 }
 
 type UserTokenInfo struct {

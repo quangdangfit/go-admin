@@ -9,5 +9,5 @@ import (
 
 type IUserService interface {
 	GetByID(ctx context.Context, id string) (*models.User, error)
-	List(ctx context.Context, queryParam *schema.UserQueryParam) (*[]models.User, error)
+	List(ctx context.Context, param *schema.UserQueryParam) (*[]models.User, error)
 }

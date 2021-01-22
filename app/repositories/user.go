@@ -15,4 +15,5 @@ type IUserRepository interface {
 	RemoveToken(userId string) (*models.User, error)
 	Create(user *models.User) error
 	GetByID(id string) (*models.User, error)
+	List(queryParam *schema.UserQueryParam) (*[]models.User, error)
 }

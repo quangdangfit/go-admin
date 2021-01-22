@@ -8,7 +8,9 @@ import (
 )
 
 type Schema struct {
-	Env string `mapstructure:"env"`
+	Env          string `mapstructure:"env"`
+	DefaultLimit int    `mapstructure:"default_limit"`
+	MaxLimit     int    `mapstructure:"max_limit"`
 
 	Database struct {
 		Host     string `mapstructure:"host"`
