@@ -61,7 +61,7 @@ func (_mr *MockIUserRepositoryMockRecorder) Register(arg0 interface{}) *gomock.C
 
 // GetUserByID mocks base method
 func (_m *MockIUserRepository) GetUserByID(id string) (*models.User, error) {
-	ret := _m.ctrl.Call(_m, "GetByID", id)
+	ret := _m.ctrl.Call(_m, "GetUserByID", id)
 	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -69,7 +69,7 @@ func (_m *MockIUserRepository) GetUserByID(id string) (*models.User, error) {
 
 // GetUserByID indicates an expected call of GetUserByID
 func (_mr *MockIUserRepositoryMockRecorder) GetUserByID(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetByID", reflect.TypeOf((*MockIUserRepository)(nil).GetUserByID), arg0)
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetUserByID", reflect.TypeOf((*MockIUserRepository)(nil).GetUserByID), arg0)
 }
 
 // GetUserByToken mocks base method
@@ -122,4 +122,29 @@ func (_m *MockIUserRepository) RemoveToken(userId string) (*models.User, error) 
 // RemoveToken indicates an expected call of RemoveToken
 func (_mr *MockIUserRepositoryMockRecorder) RemoveToken(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "RemoveToken", reflect.TypeOf((*MockIUserRepository)(nil).RemoveToken), arg0)
+}
+
+// Create mocks base method
+func (_m *MockIUserRepository) Create(user *models.User) error {
+	ret := _m.ctrl.Call(_m, "Create", user)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Create indicates an expected call of Create
+func (_mr *MockIUserRepositoryMockRecorder) Create(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "Create", reflect.TypeOf((*MockIUserRepository)(nil).Create), arg0)
+}
+
+// GetByID mocks base method
+func (_m *MockIUserRepository) GetByID(id string) (*models.User, error) {
+	ret := _m.ctrl.Call(_m, "GetByID", id)
+	ret0, _ := ret[0].(*models.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByID indicates an expected call of GetByID
+func (_mr *MockIUserRepositoryMockRecorder) GetByID(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetByID", reflect.TypeOf((*MockIUserRepository)(nil).GetByID), arg0)
 }
