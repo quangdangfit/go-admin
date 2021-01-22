@@ -2,7 +2,7 @@ package migration
 
 import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"gitlab.com/quangdangfit/gocommon/utils/logger"
+	"github.com/quangdangfit/gosdk/utils/logger"
 	"go.uber.org/dig"
 
 	"github.com/quangdangfit/go-admin/app/dbs"
