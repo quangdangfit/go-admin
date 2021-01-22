@@ -102,3 +102,13 @@ func (r *UserRepo) RemoveToken(userId string) (*models.User, error) {
 
 	return &change, nil
 }
+
+func (r *UserRepo) Create(user *models.User) error {
+	hashedPassword := utils.HashAndSalt([]byte(user.Password))
+	user.Password = hashedPassword
+
+	if err := r.db.GetInstance().Create(&user).Error; err != nil {
+		return errors.Wrap(err, "UserRepo.Create")
+	}
+	return nil
+}
