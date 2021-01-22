@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"github.com/jinzhu/copier"
-	"github.com/jinzhu/gorm"
 
 	"github.com/quangdangfit/go-admin/app/dbs"
 	"github.com/quangdangfit/go-admin/app/models"
@@ -13,16 +12,16 @@ import (
 )
 
 type RoleRepo struct {
-	db *gorm.DB
+	db dbs.IDatabase
 }
 
-func NewRoleRepository() repositories.IRoleRepository {
-	return &RoleRepo{db: dbs.Database}
+func NewRoleRepository(db dbs.IDatabase) repositories.IRoleRepository {
+	return &RoleRepo{db: db}
 }
 
 func (r *RoleRepo) GetRoleByName(name string) (*models.Role, error) {
 	var role models.Role
-	if dbs.Database.Where("name = ? ", name).First(&role).RecordNotFound() {
+	if r.db.GetInstance().Where("name = ? ", name).First(&role).RecordNotFound() {
 		return nil, errors.New("user not found")
 	}
 
@@ -33,7 +32,7 @@ func (r *RoleRepo) CreateRole(req *schema.RoleBodyParam) (*models.Role, error) {
 	var role models.Role
 	copier.Copy(&role, &req)
 
-	if err := r.db.Create(&role).Error; err != nil {
+	if err := r.db.GetInstance().Create(&role).Error; err != nil {
 		return nil, err
 	}
 

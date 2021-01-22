@@ -8,6 +8,8 @@ import (
 )
 
 type Schema struct {
+	Env string `mapstructure:"env"`
+
 	Database struct {
 		Host     string `mapstructure:"host"`
 		Port     int    `mapstructure:"port"`

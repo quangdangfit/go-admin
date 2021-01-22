@@ -13,6 +13,7 @@ import (
 	"github.com/quangdangfit/go-admin/app"
 	"github.com/quangdangfit/go-admin/app/migration"
 	"github.com/quangdangfit/go-admin/app/router"
+	"github.com/quangdangfit/go-admin/config"
 )
 
 // @title Go Admin API Documents
@@ -26,10 +27,20 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
+
+const (
+	ProductionEnv = "production"
+)
+
 func main() {
 	container := app.BuildContainer()
 	engine := router.InitGinEngine(container)
-	migration.Migrate(container)
+	logger.Initialize(config.Config.Env == ProductionEnv)
+
+	err := migration.Migrate(container)
+	if err != nil {
+		logger.Warn("Failed to migrate data: ", err)
+	}
 
 	server := &http.Server{
 		Addr:    ":8888",
@@ -54,7 +65,7 @@ func main() {
 	<-quit
 	logger.Info("Shutdown Server ...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
 		logger.Fatal("Server Shutdown: ", err)
@@ -62,7 +73,7 @@ func main() {
 	// catching ctx.Done(). timeout of 5 seconds.
 	select {
 	case <-ctx.Done():
-		logger.Info("Timeout of 5 seconds.")
+		logger.Info("Timeout of 1 seconds.")
 	}
 	logger.Info("Server exiting")
 }

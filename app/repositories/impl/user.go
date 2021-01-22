@@ -51,7 +51,7 @@ func (r *UserRepo) Register(item *schema.RegisterBodyParam) (*models.User, error
 
 func (r *UserRepo) GetUserByID(id string) (*models.User, error) {
 	user := models.User{}
-	if dbs.Database.Where("id = ? ", id).First(&user).RecordNotFound() {
+	if r.db.GetInstance().Where("id = ? ", id).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
 	}
 
@@ -60,7 +60,7 @@ func (r *UserRepo) GetUserByID(id string) (*models.User, error) {
 
 func (r *UserRepo) GetUserByToken(token string) (*models.User, error) {
 	var user models.User
-	if dbs.Database.Where("refresh_token = ? ", token).First(&user).RecordNotFound() {
+	if r.db.GetInstance().Where("refresh_token = ? ", token).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
 	}
 
@@ -73,7 +73,7 @@ func (r *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, 
 	json.Unmarshal(data, &query)
 
 	var user []models.User
-	if dbs.Database.Where(query).Find(&user).RecordNotFound() {
+	if r.db.GetInstance().Where(query).Find(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
 	}
 
@@ -86,7 +86,7 @@ func (r *UserRepo) Update(userId string, bodyParam *schema.UserUpdateBodyParam) 
 	json.Unmarshal(data, &body)
 
 	var change models.User
-	if err := dbs.Database.Model(&change).Where("id = ?", userId).Update(body).Error; err != nil {
+	if err := r.db.GetInstance().Model(&change).Where("id = ?", userId).Update(body).Error; err != nil {
 		return nil, err
 	}
 
@@ -96,7 +96,7 @@ func (r *UserRepo) Update(userId string, bodyParam *schema.UserUpdateBodyParam) 
 func (r *UserRepo) RemoveToken(userId string) (*models.User, error) {
 	var body = map[string]interface{}{"refresh_token": ""}
 	var change models.User
-	if err := dbs.Database.Model(&change).Where("id = ?", userId).Update(body).Error; err != nil {
+	if err := r.db.GetInstance().Model(&change).Where("id = ?", userId).Update(body).Error; err != nil {
 		return nil, err
 	}
 

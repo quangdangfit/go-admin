@@ -2,7 +2,6 @@ package migration
 
 import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"github.com/quangdangfit/gosdk/utils/logger"
 	"go.uber.org/dig"
 
 	"github.com/quangdangfit/go-admin/app/dbs"
@@ -36,15 +35,21 @@ func createAdmin(container *dig.Container) error {
 	})
 }
 
-func Migrate(container *dig.Container) {
-	User := models.User{}
-	Role := models.Role{}
+func Migrate(container *dig.Container) error {
+	return container.Invoke(func(
+		db dbs.IDatabase,
+	) error {
+		User := models.User{}
+		Role := models.Role{}
 
-	dbs.Database.AutoMigrate(&User, &Role)
-	dbs.Database.Model(&User).AddForeignKey("role_id", "roles(id)", "RESTRICT", "RESTRICT")
+		db.GetInstance().AutoMigrate(&User, &Role)
+		db.GetInstance().Model(&User).AddForeignKey("role_id", "roles(id)", "RESTRICT", "RESTRICT")
 
-	err := createAdmin(container)
-	if err != nil {
-		logger.Error("Cannot create admin data: ", err)
-	}
+		err := createAdmin(container)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
