@@ -61,7 +61,7 @@ func (_mr *MockIUserRepositoryMockRecorder) Register(arg0 interface{}) *gomock.C
 
 // GetUserByID mocks base method
 func (_m *MockIUserRepository) GetUserByID(id string) (*models.User, error) {
-	ret := _m.ctrl.Call(_m, "GetUserByID", id)
+	ret := _m.ctrl.Call(_m, "GetByID", id)
 	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -69,7 +69,7 @@ func (_m *MockIUserRepository) GetUserByID(id string) (*models.User, error) {
 
 // GetUserByID indicates an expected call of GetUserByID
 func (_mr *MockIUserRepositoryMockRecorder) GetUserByID(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetUserByID", reflect.TypeOf((*MockIUserRepository)(nil).GetUserByID), arg0)
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetByID", reflect.TypeOf((*MockIUserRepository)(nil).GetUserByID), arg0)
 }
 
 // GetUserByToken mocks base method

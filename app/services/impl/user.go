@@ -7,6 +7,7 @@ import (
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 	"github.com/quangdangfit/go-admin/app/services"
+	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
 type UserService struct {
@@ -25,10 +26,10 @@ func (u *UserService) checkPermission(id string, data map[string]interface{}) bo
 	return data["id"] == id
 }
 
-func (u *UserService) GetUserByID(ctx context.Context, id string) (*models.User, error) {
-	user, err := u.userRepo.GetUserByID(id)
+func (u *UserService) GetByID(ctx context.Context, id string) (*models.User, error) {
+	user, err := u.userRepo.GetByID(id)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "UserService.GetByID")
 	}
 
 	return user, nil

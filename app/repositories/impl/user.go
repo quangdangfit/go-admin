@@ -112,3 +112,12 @@ func (r *UserRepo) Create(user *models.User) error {
 	}
 	return nil
 }
+
+func (r *UserRepo) GetByID(id string) (*models.User, error) {
+	user := models.User{}
+	if err := r.db.GetInstance().Where("id = ? ", id).First(&user).Error; err != nil {
+		return nil, errors.Wrap(err, "UserRepo.GetUserID")
+	}
+
+	return &user, nil
+}

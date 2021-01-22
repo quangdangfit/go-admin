@@ -5,6 +5,8 @@ const (
 	Error         = "500"
 	InvalidParams = "400"
 
+	ErrorGetDatabase = "1001"
+
 	ErrorExistProduct      = "10001"
 	ErrorExistProductFail  = "10002"
 	ErrorNotExistProduct   = "10003"

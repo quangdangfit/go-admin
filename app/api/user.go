@@ -35,13 +35,14 @@ func (u *User) checkPermission(id string, data map[string]interface{}) bool {
 	return data["id"] == id
 }
 
-func (u *User) GetUserByID(c *gin.Context) {
+func (u *User) GetByID(c *gin.Context) {
 	userID := c.Param("id")
 	ctx := c.Request.Context()
-	user, err := u.service.GetUserByID(ctx, userID)
+	user, err := u.service.GetByID(ctx, userID)
 	if err != nil {
-		logger.Error(err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), utils.ErrorNotExistUser))
+		err = errors.Wrap(err, "API.GetByID")
+		logger.Error("Failed to get user: ", err)
+		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), utils.ErrorGetDatabase))
 		return
 	}
 

@@ -36,7 +36,7 @@ func (_m *MockIUserService) EXPECT() *MockIUserServiceMockRecorder {
 
 // GetUserByID mocks base method
 func (_m *MockIUserService) GetUserByID(ctx context.Context, id string) (*models.User, error) {
-	ret := _m.ctrl.Call(_m, "GetUserByID", ctx, id)
+	ret := _m.ctrl.Call(_m, "GetByID", ctx, id)
 	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -44,7 +44,7 @@ func (_m *MockIUserService) GetUserByID(ctx context.Context, id string) (*models
 
 // GetUserByID indicates an expected call of GetUserByID
 func (_mr *MockIUserServiceMockRecorder) GetUserByID(arg0, arg1 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetUserByID", reflect.TypeOf((*MockIUserService)(nil).GetUserByID), arg0, arg1)
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetByID", reflect.TypeOf((*MockIUserService)(nil).GetUserByID), arg0, arg1)
 }
 
 // List mocks base method
