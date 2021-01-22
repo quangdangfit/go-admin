@@ -1,7 +1,6 @@
 version: "3.8"
 services:
   go-admin:
-    restart: always
     build: .
     image: "github.com/quangdangfit/go-admin"
     ports:
@@ -13,7 +12,6 @@ services:
       - redis
 
   redis:
-    restart: always
     image: "redis:alpine"
     ports:
       - "6379:6379"
