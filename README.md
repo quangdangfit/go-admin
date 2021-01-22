@@ -10,7 +10,10 @@ RBAC scaffolding based on Gin + Gorm + Casbin + Dig
 - Redis
 
 ### Config
+Simply run `make startup`, or run following commands step - by - step:
 - Copy config file: `cp config/config.sample.yaml config/config.yaml`
+  
+
 - You should modify `config/config.yaml`
 
 ```yaml
