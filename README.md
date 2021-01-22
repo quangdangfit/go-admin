@@ -1,5 +1,5 @@
 # Go Admin
-[![Build](https://github.com/quangdangfit/go-admin/workflows/go/badge.svg)](https://github.com/quangdangfit/go-admin/actions)
+[![Build](https://github.com/quangdangfit/go-admin/workflows/master/badge.svg)](https://github.com/quangdangfit/go-admin/actions)
 
 RBAC scaffolding based on Gin + Gorm + Casbin + Dig
 
