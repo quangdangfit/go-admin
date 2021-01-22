@@ -1,9 +1,6 @@
 package models
 
 import (
-	"time"
-
-	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 
 	"github.com/quangdangfit/go-admin/pkg/errors"
@@ -19,15 +16,10 @@ type User struct {
 	RefreshToken string `json:"refresh_token" gorm:"index"`
 }
 
-func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
-	if u.ID == "" {
-		u.ID = uuid.New().String()
-	}
-	if u.CreatedAt.IsZero() {
-		u.CreatedAt = time.Now()
-	}
-	if u.UpdatedAt.IsZero() {
-		u.UpdatedAt = time.Now()
+func (u *User) BeforeCreate(scope *gorm.Scope) error {
+	err := u.Model.BeforeCreate(scope)
+	if err != nil {
+		return err
 	}
 
 	hashedPassword, err := utils.HashPassword([]byte(u.Password))

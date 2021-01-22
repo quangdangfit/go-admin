@@ -14,8 +14,19 @@ type Model struct {
 }
 
 func (model *Model) BeforeCreate(scope *gorm.Scope) error {
-	model.ID = uuid.New().String()
-	model.CreatedAt = time.Now().UTC()
+	if model.ID == "" {
+		model.ID = uuid.New().String()
+	}
+	if model.CreatedAt.IsZero() {
+		model.CreatedAt = time.Now()
+	}
+	if model.UpdatedAt.IsZero() {
+		model.UpdatedAt = time.Now()
+	}
+	return nil
+}
+
+func (model *Model) BeforeUpdate(scope *gorm.Scope) error {
 	model.UpdatedAt = time.Now().UTC()
 	return nil
 }
