@@ -15,6 +15,7 @@ import (
 	"go.uber.org/dig"
 
 	"github.com/quangdangfit/go-admin/app"
+	"github.com/quangdangfit/go-admin/app/migration"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/router"
@@ -57,6 +58,7 @@ func setup() {
 	logger.Info("============> Setup for testing")
 	removeUserData()
 
+	migrate()
 	createRoleData()
 	createUserData()
 	setupToken()
@@ -65,6 +67,10 @@ func setup() {
 func teardown() {
 	logger.Info("============> Teardown")
 	removeUserData()
+}
+
+func migrate() {
+	migration.Migrate(container)
 }
 
 func createRoleData() {
