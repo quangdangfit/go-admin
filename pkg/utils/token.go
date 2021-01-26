@@ -7,16 +7,7 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
-func HashAndSalt(pass []byte) string {
-	hashed, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
-	if err != nil {
-		logger.Error("Failed to generate password: ", err)
-		return ""
-	}
-
-	return string(hashed)
-}
-
+// HashPassword
 func HashPassword(pass []byte) (string, error) {
 	hashed, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
 	if err != nil {

@@ -11,7 +11,6 @@ import (
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
-	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 type UserRepo struct {
@@ -39,9 +38,6 @@ func (r *UserRepo) Login(item *schema.LoginBodyParam) (*models.User, error) {
 func (r *UserRepo) Register(item *schema.RegisterBodyParam) (*models.User, error) {
 	var user models.User
 	copier.Copy(&user, &item)
-	hashedPassword := utils.HashAndSalt([]byte(item.Password))
-	user.Password = hashedPassword
-
 	if err := r.db.GetInstance().Create(&user).Error; err != nil {
 		return nil, err
 	}
@@ -104,9 +100,6 @@ func (r *UserRepo) RemoveToken(userId string) (*models.User, error) {
 }
 
 func (r *UserRepo) Create(user *models.User) error {
-	hashedPassword := utils.HashAndSalt([]byte(user.Password))
-	user.Password = hashedPassword
-
 	if err := r.db.GetInstance().Create(&user).Error; err != nil {
 		return errors.Wrap(err, "UserRepo.Create")
 	}

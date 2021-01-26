@@ -3,6 +3,9 @@ package impl
 import (
 	"context"
 
+	"github.com/jinzhu/copier"
+
+	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 	"github.com/quangdangfit/go-admin/app/services"
@@ -52,17 +55,19 @@ func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyPara
 	return &tokenInfo, nil
 }
 
-func (a *AuthService) Register(ctx context.Context, bodyParam *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
-	if bodyParam.RoleID == "" {
+func (a *AuthService) Register(ctx context.Context, param *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
+	if param.RoleID == "" {
 		role, err := a.roleRepo.GetByName("user")
 		if err != nil {
 			return nil, err
 		}
 
-		bodyParam.RoleID = role.ID
+		param.RoleID = role.ID
 	}
 
-	user, err := a.userRepo.Register(bodyParam)
+	var user models.User
+	copier.Copy(&user, &param)
+	err := a.userRepo.Create(&user)
 	if err != nil {
 		return nil, err
 	}
