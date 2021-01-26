@@ -10,7 +10,7 @@ import (
 	"github.com/quangdangfit/go-admin/app/schema"
 )
 
-func createAdmin(container *dig.Container) error {
+func CreateAdmin(container *dig.Container) error {
 	return container.Invoke(func(
 		userRepo repositories.IUserRepository,
 		roleRepo repositories.IRoleRepository,
@@ -46,11 +46,6 @@ func Migrate(container *dig.Container) error {
 
 		db.GetInstance().AutoMigrate(&User, &Role)
 		db.GetInstance().Model(&User).AddForeignKey("role_id", "roles(id)", "RESTRICT", "RESTRICT")
-
-		err := createAdmin(container)
-		if err != nil {
-			return err
-		}
 
 		return nil
 	})

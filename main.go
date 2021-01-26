@@ -33,9 +33,9 @@ const (
 )
 
 func main() {
+	logger.Initialize(config.Config.Env == ProductionEnv)
 	container := app.BuildContainer()
 	engine := router.InitGinEngine(container)
-	logger.Initialize(config.Config.Env == ProductionEnv)
 
 	err := migration.Migrate(container)
 	if err != nil {
