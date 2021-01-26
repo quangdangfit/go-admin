@@ -52,6 +52,8 @@ jobs:
           POSTGRES_PASSWORD: 1234
         ports:
           - 5432:5432
+        volumes:
+          - "./scripts/init.d:/docker-entrypoint-initdb.d"
 
       redis:
         image: redis:alpine
