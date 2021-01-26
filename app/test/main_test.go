@@ -39,23 +39,6 @@ var (
 			Description: "test1",
 		},
 	}
-
-	users = []*models.User{
-		{
-			Model: models.Model{
-				ID:        "test-user-id-1",
-				CreatedAt: time.Now(),
-				UpdatedAt: time.Now(),
-			},
-			Username:     "test-username-1",
-			Email:        "testuseremail1@tokoin.io",
-			Password:     "test-user-pwd-1",
-			RefreshToken: "test-user-refresh-token-1",
-			RoleID:       roles[0].ID,
-		},
-	}
-
-	user = users[0]
 )
 
 func TestMain(m *testing.M) {
@@ -106,7 +89,7 @@ func createUserData() {
 	) error {
 		for _, u := range users {
 			if err := userRepo.Create(u); err != nil {
-				return err
+				continue
 			}
 		}
 
