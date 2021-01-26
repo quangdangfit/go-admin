@@ -19,7 +19,6 @@ import (
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/router"
 	"github.com/quangdangfit/go-admin/pkg/jwt"
-	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 var (
@@ -106,13 +105,7 @@ func createUserData() {
 		jwtauth jwt.IJWTAuth,
 	) error {
 		for _, u := range users {
-			hashed, err := utils.HashPassword([]byte(u.Password))
-			if err != nil {
-				return err
-			}
-
-			u.Password = string(hashed)
-			if err = userRepo.Create(u); err != nil {
+			if err := userRepo.Create(u); err != nil {
 				return err
 			}
 		}
