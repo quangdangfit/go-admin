@@ -49,13 +49,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          DATABASE_USER: postgres
-          POSTGRES_DB: postgres
           POSTGRES_PASSWORD: 1234
         ports:
           - 5432:5432
-        volumes:
-          - scripts/init.d:/docker-entrypoint-initdb.d
 
       redis:
         image: redis:alpine
@@ -75,6 +71,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Set up database
+        run: |
+          sh ./scripts/init.d/postgres-init.sh
+
       - name: Go Test
         run: |
           make startup
@@ -83,7 +83,7 @@ jobs:
           go test -timeout 9000s -cover -a -v ./...
 
   deploy:
-    needs: [test]
+    needs: [ test ]
     runs-on: ubuntu-latest
 
     env:
