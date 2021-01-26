@@ -46,7 +46,7 @@ jobs:
       DATABASE__SSLMODE: disable
 
     services:
-      postgresql:
+      postgres:
         image: postgres:latest
         env:
           DATABASE_USER: postgres
