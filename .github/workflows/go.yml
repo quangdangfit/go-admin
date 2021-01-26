@@ -43,21 +43,20 @@ jobs:
       DATABASE__ENV: native
       DATABASE__USER: postgres
       DATABASE__PASSWORD: 1234
+      DATABASE__SSLMODE: disable
 
-#    services:
-#      postgresql:
-#        image: postgres:latest
-#        env:
-#          POSTGRES_PASSWORD: 1234
-#        ports:
-#          - 5432:5432
-#        volumes:
-#          - /.storage/postgres-data:/var/lib/postgresql/data
-#
-#      redis:
-#        image: redis:alpine
-#        ports:
-#          - 6379:6379
+    services:
+      postgresql:
+        image: postgres:latest
+        env:
+          POSTGRES_PASSWORD: 1234
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
 
     steps:
       - uses: actions/checkout@v2
