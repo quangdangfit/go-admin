@@ -148,3 +148,16 @@ func (_m *MockIUserRepository) GetByID(id string) (*models.User, error) {
 func (_mr *MockIUserRepositoryMockRecorder) GetByID(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetByID", reflect.TypeOf((*MockIUserRepository)(nil).GetByID), arg0)
 }
+
+// List mocks base method
+func (_m *MockIUserRepository) List(queryParam *schema.UserQueryParam) (*[]models.User, error) {
+	ret := _m.ctrl.Call(_m, "List", queryParam)
+	ret0, _ := ret[0].(*[]models.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// List indicates an expected call of List
+func (_mr *MockIUserRepositoryMockRecorder) List(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "List", reflect.TypeOf((*MockIUserRepository)(nil).List), arg0)
+}

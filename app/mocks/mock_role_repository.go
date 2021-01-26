@@ -6,7 +6,6 @@ package mocks
 import (
 	gomock "github.com/golang/mock/gomock"
 	models "github.com/quangdangfit/go-admin/app/models"
-	schema "github.com/quangdangfit/go-admin/app/schema"
 	reflect "reflect"
 )
 
@@ -33,28 +32,27 @@ func (_m *MockIRoleRepository) EXPECT() *MockIRoleRepositoryMockRecorder {
 	return _m.recorder
 }
 
-// CreateRole mocks base method
-func (_m *MockIRoleRepository) CreateRole(req *schema.RoleBodyParam) (*models.Role, error) {
-	ret := _m.ctrl.Call(_m, "CreateRole", req)
+// GetByName mocks base method
+func (_m *MockIRoleRepository) GetByName(name string) (*models.Role, error) {
+	ret := _m.ctrl.Call(_m, "GetByName", name)
 	ret0, _ := ret[0].(*models.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// CreateRole indicates an expected call of CreateRole
-func (_mr *MockIRoleRepositoryMockRecorder) CreateRole(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "CreateRole", reflect.TypeOf((*MockIRoleRepository)(nil).CreateRole), arg0)
+// GetByName indicates an expected call of GetByName
+func (_mr *MockIRoleRepositoryMockRecorder) GetByName(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetByName", reflect.TypeOf((*MockIRoleRepository)(nil).GetByName), arg0)
 }
 
-// GetRoleByName mocks base method
-func (_m *MockIRoleRepository) GetRoleByName(name string) (*models.Role, error) {
-	ret := _m.ctrl.Call(_m, "GetRoleByName", name)
-	ret0, _ := ret[0].(*models.Role)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+// Create mocks base method
+func (_m *MockIRoleRepository) Create(role *models.Role) error {
+	ret := _m.ctrl.Call(_m, "Create", role)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
-// GetRoleByName indicates an expected call of GetRoleByName
-func (_mr *MockIRoleRepositoryMockRecorder) GetRoleByName(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "GetRoleByName", reflect.TypeOf((*MockIRoleRepository)(nil).GetRoleByName), arg0)
+// Create indicates an expected call of Create
+func (_mr *MockIRoleRepositoryMockRecorder) Create(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "Create", reflect.TypeOf((*MockIRoleRepository)(nil).Create), arg0)
 }

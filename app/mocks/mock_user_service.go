@@ -48,8 +48,8 @@ func (_mr *MockIUserServiceMockRecorder) GetByID(arg0, arg1 interface{}) *gomock
 }
 
 // List mocks base method
-func (_m *MockIUserService) List(ctx context.Context, queryParam *schema.UserQueryParam) (*[]models.User, error) {
-	ret := _m.ctrl.Call(_m, "List", ctx, queryParam)
+func (_m *MockIUserService) List(ctx context.Context, param *schema.UserQueryParam) (*[]models.User, error) {
+	ret := _m.ctrl.Call(_m, "List", ctx, param)
 	ret0, _ := ret[0].(*[]models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
