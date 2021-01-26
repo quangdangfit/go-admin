@@ -55,7 +55,7 @@ jobs:
         ports:
           - 5432:5432
         volumes:
-          - ./scripts/init.d:/docker-entrypoint-initdb.d
+          - scripts/init.d:/docker-entrypoint-initdb.d
 
       redis:
         image: redis:alpine
