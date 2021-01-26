@@ -49,11 +49,13 @@ jobs:
       postgresql:
         image: postgres:latest
         env:
+          DATABASE_USER: postgres
+          POSTGRES_DB: postgres
           POSTGRES_PASSWORD: 1234
         ports:
           - 5432:5432
         volumes:
-          - "./scripts/init.d:/docker-entrypoint-initdb.d"
+          - ./scripts/init.d:/docker-entrypoint-initdb.d
 
       redis:
         image: redis:alpine
