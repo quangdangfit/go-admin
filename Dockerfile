@@ -12,6 +12,7 @@ RUN apk add --no-cache tzdata && \
   cp -f /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime && \
   apk del tzdata
 
+COPY ./config/config.yaml .
 COPY --from=builder /go/src/go-admin/dist/go-admin .
 EXPOSE 8888
 ENTRYPOINT ["./go-admin"]
