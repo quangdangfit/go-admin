@@ -49,6 +49,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
+          POSTGRES_DB: goadmin
           POSTGRES_PASSWORD: 1234
         ports:
           - 5432:5432
@@ -70,10 +71,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.4.1
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Set up database
-        run: |
-          sh ./scripts/init.d/postgres-init.sh
 
       - name: Go Test
         run: |
