@@ -15,8 +15,10 @@ func createAdmin(container *dig.Container) error {
 		userRepo repositories.IUserRepository,
 		roleRepo repositories.IRoleRepository,
 	) error {
-		admin, err := roleRepo.CreateRole(&schema.RoleBodyParam{Name: "admin", Description: "Admin"})
-		_, err = roleRepo.CreateRole(&schema.RoleBodyParam{Name: "user", Description: "User"})
+		adminRole := &models.Role{Name: "admin", Description: "Admin"}
+		userRole := &models.Role{Name: "user", Description: "User"}
+		err := roleRepo.Create(adminRole)
+		err = roleRepo.Create(userRole)
 		if err != nil {
 			return err
 		}
@@ -25,7 +27,7 @@ func createAdmin(container *dig.Container) error {
 			Username: "admin",
 			Password: "admin",
 			Email:    "admin@admin.com",
-			RoleID:   admin.ID,
+			RoleID:   adminRole.ID,
 		})
 		if err != nil {
 			return err

@@ -3,6 +3,8 @@ package impl
 import (
 	"context"
 
+	"github.com/jinzhu/copier"
+
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
@@ -18,10 +20,12 @@ func NewRoleService(repo repositories.IRoleRepository) services.IRoleService {
 }
 
 func (r *RoleService) CreateRole(ctx context.Context, item *schema.RoleBodyParam) (*models.Role, error) {
-	role, err := r.repo.CreateRole(item)
+	var role models.Role
+	copier.Copy(&role, &item)
+	err := r.repo.Create(&role)
 	if err != nil {
 		return nil, err
 	}
 
-	return role, nil
+	return &role, nil
 }

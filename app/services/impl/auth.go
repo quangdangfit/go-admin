@@ -54,7 +54,7 @@ func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyPara
 
 func (a *AuthService) Register(ctx context.Context, bodyParam *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
 	if bodyParam.RoleID == "" {
-		role, err := a.roleRepo.GetRoleByName("user")
+		role, err := a.roleRepo.GetByName("user")
 		if err != nil {
 			return nil, err
 		}
