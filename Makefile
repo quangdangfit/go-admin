@@ -5,4 +5,4 @@ test: startup
 	go test -timeout 9000s -cover -a -v ./...
 
 admin:
-	go run admin.go
+	go run cmd/admin.go
