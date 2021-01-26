@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jinzhu/gorm"
+	_ "github.com/lib/pq"
 	"github.com/quangdangfit/gosdk/utils/logger"
 
 	"github.com/quangdangfit/go-admin/config"
@@ -21,6 +22,8 @@ func NewDatabase() IDatabase {
 	dbConfig := config.Config.Database
 	connectionPath := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s",
 		dbConfig.Host, dbConfig.Port, dbConfig.User, dbConfig.Name, dbConfig.Password, dbConfig.SSLMode)
+
+	logger.Info(connectionPath)
 
 	db, err := gorm.Open("postgres", connectionPath)
 	if err != nil {
