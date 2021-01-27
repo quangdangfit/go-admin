@@ -97,19 +97,6 @@ func (_mr *MockIUserRepositoryMockRecorder) Login(arg0 interface{}) *gomock.Call
 	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "Login", reflect.TypeOf((*MockIUserRepository)(nil).Login), arg0)
 }
 
-// Register mocks base method
-func (_m *MockIUserRepository) Register(item *schema.RegisterBodyParam) (*models.User, error) {
-	ret := _m.ctrl.Call(_m, "Register", item)
-	ret0, _ := ret[0].(*models.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Register indicates an expected call of Register
-func (_mr *MockIUserRepositoryMockRecorder) Register(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "Register", reflect.TypeOf((*MockIUserRepository)(nil).Register), arg0)
-}
-
 // RemoveToken mocks base method
 func (_m *MockIUserRepository) RemoveToken(userId string) (*models.User, error) {
 	ret := _m.ctrl.Call(_m, "RemoveToken", userId)

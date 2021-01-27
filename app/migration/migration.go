@@ -7,7 +7,6 @@ import (
 	"github.com/quangdangfit/go-admin/app/dbs"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/repositories"
-	"github.com/quangdangfit/go-admin/app/schema"
 )
 
 func CreateAdmin(container *dig.Container) error {
@@ -23,7 +22,7 @@ func CreateAdmin(container *dig.Container) error {
 			return err
 		}
 
-		_, err = userRepo.Register(&schema.RegisterBodyParam{
+		err = userRepo.Create(&models.User{
 			Username: "admin",
 			Password: "admin",
 			Email:    "admin@admin.com",

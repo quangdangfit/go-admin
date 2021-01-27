@@ -11,7 +11,6 @@ type IUserRepository interface {
 	GetUserByToken(token string) (*models.User, error)
 	List(queryParam *schema.UserQueryParam) (*[]models.User, error)
 	Login(item *schema.LoginBodyParam) (*models.User, error)
-	Register(item *schema.RegisterBodyParam) (*models.User, error)
 	RemoveToken(userId string) (*models.User, error)
 	Update(userId string, bodyParam *schema.UserUpdateBodyParam) (*models.User, error)
 }
