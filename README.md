@@ -53,6 +53,37 @@ $ go run main.go
 ### Document
 * API document at: `http://localhost:8888/swagger/index.html`
 
+### Structure
+```shell
+├── app
+│   ├── api             # Handle request & response
+│   ├── dbs             # Database Layer
+│   ├── middleware      # Middlewares
+│   │   ├── cache           # Cache middleware
+│   │   ├── jwt             # JWT middleware
+│   │   └── roles           # Authorization middleware
+│   ├── migration       # Migration
+│   ├── mocks           # Mocks
+│   ├── models          # Models
+│   ├── repositories    # Repository Layer
+│   │   └── impl            # Implement repositories
+│   ├── router          # Router api
+│   ├── schema          # Schemas
+│   ├── services        # Business Logic Layer
+│   │   └── impl            # Implement services
+│   └── test            # Test
+├── cmd                 # Contains commands 
+├── config              # Config files 
+├── docs                # Swagger API document
+├── pkg                 # Internal packages
+│   ├── app                 # App packages
+│   ├── errors              # Errors packages
+│   ├── http                # HTTP packages
+│   ├── jwt                 # JWT packages
+│   └── utils               # Utils packages
+├── scripts             # Scripts
+```
+
 ### Techstack
 - RESTful API
 - Gorm
