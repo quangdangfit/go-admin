@@ -85,16 +85,6 @@ func (s *UserRepositoryTestSuite) TestGetByIDNotFound() {
 	s.Nil(u)
 }
 
-func (s *UserRepositoryTestSuite) TestListFull() {
-	usrs, err := s.repo.List(&schema.UserQueryParam{
-		Offset: 0,
-		Limit:  100000,
-	})
-	s.Nil(err)
-	s.NotNil(usrs)
-	s.Equal(len(users), len(*usrs))
-}
-
 func (s *UserRepositoryTestSuite) TestGetByTokenSuccess() {
 	u, err := s.repo.GetUserByToken(user.RefreshToken)
 	s.Nil(err)
@@ -106,6 +96,16 @@ func (s *UserRepositoryTestSuite) TestGetByTokenNotFound() {
 	u, err := s.repo.GetUserByToken("not-found-token")
 	s.NotNil(err)
 	s.Nil(u)
+}
+
+func (s *UserRepositoryTestSuite) TestListFull() {
+	usrs, err := s.repo.List(&schema.UserQueryParam{
+		Offset: 0,
+		Limit:  100000,
+	})
+	s.Nil(err)
+	s.NotNil(usrs)
+	s.Equal(len(users), len(*usrs))
 }
 
 func (s *UserRepositoryTestSuite) TestLoginSuccess() {
@@ -128,6 +128,22 @@ func (s *UserRepositoryTestSuite) TestLoginFailed() {
 	user, err := s.repo.Login(item)
 	s.NotNil(err)
 	s.Nil(user)
+}
+
+func (s *UserRepositoryTestSuite) TestRemoveTokenSuccess() {
+	u, err := s.repo.RemoveToken(users[1].ID)
+	s.Nil(err)
+	s.NotNil(u)
+
+	u, err = s.repo.GetByID(users[1].ID)
+	s.Nil(err)
+	s.NotNil(u)
+	s.Equal("", u.RefreshToken)
+}
+
+func (s *UserRepositoryTestSuite) TestRemoveTokenNotFound() {
+	_, err := s.repo.RemoveToken("not-found-id")
+	s.Nil(err)
 }
 
 func TestUserServiceTestSuite(t *testing.T) {
