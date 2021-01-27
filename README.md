@@ -40,6 +40,11 @@ cache:
   expiry_time: 3600
 ```
 
+### Migration - Create Admin User
+```shell script
+$ make admin
+```
+
 ### Run
 ```shell script
 $ go run main.go 
