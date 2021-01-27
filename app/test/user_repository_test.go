@@ -95,6 +95,19 @@ func (s *UserRepositoryTestSuite) TestListFull() {
 	s.Equal(len(users), len(*usrs))
 }
 
+func (s *UserRepositoryTestSuite) TestGetByTokenSuccess() {
+	u, err := s.repo.GetUserByToken(user.RefreshToken)
+	s.Nil(err)
+	s.NotNil(u)
+	s.Equal(user.ID, u.ID)
+}
+
+func (s *UserRepositoryTestSuite) TestGetByTokenNotFound() {
+	u, err := s.repo.GetUserByToken("not-found-token")
+	s.NotNil(err)
+	s.Nil(u)
+}
+
 func (s *UserRepositoryTestSuite) TestLoginSuccess() {
 	item := &schema.LoginBodyParam{
 		Username: "test-username-1",
