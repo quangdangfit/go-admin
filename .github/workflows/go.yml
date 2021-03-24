@@ -72,11 +72,19 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Cache Go modules
+        uses: actions/cache@preview
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-build-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
       - name: Go Test
         run: |
           make startup
-          git config --global url.ssh://git@github.com/.insteadOf https://github.com/
-          go mod vendor
           go test -timeout 9000s -cover -a -v ./...
 
   deploy:
