@@ -18,7 +18,6 @@ import (
 	"github.com/quangdangfit/go-admin/app/migration"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/repositories"
-	"github.com/quangdangfit/go-admin/app/router"
 	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
@@ -45,7 +44,7 @@ var (
 func TestMain(m *testing.M) {
 	logger.Initialize(false)
 	container = app.BuildContainer()
-	engine = router.InitGinEngine(container)
+	engine = app.InitGinEngine(container)
 
 	setup()
 	code := m.Run()
