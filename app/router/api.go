@@ -14,7 +14,7 @@ import (
 func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 	err := container.Invoke(func(
 		jwt jwt.IJWTAuth,
-		authAPI *api.Auth,
+		authAPI *api.AuthAPI,
 		userAPI *api.UserAPI,
 		roleAPI *api.RoleAPI,
 	) error {

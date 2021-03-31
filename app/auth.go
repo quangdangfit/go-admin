@@ -8,6 +8,7 @@ import (
 	jwtAuth "github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
+// InitAuth initial new IJWTAuth
 func InitAuth() (jwtAuth.IJWTAuth, error) {
 	conf := config.Config.JWTAuth
 	var opts []jwtAuth.Option

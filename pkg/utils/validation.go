@@ -4,11 +4,13 @@ import (
 	"regexp"
 )
 
+// Validation struct
 type Validation struct {
 	Value string
 	Valid string
 }
 
+// Validate by key and value
 func Validate(values []Validation) bool {
 	username := regexp.MustCompile("[A-Za-z0-9]")
 	email := regexp.MustCompile("^[A-Za-z0-9]+[@]+[A-Za-z0-9]+[.]+[A-Za-z]+$")

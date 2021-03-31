@@ -13,6 +13,7 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
+// BuildContainer build dig container
 func BuildContainer() *dig.Container {
 	container := dig.New()
 
@@ -48,6 +49,7 @@ func BuildContainer() *dig.Container {
 	return container
 }
 
+// InitGinEngine initial new gin engine
 func InitGinEngine(container *dig.Container) *gin.Engine {
 	app := gin.New()
 	router.Docs(app)

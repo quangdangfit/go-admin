@@ -7,7 +7,7 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
-// HashPassword
+// HashPassword hash password
 func HashPassword(pass []byte) (string, error) {
 	hashed, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
 	if err != nil {

@@ -1,5 +1,6 @@
 package utils
 
+// constants responses
 const (
 	Success       = "200"
 	Error         = "500"
@@ -34,6 +35,7 @@ const (
 	ErrorAuth                  = "30004"
 )
 
+// PrepareResponse return new response body type map
 func PrepareResponse(data interface{}, message string, code string) map[string]interface{} {
 	result := map[string]interface{}{
 		"data":    data,

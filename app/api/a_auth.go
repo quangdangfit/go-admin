@@ -11,12 +11,14 @@ import (
 	gohttp "github.com/quangdangfit/go-admin/pkg/http"
 )
 
-type Auth struct {
+// AuthAPI handle authentication api
+type AuthAPI struct {
 	service interfaces.IAuthService
 }
 
-func NewAuthAPI(service interfaces.IAuthService) *Auth {
-	return &Auth{service: service}
+// NewAuthAPI return new AuthAPI
+func NewAuthAPI(service interfaces.IAuthService) *AuthAPI {
+	return &AuthAPI{service: service}
 }
 
 // Login godoc
@@ -28,7 +30,7 @@ func NewAuthAPI(service interfaces.IAuthService) *Auth {
 // @Param body body schema.LoginBodyParam true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /login [post]
-func (a *Auth) Login(c *gin.Context) gohttp.Response {
+func (a *AuthAPI) Login(c *gin.Context) gohttp.Response {
 	var item schema.LoginBodyParam
 	if err := c.ShouldBindJSON(&item); err != nil {
 		logger.Error(err.Error())
@@ -61,7 +63,7 @@ func (a *Auth) Login(c *gin.Context) gohttp.Response {
 // @Param body body schema.RegisterBodyParam true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /register [post]
-func (a *Auth) Register(c *gin.Context) gohttp.Response {
+func (a *AuthAPI) Register(c *gin.Context) gohttp.Response {
 	var item schema.RegisterBodyParam
 	if err := c.ShouldBindJSON(&item); err != nil {
 		logger.Error(err.Error())
@@ -94,7 +96,7 @@ func (a *Auth) Register(c *gin.Context) gohttp.Response {
 // @Param body body schema.RefreshBodyParam true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /refresh [post]
-func (a *Auth) Refresh(c *gin.Context) gohttp.Response {
+func (a *AuthAPI) Refresh(c *gin.Context) gohttp.Response {
 	var bodyParam schema.RefreshBodyParam
 	if err := c.ShouldBindJSON(&bodyParam); err != nil {
 		logger.Error(err.Error())
@@ -135,7 +137,7 @@ func (a *Auth) Refresh(c *gin.Context) gohttp.Response {
 // @Security ApiKeyAuth
 // @Success 200 {object} schema.BaseResponse
 // @Router /logout [post]
-func (a *Auth) Logout(c *gin.Context) gohttp.Response {
+func (a *AuthAPI) Logout(c *gin.Context) gohttp.Response {
 	err := a.service.Logout(c)
 	if err != nil {
 		logger.Error(err.Error())
