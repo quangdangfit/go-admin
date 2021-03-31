@@ -1,5 +1,5 @@
 # Go Admin
-[![Build](https://github.com/quangdangfit/go-admin/workflows/master/badge.svg)](https://github.com/quangdangfit/go-admin/actions)
+[![Master](https://github.com/quangdangfit/go-admin/workflows/master/badge.svg)](https://github.com/quangdangfit/go-admin/actions)
 
 RBAC scaffolding based on Gin + Gorm + Casbin + Dig
 
@@ -22,8 +22,8 @@ Simply run `make startup`, or run following commands step - by - step:
 database:
   host: localhost
   port: 5432
-  name: github.com/quangdangfit/go-admin
-  env: development
+  name: goadmin
+  env: production
   user: postgres
   password: 1234
   sslmode: disable
@@ -48,6 +48,11 @@ $ make admin
 ### Run
 ```shell script
 $ go run main.go 
+```
+
+### Run with docker
+```shell script
+$ docker-compose up -d
 ```
 
 ### Document
