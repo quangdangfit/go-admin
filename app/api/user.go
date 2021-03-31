@@ -7,22 +7,22 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/quangdangfit/gosdk/utils/logger"
 
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/schema"
-	"github.com/quangdangfit/go-admin/app/services"
 	"github.com/quangdangfit/go-admin/pkg/errors"
 	gohttp "github.com/quangdangfit/go-admin/pkg/http"
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
-type User struct {
-	service services.IUserService
+type UserAPI struct {
+	service interfaces.IUserService
 }
 
-func NewUserAPI(service services.IUserService) *User {
-	return &User{service: service}
+func NewUserAPI(service interfaces.IUserService) *UserAPI {
+	return &UserAPI{service: service}
 }
 
-func (u *User) validate(r schema.RegisterBodyParam) bool {
+func (u *UserAPI) validate(r schema.RegisterBodyParam) bool {
 	return utils.Validate(
 		[]utils.Validation{
 			{Value: r.Username, Valid: "username"},
@@ -31,11 +31,11 @@ func (u *User) validate(r schema.RegisterBodyParam) bool {
 		})
 }
 
-func (u *User) checkPermission(id string, data map[string]interface{}) bool {
+func (u *UserAPI) checkPermission(id string, data map[string]interface{}) bool {
 	return data["id"] == id
 }
 
-func (u *User) GetByID(c *gin.Context) {
+func (u *UserAPI) GetByID(c *gin.Context) {
 	userID := c.Param("id")
 	ctx := c.Request.Context()
 	user, err := u.service.GetByID(ctx, userID)
@@ -51,7 +51,7 @@ func (u *User) GetByID(c *gin.Context) {
 	c.JSON(http.StatusOK, utils.PrepareResponse(res, "OK", ""))
 }
 
-func (u *User) List(c *gin.Context) gohttp.Response {
+func (u *UserAPI) List(c *gin.Context) gohttp.Response {
 	var queryParam schema.UserQueryParam
 	if err := c.ShouldBindQuery(&queryParam); err != nil {
 		logger.Error(err.Error())

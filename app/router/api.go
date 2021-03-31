@@ -15,8 +15,8 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 	err := container.Invoke(func(
 		jwt jwt.IJWTAuth,
 		auth *api.Auth,
-		user *api.User,
-		role *api.Role,
+		user *api.UserAPI,
+		role *api.RoleAPI,
 	) error {
 		{
 			r.POST("/register", wrapper.Wrap(auth.Register))

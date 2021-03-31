@@ -5,17 +5,17 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/quangdangfit/gosdk/utils/logger"
 
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/schema"
-	"github.com/quangdangfit/go-admin/app/services"
 	"github.com/quangdangfit/go-admin/pkg/errors"
 	gohttp "github.com/quangdangfit/go-admin/pkg/http"
 )
 
 type Auth struct {
-	service services.IAuthService
+	service interfaces.IAuthService
 }
 
-func NewAuthAPI(service services.IAuthService) *Auth {
+func NewAuthAPI(service interfaces.IAuthService) *Auth {
 	return &Auth{service: service}
 }
 

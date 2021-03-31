@@ -8,14 +8,13 @@ import (
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/schema"
-	"github.com/quangdangfit/go-admin/app/services"
 )
 
 type RoleService struct {
 	repo interfaces.IRoleRepository
 }
 
-func NewRoleService(repo interfaces.IRoleRepository) services.IRoleService {
+func NewRoleService(repo interfaces.IRoleRepository) interfaces.IRoleService {
 	return &RoleService{repo: repo}
 }
 

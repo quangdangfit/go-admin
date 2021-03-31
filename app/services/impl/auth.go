@@ -8,7 +8,6 @@ import (
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/schema"
-	"github.com/quangdangfit/go-admin/app/services"
 	"github.com/quangdangfit/go-admin/pkg/app"
 	"github.com/quangdangfit/go-admin/pkg/errors"
 	"github.com/quangdangfit/go-admin/pkg/jwt"
@@ -21,7 +20,7 @@ type AuthService struct {
 }
 
 func NewAuthService(jwt jwt.IJWTAuth, user interfaces.IUserRepository,
-	role interfaces.IRoleRepository) services.IAuthService {
+	role interfaces.IRoleRepository) interfaces.IAuthService {
 	return &AuthService{
 		jwt:      jwt,
 		userRepo: user,

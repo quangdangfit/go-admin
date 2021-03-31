@@ -8,20 +8,20 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/quangdangfit/gosdk/utils/logger"
 
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/schema"
-	"github.com/quangdangfit/go-admin/app/services"
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
-type Role struct {
-	service services.IRoleService
+type RoleAPI struct {
+	service interfaces.IRoleService
 }
 
-func NewRoleAPI(service services.IRoleService) *Role {
-	return &Role{service: service}
+func NewRoleAPI(service interfaces.IRoleService) *RoleAPI {
+	return &RoleAPI{service: service}
 }
 
-func (r *Role) CreateRole(c *gin.Context) {
+func (r *RoleAPI) CreateRole(c *gin.Context) {
 	var item schema.RoleBodyParam
 	if err := c.ShouldBindJSON(&item); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
