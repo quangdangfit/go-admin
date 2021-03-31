@@ -1,4 +1,4 @@
-package impl
+package repositories
 
 import (
 	"github.com/quangdangfit/go-admin/app/interfaces"

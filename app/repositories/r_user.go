@@ -1,4 +1,4 @@
-package impl
+package repositories
 
 import (
 	"encoding/json"

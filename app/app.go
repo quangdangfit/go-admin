@@ -7,7 +7,7 @@ import (
 
 	"github.com/quangdangfit/go-admin/app/api"
 	"github.com/quangdangfit/go-admin/app/dbs"
-	repoImpl "github.com/quangdangfit/go-admin/app/repositories/impl"
+	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/router"
 	serviceImpl "github.com/quangdangfit/go-admin/app/services/impl"
 	"github.com/quangdangfit/go-admin/pkg/jwt"
@@ -28,7 +28,7 @@ func BuildContainer() *dig.Container {
 	}
 
 	// Inject repositories
-	err = repoImpl.Inject(container)
+	err = repositories.Inject(container)
 	if err != nil {
 		logger.Error("Failed to inject repositories", err)
 	}
