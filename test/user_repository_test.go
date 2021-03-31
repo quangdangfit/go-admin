@@ -10,7 +10,7 @@ import (
 	"github.com/quangdangfit/go-admin/app/dbs"
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories/impl"
+	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 )
 
@@ -69,7 +69,7 @@ func (s *UserRepositoryTestSuite) SetupTest() {
 	defer mockCtrl.Finish()
 
 	s.db = dbs.NewDatabase()
-	s.repo = impl.NewUserRepository(s.db)
+	s.repo = repositories.NewUserRepository(s.db)
 }
 
 func (s *UserRepositoryTestSuite) TestGetByIDSuccess() {
