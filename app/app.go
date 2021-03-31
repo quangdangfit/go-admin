@@ -9,7 +9,7 @@ import (
 	"github.com/quangdangfit/go-admin/app/dbs"
 	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/router"
-	serviceImpl "github.com/quangdangfit/go-admin/app/services/impl"
+	"github.com/quangdangfit/go-admin/app/services"
 	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
@@ -34,7 +34,7 @@ func BuildContainer() *dig.Container {
 	}
 
 	// Inject services
-	err = serviceImpl.Inject(container)
+	err = services.Inject(container)
 	if err != nil {
 		logger.Error("Failed to inject services", err)
 	}
