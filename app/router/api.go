@@ -14,27 +14,29 @@ import (
 func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 	err := container.Invoke(func(
 		jwt jwt.IJWTAuth,
-		auth *api.Auth,
-		user *api.UserAPI,
-		role *api.RoleAPI,
+		authAPI *api.Auth,
+		userAPI *api.UserAPI,
+		roleAPI *api.RoleAPI,
 	) error {
+		jwtMiddle := middleware.UserAuthMiddleware(jwt)
+
 		{
-			r.POST("/register", wrapper.Wrap(auth.Register))
-			r.POST("/login", wrapper.Wrap(auth.Login))
-			r.POST("/refresh", wrapper.Wrap(auth.Refresh))
-			r.POST("/logout", middleware.UserAuthMiddleware(jwt), wrapper.Wrap(auth.Logout))
+			r.POST("/register", wrapper.Wrap(authAPI.Register))
+			r.POST("/login", wrapper.Wrap(authAPI.Login))
+			r.POST("/refresh", wrapper.Wrap(authAPI.Refresh))
+			r.POST("/logout", jwtMiddle, wrapper.Wrap(authAPI.Logout))
 		}
 
-		admin := r.Group("/admin")
+		adminPath := r.Group("/admin")
 		{
-			admin.POST("/roles", role.CreateRole)
+			adminPath.POST("/roles", roleAPI.CreateRole)
 		}
 
 		//--------------------------------API-----------------------------------
-		api := r.Group("/api/v1", middleware.UserAuthMiddleware(jwt))
+		apiPath := r.Group("/api/v1", jwtMiddle)
 		{
-			api.GET("/users/:id", user.GetByID)
-			api.GET("/users", wrapper.Wrap(user.List))
+			apiPath.GET("/users/:id", userAPI.GetByID)
+			apiPath.GET("/users", wrapper.Wrap(userAPI.List))
 		}
 		return nil
 	})

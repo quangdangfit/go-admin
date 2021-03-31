@@ -16,9 +16,9 @@ import (
 func BuildContainer() *dig.Container {
 	container := dig.New()
 
-	authen, err := InitAuth()
+	auth, err := InitAuth()
 	_ = container.Provide(func() jwt.IJWTAuth {
-		return authen
+		return auth
 	})
 
 	// Inject database
@@ -51,6 +51,10 @@ func BuildContainer() *dig.Container {
 func InitGinEngine(container *dig.Container) *gin.Engine {
 	app := gin.New()
 	router.Docs(app)
-	router.RegisterAPI(app, container)
+	err := router.RegisterAPI(app, container)
+	if err != nil {
+		return nil
+	}
+
 	return app
 }
