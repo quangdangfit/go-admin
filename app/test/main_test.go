@@ -15,9 +15,9 @@ import (
 	"go.uber.org/dig"
 
 	"github.com/quangdangfit/go-admin/app"
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/migration"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
@@ -74,7 +74,7 @@ func migrate() {
 
 func createRoleData() {
 	container.Invoke(func(
-		userRepo repositories.IRoleRepository,
+		userRepo interfaces.IRoleRepository,
 		jwtauth jwt.IJWTAuth,
 	) error {
 		for _, r := range roles {
@@ -89,7 +89,7 @@ func createRoleData() {
 
 func createUserData() {
 	container.Invoke(func(
-		userRepo repositories.IUserRepository,
+		userRepo interfaces.IUserRepository,
 		jwtauth jwt.IJWTAuth,
 	) error {
 		for _, u := range users {

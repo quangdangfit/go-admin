@@ -1,4 +1,4 @@
-package repositories
+package interfaces
 
 import (
 	"github.com/quangdangfit/go-admin/app/models"

@@ -1,17 +1,16 @@
 package impl
 
 import (
-	"github.com/quangdangfit/go-admin/app/dbs"
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
 type RoleRepo struct {
-	db dbs.IDatabase
+	db interfaces.IDatabase
 }
 
-func NewRoleRepository(db dbs.IDatabase) repositories.IRoleRepository {
+func NewRoleRepository(db interfaces.IDatabase) interfaces.IRoleRepository {
 	return &RoleRepo{db: db}
 }
 

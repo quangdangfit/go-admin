@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/quangdangfit/go-admin/app/dbs"
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/repositories/impl"
 	"github.com/quangdangfit/go-admin/app/schema"
 )
@@ -60,8 +60,8 @@ var (
 type UserRepositoryTestSuite struct {
 	suite.Suite
 
-	db   dbs.IDatabase
-	repo repositories.IUserRepository
+	db   interfaces.IDatabase
+	repo interfaces.IUserRepository
 }
 
 func (s *UserRepositoryTestSuite) SetupTest() {

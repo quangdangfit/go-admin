@@ -3,8 +3,8 @@ package impl
 import (
 	"context"
 
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 	"github.com/quangdangfit/go-admin/app/services"
 	"github.com/quangdangfit/go-admin/config"
@@ -12,11 +12,11 @@ import (
 )
 
 type UserService struct {
-	userRepo repositories.IUserRepository
-	roleRepo repositories.IRoleRepository
+	userRepo interfaces.IUserRepository
+	roleRepo interfaces.IRoleRepository
 }
 
-func NewUserService(user repositories.IUserRepository, role repositories.IRoleRepository) services.IUserService {
+func NewUserService(user interfaces.IUserRepository, role interfaces.IRoleRepository) services.IUserService {
 	return &UserService{
 		userRepo: user,
 		roleRepo: role,

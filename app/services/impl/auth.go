@@ -5,8 +5,8 @@ import (
 
 	"github.com/jinzhu/copier"
 
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 	"github.com/quangdangfit/go-admin/app/services"
 	"github.com/quangdangfit/go-admin/pkg/app"
@@ -16,12 +16,12 @@ import (
 
 type AuthService struct {
 	jwt      jwt.IJWTAuth
-	userRepo repositories.IUserRepository
-	roleRepo repositories.IRoleRepository
+	userRepo interfaces.IUserRepository
+	roleRepo interfaces.IRoleRepository
 }
 
-func NewAuthService(jwt jwt.IJWTAuth, user repositories.IUserRepository,
-	role repositories.IRoleRepository) services.IAuthService {
+func NewAuthService(jwt jwt.IJWTAuth, user interfaces.IUserRepository,
+	role interfaces.IRoleRepository) services.IAuthService {
 	return &AuthService{
 		jwt:      jwt,
 		userRepo: user,

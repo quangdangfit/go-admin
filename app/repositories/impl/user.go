@@ -7,17 +7,16 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/quangdangfit/go-admin/app/dbs"
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 )
 
 type UserRepo struct {
-	db dbs.IDatabase
+	db interfaces.IDatabase
 }
 
-func NewUserRepository(db dbs.IDatabase) repositories.IUserRepository {
+func NewUserRepository(db interfaces.IDatabase) interfaces.IUserRepository {
 	return &UserRepo{db: db}
 }
 

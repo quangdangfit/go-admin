@@ -5,17 +5,17 @@ import (
 
 	"github.com/jinzhu/copier"
 
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 	"github.com/quangdangfit/go-admin/app/schema"
 	"github.com/quangdangfit/go-admin/app/services"
 )
 
 type RoleService struct {
-	repo repositories.IRoleRepository
+	repo interfaces.IRoleRepository
 }
 
-func NewRoleService(repo repositories.IRoleRepository) services.IRoleService {
+func NewRoleService(repo interfaces.IRoleRepository) services.IRoleService {
 	return &RoleService{repo: repo}
 }
 

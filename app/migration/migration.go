@@ -4,15 +4,14 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"go.uber.org/dig"
 
-	"github.com/quangdangfit/go-admin/app/dbs"
+	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
-	"github.com/quangdangfit/go-admin/app/repositories"
 )
 
 func CreateAdmin(container *dig.Container) error {
 	return container.Invoke(func(
-		userRepo repositories.IUserRepository,
-		roleRepo repositories.IRoleRepository,
+		userRepo interfaces.IUserRepository,
+		roleRepo interfaces.IRoleRepository,
 	) error {
 		adminRole := &models.Role{Name: "admin", Description: "Admin"}
 		userRole := &models.Role{Name: "user", Description: "User"}
@@ -38,7 +37,7 @@ func CreateAdmin(container *dig.Container) error {
 
 func Migrate(container *dig.Container) error {
 	return container.Invoke(func(
-		db dbs.IDatabase,
+		db interfaces.IDatabase,
 	) error {
 		User := models.User{}
 		Role := models.Role{}
