@@ -1,0 +1,1 @@
+ golint $(ls -d1 */ | sed s/\\//\\/.../g | grep -v -E "^vendor/" | tr "\n" " ")

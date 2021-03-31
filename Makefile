@@ -6,3 +6,6 @@ test: startup
 
 admin:
 	go run cmd/admin.go
+
+golint:
+	sh scripts/golint.sh
