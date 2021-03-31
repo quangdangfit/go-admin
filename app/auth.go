@@ -9,7 +9,6 @@ import (
 )
 
 func InitAuth() (jwtAuth.IJWTAuth, error) {
-
 	conf := config.Config.JWTAuth
 	var opts []jwtAuth.Option
 	//access token

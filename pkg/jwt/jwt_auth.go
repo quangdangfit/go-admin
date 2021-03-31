@@ -99,18 +99,18 @@ func WithSigningKeyRefresh(key interface{}) Option {
 	}
 }
 
-func (jwtAuth *JWTAuth) GenerateToken(userID string) (TokenInfo, error) {
-	accessToken, err := jwtAuth.generateAccess(userID)
+func (a *JWTAuth) GenerateToken(userID string) (TokenInfo, error) {
+	accessToken, err := a.generateAccess(userID)
 	if err != nil {
 		return nil, err
 	}
 
-	refreshToken, err := jwtAuth.generateRefresh(userID)
+	refreshToken, err := a.generateRefresh(userID)
 	if err != nil {
 		return nil, err
 	}
 	tokenInfo := &tokenInfo{
-		TokenType:    jwtAuth.opts.tokenType,
+		TokenType:    a.opts.tokenType,
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}
@@ -144,45 +144,45 @@ func (a *JWTAuth) parseToken(tokenString string, refresh bool) (*jwt.StandardCla
 	return token.Claims.(*jwt.StandardClaims), nil
 }
 
-func (jwtAuth *JWTAuth) ParseUserID(tokenString string, refresh bool) (string, error) {
-	claims, err := jwtAuth.parseToken(tokenString, refresh)
+func (a *JWTAuth) ParseUserID(tokenString string, refresh bool) (string, error) {
+	claims, err := a.parseToken(tokenString, refresh)
 	if err != nil {
 		return "", err
 	}
 	return claims.Subject, nil
 }
 
-func (jwtAuth *JWTAuth) RefreshToken(refreshToken string) (TokenInfo, error) {
-	userID, err := jwtAuth.ParseUserID(refreshToken, true)
+func (a *JWTAuth) RefreshToken(refreshToken string) (TokenInfo, error) {
+	userID, err := a.ParseUserID(refreshToken, true)
 	if err != nil {
 		if err == errors.ErrTokenExpired {
-			return jwtAuth.GenerateToken(userID)
+			return a.GenerateToken(userID)
 		}
 		return nil, err
 	}
 
-	accessToken, err := jwtAuth.generateAccess(userID)
+	accessToken, err := a.generateAccess(userID)
 	if err != nil {
 		return nil, err
 	}
 
 	tokenInfo := &tokenInfo{
-		TokenType:    jwtAuth.opts.tokenType,
+		TokenType:    a.opts.tokenType,
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}
 	return tokenInfo, nil
 }
 
-func (jwtAuth *JWTAuth) generateAccess(userID string) (string, error) {
+func (a *JWTAuth) generateAccess(userID string) (string, error) {
 	now := time.Now()
-	token := jwt.NewWithClaims(jwtAuth.opts.signingMethod, jwt.StandardClaims{
+	token := jwt.NewWithClaims(a.opts.signingMethod, jwt.StandardClaims{
 		IssuedAt:  now.Unix(),
-		ExpiresAt: now.Add(time.Duration(jwtAuth.opts.expired) * time.Second).Unix(),
+		ExpiresAt: now.Add(time.Duration(a.opts.expired) * time.Second).Unix(),
 		NotBefore: now.Unix(),
 		Subject:   userID,
 	})
-	tokenString, err := token.SignedString(jwtAuth.opts.signingKey)
+	tokenString, err := token.SignedString(a.opts.signingKey)
 	if err != nil {
 		return "", errors.New("generate token fail")
 	}
@@ -190,15 +190,15 @@ func (jwtAuth *JWTAuth) generateAccess(userID string) (string, error) {
 	return tokenString, nil
 }
 
-func (jwtAuth *JWTAuth) generateRefresh(userID string) (string, error) {
+func (a *JWTAuth) generateRefresh(userID string) (string, error) {
 	now := time.Now()
-	token := jwt.NewWithClaims(jwtAuth.opts.signingMethod, jwt.StandardClaims{
+	token := jwt.NewWithClaims(a.opts.signingMethod, jwt.StandardClaims{
 		IssuedAt:  now.Unix(),
-		ExpiresAt: now.Add(time.Duration(jwtAuth.opts.expiredRefresh) * time.Hour).Unix(),
+		ExpiresAt: now.Add(time.Duration(a.opts.expiredRefresh) * time.Hour).Unix(),
 		NotBefore: now.Unix(),
 		Subject:   userID,
 	})
-	tokenString, err := token.SignedString(jwtAuth.opts.signingRefreshKey)
+	tokenString, err := token.SignedString(a.opts.signingRefreshKey)
 	if err != nil {
 		return "", errors.New("generate token fail")
 	}
