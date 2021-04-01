@@ -1,15 +1,14 @@
 package repositories
 
 import (
-	"encoding/json"
-
 	"github.com/jinzhu/copier"
-	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/pkg/errors"
+	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 // UserRepo user repository struct
@@ -25,13 +24,13 @@ func NewUserRepository(db interfaces.IDatabase) interfaces.IUserRepository {
 // Login handle user login
 func (r *UserRepo) Login(item *schema.LoginBodyParams) (*models.User, error) {
 	user := &models.User{}
-	if r.db.GetInstance().Where("username = ? ", item.Username).First(&user).RecordNotFound() {
-		return nil, errors.New("user not found")
+	if err := r.db.GetInstance().Where("username = ? ", item.Username).First(&user).Error; err != nil {
+		return nil, errors.ErrorDatabaseGet.Newm(err.Error())
 	}
 
 	passErr := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(item.Password))
 	if passErr == bcrypt.ErrMismatchedHashAndPassword && passErr != nil {
-		return nil, errors.New("wrong password")
+		return nil, errors.ErrorInvalidPassword.Newm("invalid password")
 	}
 
 	return user, nil
@@ -42,7 +41,7 @@ func (r *UserRepo) Register(item *schema.RegisterBodyParams) (*models.User, erro
 	var user models.User
 	copier.Copy(&user, &item)
 	if err := r.db.GetInstance().Create(&user).Error; err != nil {
-		return nil, err
+		return nil, errors.ErrorDatabaseCreate.Newm(err.Error())
 	}
 
 	return &user, nil
@@ -51,8 +50,8 @@ func (r *UserRepo) Register(item *schema.RegisterBodyParams) (*models.User, erro
 // GetUserByID get user by id
 func (r *UserRepo) GetUserByID(id string) (*models.User, error) {
 	user := models.User{}
-	if r.db.GetInstance().Where("id = ? ", id).First(&user).RecordNotFound() {
-		return nil, errors.New("user not found")
+	if err := r.db.GetInstance().Where("id = ? ", id).First(&user).Error; err != nil {
+		return nil, errors.ErrorDatabaseGet.Newm(err.Error())
 	}
 
 	return &user, nil
@@ -61,8 +60,8 @@ func (r *UserRepo) GetUserByID(id string) (*models.User, error) {
 // GetUserByToken get user by refresh token
 func (r *UserRepo) GetUserByToken(token string) (*models.User, error) {
 	var user models.User
-	if r.db.GetInstance().Where("refresh_token = ? ", token).First(&user).RecordNotFound() {
-		return nil, errors.New("user not found")
+	if err := r.db.GetInstance().Where("refresh_token = ? ", token).First(&user).Error; err != nil {
+		return nil, errors.ErrorDatabaseGet.Newm(err.Error())
 	}
 
 	return &user, nil
@@ -71,12 +70,14 @@ func (r *UserRepo) GetUserByToken(token string) (*models.User, error) {
 // GetUsers get users by by query
 func (r *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, error) {
 	var query map[string]interface{}
-	data, _ := json.Marshal(queryParam)
-	json.Unmarshal(data, &query)
+	err := utils.Copy(&query, &queryParam)
+	if err != nil {
+		return nil, errors.ErrorMarshal.Newm(err.Error())
+	}
 
 	var user []models.User
-	if r.db.GetInstance().Where(query).Find(&user).RecordNotFound() {
-		return nil, errors.New("user not found")
+	if err := r.db.GetInstance().Where(query).Find(&user).Error; err != nil {
+		return nil, errors.ErrorDatabaseGet.Newm(err.Error())
 	}
 
 	return &user, nil
@@ -85,12 +86,14 @@ func (r *UserRepo) GetUsers(queryParam *schema.UserQueryParam) (*[]models.User, 
 // Update user
 func (r *UserRepo) Update(userID string, bodyParam *schema.UserUpdateBodyParam) (*models.User, error) {
 	var body map[string]interface{}
-	data, _ := json.Marshal(bodyParam)
-	json.Unmarshal(data, &body)
+	err := utils.Copy(&body, &bodyParam)
+	if err != nil {
+		return nil, errors.ErrorMarshal.Newm(err.Error())
+	}
 
 	var change models.User
 	if err := r.db.GetInstance().Model(&change).Where("id = ?", userID).Update(body).Error; err != nil {
-		return nil, err
+		return nil, errors.ErrorDatabaseUpdate.Newm(err.Error())
 	}
 
 	return &change, nil
@@ -101,7 +104,7 @@ func (r *UserRepo) RemoveToken(userID string) (*models.User, error) {
 	var body = map[string]interface{}{"refresh_token": ""}
 	var change models.User
 	if err := r.db.GetInstance().Model(&change).Where("id = ?", userID).Update(body).Error; err != nil {
-		return nil, err
+		return nil, errors.ErrorDatabaseUpdate.Newm(err.Error())
 	}
 
 	return &change, nil
@@ -110,7 +113,7 @@ func (r *UserRepo) RemoveToken(userID string) (*models.User, error) {
 // Create new user
 func (r *UserRepo) Create(user *models.User) error {
 	if err := r.db.GetInstance().Create(&user).Error; err != nil {
-		return errors.Wrap(err, "UserRepo.Create")
+		return errors.ErrorDatabaseCreate.Newm(err.Error())
 	}
 	return nil
 }
@@ -119,7 +122,7 @@ func (r *UserRepo) Create(user *models.User) error {
 func (r *UserRepo) GetByID(id string) (*models.User, error) {
 	user := models.User{}
 	if err := r.db.GetInstance().Where("id = ? ", id).First(&user).Error; err != nil {
-		return nil, errors.Wrap(err, "UserRepo.GetUserID")
+		return nil, errors.ErrorDatabaseGet.Newm(err.Error())
 	}
 
 	return &user, nil
@@ -128,12 +131,14 @@ func (r *UserRepo) GetByID(id string) (*models.User, error) {
 // List get user by UserQueryParam
 func (r *UserRepo) List(param *schema.UserQueryParam) (*[]models.User, error) {
 	var query map[string]interface{}
-	data, _ := json.Marshal(param)
-	json.Unmarshal(data, &query)
+	err := utils.Copy(&query, &param)
+	if err != nil {
+		return nil, errors.ErrorMarshal.Newm(err.Error())
+	}
 
 	var user []models.User
 	if err := r.db.GetInstance().Where(query).Offset(param.Offset).Limit(param.Limit).Find(&user).Error; err != nil {
-		return nil, errors.Wrap(err, "UserRepo.List")
+		return nil, errors.ErrorDatabaseGet.Newm(err.Error())
 	}
 
 	return &user, nil

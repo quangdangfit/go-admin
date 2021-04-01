@@ -43,6 +43,10 @@ const (
 	ErrorUnmarshal
 	ErrorDatabaseGet
 	ErrorDatabaseCreate
+	ErrorDatabaseUpdate
+	ErrorDatabaseDelete
+
+	ErrorInvalidPassword
 )
 
 // ErrorType type
