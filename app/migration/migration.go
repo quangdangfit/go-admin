@@ -1,13 +1,13 @@
 package migration
 
 import (
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"go.uber.org/dig"
 
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
 )
 
+// CreateAdmin create new user role admin
 func CreateAdmin(container *dig.Container) error {
 	return container.Invoke(func(
 		userRepo interfaces.IUserRepository,
@@ -35,6 +35,7 @@ func CreateAdmin(container *dig.Container) error {
 	})
 }
 
+// Migrate migrate to database
 func Migrate(container *dig.Container) error {
 	return container.Invoke(func(
 		db interfaces.IDatabase,

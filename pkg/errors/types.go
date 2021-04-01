@@ -6,6 +6,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// constants define error types
 const (
 	Success                    ErrorType = 200
 	Error                      ErrorType = 500
@@ -38,8 +39,10 @@ const (
 	ErrorTokenMalformed        ErrorType = 463
 )
 
+// ErrorType type
 type ErrorType int
 
+// New error
 func (errType ErrorType) New() error {
 	return CustomError{
 		errType:      errType,
@@ -47,6 +50,7 @@ func (errType ErrorType) New() error {
 	}
 }
 
+// Newm new error with message
 func (errType ErrorType) Newm(msg string) error {
 	return CustomError{
 		errType:      errType,
@@ -54,7 +58,7 @@ func (errType ErrorType) Newm(msg string) error {
 	}
 }
 
-// New creates a new CustomError with formatted message
+// Newf creates a new CustomError with formatted message
 func (errType ErrorType) Newf(msg string, args ...interface{}) error {
 	err := fmt.Errorf(msg, args...)
 
@@ -69,7 +73,7 @@ func (errType ErrorType) Wrap(err error, msg string) error {
 	return errType.Wrapf(err, msg)
 }
 
-// Wrap creates a new wrapped error with formatted message
+// Wrapf creates a new wrapped error with formatted message
 func (errType ErrorType) Wrapf(err error, msg string, args ...interface{}) error {
 	newErr := errors.Wrapf(err, msg, args...)
 
@@ -79,6 +83,7 @@ func (errType ErrorType) Wrapf(err error, msg string, args ...interface{}) error
 	}
 }
 
+// Define some template errors
 var (
 	ErrMethodNotAllow = ErrorMethodNotAllow.New()
 	ErrNoPermission   = ErrorNoPermission.New()

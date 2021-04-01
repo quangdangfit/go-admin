@@ -10,6 +10,7 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
+// CheckAdmin middleware
 func CheckAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var code string

@@ -11,6 +11,7 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
+// RegisterAPI register api routes
 func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 	err := container.Invoke(func(
 		jwt jwt.IJWTAuth,

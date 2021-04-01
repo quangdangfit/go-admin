@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// constants generator
 const (
 	Charset    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	RandLength = 5
@@ -14,6 +15,7 @@ const (
 
 var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
+// GenerateCode generate code by prefix, datetime
 func GenerateCode(prefix string) string {
 	t := time.Now()
 	y := ""
@@ -38,6 +40,7 @@ func GenerateCode(prefix string) string {
 	return strings.ToUpper(code)
 }
 
+// stringWithCharset random string in charset
 func stringWithCharset(length int) string {
 	b := make([]byte, length)
 	for i := range b {
@@ -46,6 +49,7 @@ func stringWithCharset(length int) string {
 	return string(b)
 }
 
+// RandomString random string by charset and length
 func RandomString(length int) string {
 	return stringWithCharset(length)
 }

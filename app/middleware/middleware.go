@@ -7,10 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// SkipperFunc
+// SkipperFunc skipper function
 type SkipperFunc func(*gin.Context) bool
 
-// Allow PathPrefix Skipper
+// AllowPathPrefixSkipper allow paths have prefix skip middleware
 func AllowPathPrefixSkipper(prefixes ...string) SkipperFunc {
 	return func(c *gin.Context) bool {
 		path := c.Request.URL.Path
@@ -25,7 +25,7 @@ func AllowPathPrefixSkipper(prefixes ...string) SkipperFunc {
 	}
 }
 
-// Allow PathPrefix NoSkipper
+// AllowPathPrefixNoSkipper allow paths have prefix no skip middleware
 func AllowPathPrefixNoSkipper(prefixes ...string) SkipperFunc {
 	return func(c *gin.Context) bool {
 		path := c.Request.URL.Path
@@ -40,7 +40,7 @@ func AllowPathPrefixNoSkipper(prefixes ...string) SkipperFunc {
 	}
 }
 
-// Allow Method And PathPrefix Skipper
+// AllowMethodAndPathPrefixSkipper allow method and paths have prefix no skip middleware
 func AllowMethodAndPathPrefixSkipper(prefixes ...string) SkipperFunc {
 	return func(c *gin.Context) bool {
 		path := JoinRouter(c.Request.Method, c.Request.URL.Path)
@@ -55,7 +55,7 @@ func AllowMethodAndPathPrefixSkipper(prefixes ...string) SkipperFunc {
 	}
 }
 
-// Join Router
+// JoinRouter join router
 func JoinRouter(method, path string) string {
 	if len(path) > 0 && path[0] != '/' {
 		path = "/" + path
@@ -63,7 +63,7 @@ func JoinRouter(method, path string) string {
 	return fmt.Sprintf("%s%s", strings.ToUpper(method), path)
 }
 
-// Skip Handler
+// SkipHandler skip handler
 func SkipHandler(c *gin.Context, skippers ...SkipperFunc) bool {
 	for _, skipper := range skippers {
 		if skipper(c) {
@@ -73,7 +73,7 @@ func SkipHandler(c *gin.Context, skippers ...SkipperFunc) bool {
 	return false
 }
 
-// Empty Middleware
+// EmptyMiddleware return empty middleware
 func EmptyMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()

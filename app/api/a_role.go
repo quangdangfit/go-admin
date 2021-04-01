@@ -13,14 +13,17 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
+// RoleAPI handle role api
 type RoleAPI struct {
 	service interfaces.IRoleService
 }
 
+// NewRoleAPI return new RoleAPI pointer
 func NewRoleAPI(service interfaces.IRoleService) *RoleAPI {
 	return &RoleAPI{service: service}
 }
 
+// CreateRole create new role
 func (r *RoleAPI) CreateRole(c *gin.Context) {
 	var item schema.RoleBodyParam
 	if err := c.ShouldBindJSON(&item); err != nil {

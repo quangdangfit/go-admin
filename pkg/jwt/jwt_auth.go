@@ -8,6 +8,7 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
+// IJWTAuth interface
 type IJWTAuth interface {
 	GenerateToken(userID string) (TokenInfo, error)
 	RefreshToken(refreshToken string) (TokenInfo, error)
@@ -38,17 +39,19 @@ var defaultOptions = options{
 	signingRefreshKey: []byte(defaultKey),
 }
 
-func NewJWTAuth(opts ...Option) *JWTAuth {
+// NewJWTAuth return new Auth pointer
+func NewJWTAuth(opts ...Option) *Auth {
 	o := defaultOptions
 	for _, opt := range opts {
 		opt(&o)
 	}
-	return &JWTAuth{
+	return &Auth{
 		opts: &o,
 	}
 }
 
-type JWTAuth struct {
+// Auth struct
+type Auth struct {
 	opts *options
 }
 type options struct {
@@ -61,45 +64,54 @@ type options struct {
 	expiredRefresh    int
 	signingRefreshKey interface{}
 }
+
+// Option jwt option
 type Option func(*options)
 
+// WithExpired set expired time
 func WithExpired(expired int) Option {
 	return func(o *options) {
 		o.expired = expired
 	}
 }
 
+// WithKeyFunc set key function
 func WithKeyFunc(keyFunc jwt.Keyfunc) Option {
 	return func(o *options) {
 		o.keyFunc = keyFunc
 	}
 }
 
+// WithSigningKey set signing key
 func WithSigningKey(key interface{}) Option {
 	return func(o *options) {
 		o.signingKey = key
 	}
 }
 
+// WithExpiredRefresh set expired for refresh token
 func WithExpiredRefresh(expired int) Option {
 	return func(o *options) {
 		o.expiredRefresh = expired
 	}
 }
 
+// WithKeyFuncRefresh set key function for refresh token
 func WithKeyFuncRefresh(keyFunc jwt.Keyfunc) Option {
 	return func(o *options) {
 		o.keyFuncRefresh = keyFunc
 	}
 }
 
+// WithSigningKeyRefresh set signing key for refresh token
 func WithSigningKeyRefresh(key interface{}) Option {
 	return func(o *options) {
 		o.signingRefreshKey = key
 	}
 }
 
-func (a *JWTAuth) GenerateToken(userID string) (TokenInfo, error) {
+// GenerateToken return new TokenInfo, generate new access and refresh token
+func (a *Auth) GenerateToken(userID string) (TokenInfo, error) {
 	accessToken, err := a.generateAccess(userID)
 	if err != nil {
 		return nil, err
@@ -117,7 +129,8 @@ func (a *JWTAuth) GenerateToken(userID string) (TokenInfo, error) {
 	return tokenInfo, nil
 }
 
-func (a *JWTAuth) parseToken(tokenString string, refresh bool) (*jwt.StandardClaims, error) {
+// parseToken parse claims from token
+func (a *Auth) parseToken(tokenString string, refresh bool) (*jwt.StandardClaims, error) {
 	option := a.opts.keyFunc
 	if refresh == true {
 		option = a.opts.keyFuncRefresh
@@ -144,7 +157,8 @@ func (a *JWTAuth) parseToken(tokenString string, refresh bool) (*jwt.StandardCla
 	return token.Claims.(*jwt.StandardClaims), nil
 }
 
-func (a *JWTAuth) ParseUserID(tokenString string, refresh bool) (string, error) {
+// ParseUserID parse user_id from token
+func (a *Auth) ParseUserID(tokenString string, refresh bool) (string, error) {
 	claims, err := a.parseToken(tokenString, refresh)
 	if err != nil {
 		return "", err
@@ -152,7 +166,8 @@ func (a *JWTAuth) ParseUserID(tokenString string, refresh bool) (string, error) 
 	return claims.Subject, nil
 }
 
-func (a *JWTAuth) RefreshToken(refreshToken string) (TokenInfo, error) {
+// RefreshToken refresh token, return new TokenInfo
+func (a *Auth) RefreshToken(refreshToken string) (TokenInfo, error) {
 	userID, err := a.ParseUserID(refreshToken, true)
 	if err != nil {
 		if err == errors.ErrTokenExpired {
@@ -174,7 +189,8 @@ func (a *JWTAuth) RefreshToken(refreshToken string) (TokenInfo, error) {
 	return tokenInfo, nil
 }
 
-func (a *JWTAuth) generateAccess(userID string) (string, error) {
+// generateAccess generate access token
+func (a *Auth) generateAccess(userID string) (string, error) {
 	now := time.Now()
 	token := jwt.NewWithClaims(a.opts.signingMethod, jwt.StandardClaims{
 		IssuedAt:  now.Unix(),
@@ -190,7 +206,8 @@ func (a *JWTAuth) generateAccess(userID string) (string, error) {
 	return tokenString, nil
 }
 
-func (a *JWTAuth) generateRefresh(userID string) (string, error) {
+// generateRefresh generate refresh token
+func (a *Auth) generateRefresh(userID string) (string, error) {
 	now := time.Now()
 	token := jwt.NewWithClaims(a.opts.signingMethod, jwt.StandardClaims{
 		IssuedAt:  now.Unix(),

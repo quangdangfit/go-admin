@@ -8,11 +8,14 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/lib/pq"
 	"github.com/quangdangfit/gosdk/utils/logger"
 
 	"github.com/quangdangfit/go-admin/app"
 	"github.com/quangdangfit/go-admin/app/migration"
 	"github.com/quangdangfit/go-admin/config"
+	_ "github.com/quangdangfit/go-admin/docs"
 )
 
 // @title Go Admin API Documents

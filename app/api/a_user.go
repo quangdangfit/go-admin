@@ -14,14 +14,18 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
+// UserAPI handle user api
 type UserAPI struct {
 	service interfaces.IUserService
 }
 
+// NewUserAPI return new UserAPI pointer
 func NewUserAPI(service interfaces.IUserService) *UserAPI {
 	return &UserAPI{service: service}
 }
 
+// validate schema.RegisterBodyParam
+// TODO: use github.com/go-playground/validator to validate
 func (u *UserAPI) validate(r schema.RegisterBodyParam) bool {
 	return utils.Validate(
 		[]utils.Validation{
@@ -31,10 +35,12 @@ func (u *UserAPI) validate(r schema.RegisterBodyParam) bool {
 		})
 }
 
+// checkPermission check permission of id
 func (u *UserAPI) checkPermission(id string, data map[string]interface{}) bool {
 	return data["id"] == id
 }
 
+// GetByID get user by id
 func (u *UserAPI) GetByID(c *gin.Context) {
 	userID := c.Param("id")
 	ctx := c.Request.Context()
@@ -51,6 +57,7 @@ func (u *UserAPI) GetByID(c *gin.Context) {
 	c.JSON(http.StatusOK, utils.PrepareResponse(res, "OK", ""))
 }
 
+// List user by query
 func (u *UserAPI) List(c *gin.Context) gohttp.Response {
 	var queryParam schema.UserQueryParam
 	if err := c.ShouldBindQuery(&queryParam); err != nil {

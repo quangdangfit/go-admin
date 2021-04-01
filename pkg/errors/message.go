@@ -1,5 +1,6 @@
 package errors
 
+// MsgMap message map
 var MsgMap = map[ErrorType]string{
 	Success:                    "OK",
 	InvalidParams:              "Request parameter error - %s",
@@ -32,6 +33,7 @@ var MsgMap = map[ErrorType]string{
 	ErrorTokenMalformed:        "That's not even a token",
 }
 
+// GetMsg from status
 func GetMsg(status int) string {
 	msg, ok := MsgMap[ErrorType(status)]
 	if ok {
