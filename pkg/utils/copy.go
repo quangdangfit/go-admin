@@ -1,18 +1,20 @@
 package utils
 
 import (
-	"github.com/quangdangfit/gosdk/utils/logger"
+	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
 // Copy by marshal json data
 func Copy(dest interface{}, src interface{}) error {
 	data, err := json.Marshal(src)
 	if err != nil {
-		logger.Error("Failed to marshal data")
-		return err
+		return errors.ErrorMarshal.Newm(err.Error())
 	}
 
-	json.Unmarshal(data, dest)
+	err = json.Unmarshal(data, dest)
+	if err != nil {
+		return errors.ErrorUnmarshal.Newm(err.Error())
+	}
 
 	return nil
 }

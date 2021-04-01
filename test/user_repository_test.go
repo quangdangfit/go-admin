@@ -109,7 +109,7 @@ func (s *UserRepositoryTestSuite) TestListFull() {
 }
 
 func (s *UserRepositoryTestSuite) TestLoginSuccess() {
-	item := &schema.LoginBodyParam{
+	item := &schema.LoginBodyParams{
 		Username: "test-username-1",
 		Password: "test-user-pwd-1",
 	}
@@ -120,7 +120,7 @@ func (s *UserRepositoryTestSuite) TestLoginSuccess() {
 }
 
 func (s *UserRepositoryTestSuite) TestLoginFailed() {
-	item := &schema.LoginBodyParam{
+	item := &schema.LoginBodyParams{
 		Username: "test-username-1",
 		Password: "wrong-password",
 	}

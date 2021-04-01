@@ -8,22 +8,22 @@ type User struct {
 	Extra    interface{} `json:"extra,omitempty"`
 }
 
-// RegisterBodyParam schema
-type RegisterBodyParam struct {
+// RegisterBodyParams schema
+type RegisterBodyParams struct {
 	Username string `json:"username" validate:"required"`
-	Email    string `json:"email" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,password"`
 	RoleID   string `json:"role_id"`
 }
 
-// LoginBodyParam schema
-type LoginBodyParam struct {
+// LoginBodyParams schema
+type LoginBodyParams struct {
 	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Password string `json:"password" validate:"required,password"`
 }
 
-// RefreshBodyParam schema
-type RefreshBodyParam struct {
+// RefreshBodyParams schema
+type RefreshBodyParams struct {
 	RefreshToken string `json:"refresh_token,omitempty" validate:"required"`
 }
 

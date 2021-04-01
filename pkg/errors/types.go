@@ -37,6 +37,12 @@ const (
 	ErrorTokenExpired          ErrorType = 461
 	ErrorTokenInvalid          ErrorType = 462
 	ErrorTokenMalformed        ErrorType = 463
+
+	// System errors
+	ErrorMarshal ErrorType = iota + 1000
+	ErrorUnmarshal
+	ErrorDatabaseGet
+	ErrorDatabaseCreate
 )
 
 // ErrorType type

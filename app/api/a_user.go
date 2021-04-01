@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
-	"github.com/quangdangfit/gosdk/utils/logger"
+	"github.com/quangdangfit/gocommon/logger"
 
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/schema"
@@ -22,22 +22,6 @@ type UserAPI struct {
 // NewUserAPI return new UserAPI pointer
 func NewUserAPI(service interfaces.IUserService) *UserAPI {
 	return &UserAPI{service: service}
-}
-
-// validate schema.RegisterBodyParam
-// TODO: use github.com/go-playground/validator to validate
-func (u *UserAPI) validate(r schema.RegisterBodyParam) bool {
-	return utils.Validate(
-		[]utils.Validation{
-			{Value: r.Username, Valid: "username"},
-			{Value: r.Email, Valid: "email"},
-			{Value: r.Password, Valid: "password"},
-		})
-}
-
-// checkPermission check permission of id
-func (u *UserAPI) checkPermission(id string, data map[string]interface{}) bool {
-	return data["id"] == id
 }
 
 // GetByID get user by id

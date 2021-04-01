@@ -31,7 +31,7 @@ func NewAuthService(jwt jwt.IJWTAuth, user interfaces.IUserRepository,
 }
 
 // Login handle user login
-func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyParam) (*schema.UserTokenInfo, error) {
+func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyParams) (*schema.UserTokenInfo, error) {
 	user, err := a.userRepo.Login(bodyParam)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyPara
 }
 
 // Register register user
-func (a *AuthService) Register(ctx context.Context, param *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
+func (a *AuthService) Register(ctx context.Context, param *schema.RegisterBodyParams) (*schema.UserTokenInfo, error) {
 	if param.RoleID == "" {
 		role, err := a.roleRepo.GetByName("user")
 		if err != nil {
@@ -92,7 +92,7 @@ func (a *AuthService) Register(ctx context.Context, param *schema.RegisterBodyPa
 }
 
 // Refresh refresh token for user
-func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBodyParam) (*schema.UserTokenInfo, error) {
+func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBodyParams) (*schema.UserTokenInfo, error) {
 	user, err := a.userRepo.GetUserByToken(bodyParam.RefreshToken)
 	if err != nil {
 		return nil, errors.ErrorTokenInvalid.New()

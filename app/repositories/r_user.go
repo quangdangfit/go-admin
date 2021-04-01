@@ -23,7 +23,7 @@ func NewUserRepository(db interfaces.IDatabase) interfaces.IUserRepository {
 }
 
 // Login handle user login
-func (r *UserRepo) Login(item *schema.LoginBodyParam) (*models.User, error) {
+func (r *UserRepo) Login(item *schema.LoginBodyParams) (*models.User, error) {
 	user := &models.User{}
 	if r.db.GetInstance().Where("username = ? ", item.Username).First(&user).RecordNotFound() {
 		return nil, errors.New("user not found")
@@ -38,7 +38,7 @@ func (r *UserRepo) Login(item *schema.LoginBodyParam) (*models.User, error) {
 }
 
 // Register new user
-func (r *UserRepo) Register(item *schema.RegisterBodyParam) (*models.User, error) {
+func (r *UserRepo) Register(item *schema.RegisterBodyParams) (*models.User, error) {
 	var user models.User
 	copier.Copy(&user, &item)
 	if err := r.db.GetInstance().Create(&user).Error; err != nil {

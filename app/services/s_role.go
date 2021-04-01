@@ -3,11 +3,10 @@ package services
 import (
 	"context"
 
-	"github.com/jinzhu/copier"
-
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/models"
 	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
 // RoleService role service
@@ -21,10 +20,14 @@ func NewRoleService(repo interfaces.IRoleRepository) interfaces.IRoleService {
 }
 
 // CreateRole create new role
-func (r *RoleService) CreateRole(ctx context.Context, item *schema.RoleBodyParam) (*models.Role, error) {
+func (r *RoleService) Create(ctx context.Context, item *schema.RoleBodyParams) (*models.Role, error) {
 	var role models.Role
-	copier.Copy(&role, &item)
-	err := r.repo.Create(&role)
+	err := utils.Copy(&role, &item)
+	if err != nil {
+		return nil, err
+	}
+
+	err = r.repo.Create(&role)
 	if err != nil {
 		return nil, err
 	}

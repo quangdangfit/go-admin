@@ -7,8 +7,8 @@ type Role struct {
 	Description string `json:"description"`
 }
 
-// RoleBodyParam schema
-type RoleBodyParam struct {
+// RoleBodyParams schema
+type RoleBodyParams struct {
 	Name        string `json:"name" validate:"required"`
 	Description string `json:"description"`
 }
