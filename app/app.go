@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/quangdangfit/gosdk/utils/logger"
+	"github.com/quangdangfit/gocommon/logger"
 	"go.uber.org/dig"
 
 	"github.com/quangdangfit/go-admin/app/api"

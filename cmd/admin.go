@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/quangdangfit/gosdk/utils/logger"
+	"github.com/quangdangfit/gocommon/logger"
 
 	"github.com/quangdangfit/go-admin/app"
 	"github.com/quangdangfit/go-admin/app/migration"

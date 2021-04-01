@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/quangdangfit/gosdk/utils/logger"
+	"github.com/quangdangfit/gocommon/logger"
 )
 
 // Cache interface

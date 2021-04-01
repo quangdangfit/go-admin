@@ -6,7 +6,6 @@ require (
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.6.3
-	github.com/go-playground/validator/v10 v10.4.1
 	github.com/go-redis/redis/v8 v8.7.1
 	github.com/golang/mock v1.3.1
 	github.com/google/uuid v1.1.1
@@ -16,7 +15,6 @@ require (
 	github.com/lib/pq v1.1.1
 	github.com/pkg/errors v0.9.1
 	github.com/quangdangfit/gocommon v0.9.0
-	github.com/quangdangfit/gosdk v1.0.10
 	github.com/spf13/viper v1.7.0
 	github.com/stretchr/testify v1.7.0
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
