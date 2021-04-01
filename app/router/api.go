@@ -30,7 +30,7 @@ func RegisterAPI(r *gin.Engine, container *dig.Container) error {
 
 		adminPath := r.Group("/admin")
 		{
-			adminPath.POST("/roles", roleAPI.CreateRole)
+			adminPath.POST("/roles", wrapper.Wrap(roleAPI.CreateRole))
 		}
 
 		//--------------------------------API-----------------------------------
