@@ -43,7 +43,7 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	logger.Initialize(false)
+	logger.Initialize("testing")
 	container = app.BuildContainer()
 	engine = app.InitGinEngine(container)
 
