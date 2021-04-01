@@ -14,7 +14,6 @@ import (
 
 	"github.com/quangdangfit/go-admin/app"
 	"github.com/quangdangfit/go-admin/app/migration"
-	"github.com/quangdangfit/go-admin/config"
 	_ "github.com/quangdangfit/go-admin/docs"
 )
 
@@ -35,7 +34,7 @@ const (
 )
 
 func main() {
-	logger.Initialize(config.Config.Env == ProductionEnv)
+	logger.Initialize(ProductionEnv)
 	container := app.BuildContainer()
 	engine := app.InitGinEngine(container)
 
