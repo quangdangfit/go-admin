@@ -35,8 +35,8 @@ func (_m *MockIRoleService) EXPECT() *MockIRoleServiceMockRecorder {
 }
 
 // CreateRole mocks base method
-func (_m *MockIRoleService) CreateRole(ctx context.Context, item *schema.RoleBodyParam) (*models.Role, error) {
-	ret := _m.ctrl.Call(_m, "CreateRole", ctx, item)
+func (_m *MockIRoleService) Create(ctx context.Context, item *schema.RoleBodyParams) (*models.Role, error) {
+	ret := _m.ctrl.Call(_m, "Create", ctx, item)
 	ret0, _ := ret[0].(*models.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -44,5 +44,5 @@ func (_m *MockIRoleService) CreateRole(ctx context.Context, item *schema.RoleBod
 
 // CreateRole indicates an expected call of CreateRole
 func (_mr *MockIRoleServiceMockRecorder) CreateRole(arg0, arg1 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "CreateRole", reflect.TypeOf((*MockIRoleService)(nil).CreateRole), arg0, arg1)
+	return _mr.mock.ctrl.RecordCallWithMethodType(_mr.mock, "Create", reflect.TypeOf((*MockIRoleService)(nil).Create), arg0, arg1)
 }

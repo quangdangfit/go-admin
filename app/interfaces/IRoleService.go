@@ -9,5 +9,5 @@ import (
 
 // IRoleService interface
 type IRoleService interface {
-	CreateRole(ctx context.Context, item *schema.RoleBodyParam) (*models.Role, error)
+	Create(ctx context.Context, item *schema.RoleBodyParams) (*models.Role, error)
 }

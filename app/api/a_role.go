@@ -1,15 +1,13 @@
 package api
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
-	"github.com/jinzhu/copier"
-	"github.com/quangdangfit/gosdk/utils/logger"
+	"github.com/quangdangfit/gocommon/validation"
 
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/schema"
+	"github.com/quangdangfit/go-admin/pkg/errors"
+	gohttp "github.com/quangdangfit/go-admin/pkg/http"
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
@@ -24,30 +22,38 @@ func NewRoleAPI(service interfaces.IRoleService) *RoleAPI {
 }
 
 // CreateRole create new role
-func (r *RoleAPI) CreateRole(c *gin.Context) {
-	var item schema.RoleBodyParam
-	if err := c.ShouldBindJSON(&item); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+func (r *RoleAPI) CreateRole(c *gin.Context) gohttp.Response {
+	var params schema.RoleBodyParams
+	if err := c.ShouldBindJSON(&params); err != nil {
+		return gohttp.Response{
+			Error: errors.InvalidParams.Newm(err.Error()),
+		}
 	}
 
-	validate := validator.New()
-	err := validate.Struct(item)
-	if err != nil {
-		logger.Error("Request body is invalid: ", err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), ""))
-		return
+	validator := validation.New()
+	if err := validator.ValidateStruct(params); err != nil {
+		return gohttp.Response{
+			Error: errors.InvalidParams.Newm(err.Error()),
+		}
 	}
 
 	ctx := c.Request.Context()
-	user, err := r.service.CreateRole(ctx, &item)
+	user, err := r.service.Create(ctx, &params)
 	if err != nil {
-		logger.Error(err.Error())
-		c.JSON(http.StatusBadRequest, utils.PrepareResponse(nil, err.Error(), ""))
-		return
+		return gohttp.Response{
+			Error: err,
+		}
 	}
 
 	var res schema.Role
-	copier.Copy(&res, &user)
-	c.JSON(http.StatusOK, utils.PrepareResponse(res, "OK", ""))
+	err = utils.Copy(&res, &user)
+	if err != nil {
+		return gohttp.Response{
+			Error: err,
+		}
+	}
+
+	return gohttp.Response{
+		Data: res,
+	}
 }
