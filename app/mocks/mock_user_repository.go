@@ -85,7 +85,7 @@ func (_mr *MockIUserRepositoryMockRecorder) List(arg0 interface{}) *gomock.Call 
 }
 
 // Login mocks base method
-func (_m *MockIUserRepository) Login(item *schema.LoginBodyParam) (*models.User, error) {
+func (_m *MockIUserRepository) Login(item *schema.LoginBodyParams) (*models.User, error) {
 	ret := _m.ctrl.Call(_m, "Login", item)
 	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)

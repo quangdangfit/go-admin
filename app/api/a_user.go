@@ -24,9 +24,9 @@ func NewUserAPI(service interfaces.IUserService) *UserAPI {
 	return &UserAPI{service: service}
 }
 
-// validate schema.RegisterBodyParam
+// validate schema.RegisterBodyParams
 // TODO: use github.com/go-playground/validator to validate
-func (u *UserAPI) validate(r schema.RegisterBodyParam) bool {
+func (u *UserAPI) validate(r schema.RegisterBodyParams) bool {
 	return utils.Validate(
 		[]utils.Validation{
 			{Value: r.Username, Valid: "username"},

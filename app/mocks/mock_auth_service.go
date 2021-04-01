@@ -34,7 +34,7 @@ func (_m *MockIAuthService) EXPECT() *MockIAuthServiceMockRecorder {
 }
 
 // Login mocks base method
-func (_m *MockIAuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyParam) (*schema.UserTokenInfo, error) {
+func (_m *MockIAuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyParams) (*schema.UserTokenInfo, error) {
 	ret := _m.ctrl.Call(_m, "Login", ctx, bodyParam)
 	ret0, _ := ret[0].(*schema.UserTokenInfo)
 	ret1, _ := ret[1].(error)
@@ -47,7 +47,7 @@ func (_mr *MockIAuthServiceMockRecorder) Login(arg0, arg1 interface{}) *gomock.C
 }
 
 // Register mocks base method
-func (_m *MockIAuthService) Register(ctx context.Context, bodyParam *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
+func (_m *MockIAuthService) Register(ctx context.Context, bodyParam *schema.RegisterBodyParams) (*schema.UserTokenInfo, error) {
 	ret := _m.ctrl.Call(_m, "Register", ctx, bodyParam)
 	ret0, _ := ret[0].(*schema.UserTokenInfo)
 	ret1, _ := ret[1].(error)
@@ -60,7 +60,7 @@ func (_mr *MockIAuthServiceMockRecorder) Register(arg0, arg1 interface{}) *gomoc
 }
 
 // Refresh mocks base method
-func (_m *MockIAuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBodyParam) (*schema.UserTokenInfo, error) {
+func (_m *MockIAuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBodyParams) (*schema.UserTokenInfo, error) {
 	ret := _m.ctrl.Call(_m, "Refresh", ctx, bodyParam)
 	ret0, _ := ret[0].(*schema.UserTokenInfo)
 	ret1, _ := ret[1].(error)

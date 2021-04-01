@@ -2,8 +2,8 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
-	"github.com/quangdangfit/gosdk/utils/logger"
+	"github.com/quangdangfit/gocommon/logger"
+	"github.com/quangdangfit/gocommon/validation"
 
 	"github.com/quangdangfit/go-admin/app/interfaces"
 	"github.com/quangdangfit/go-admin/app/schema"
@@ -27,20 +27,26 @@ func NewAuthAPI(service interfaces.IAuthService) *AuthAPI {
 // @Description api login
 // @Accept  json
 // @Produce json
-// @Param body body schema.LoginBodyParam true "Body"
+// @Param body body schema.LoginBodyParams true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /login [post]
 func (a *AuthAPI) Login(c *gin.Context) gohttp.Response {
-	var item schema.LoginBodyParam
-	if err := c.ShouldBindJSON(&item); err != nil {
+	var params schema.LoginBodyParams
+	if err := c.ShouldBindJSON(&params); err != nil {
 		logger.Error(err.Error())
 		return gohttp.Response{
 			Error: errors.InvalidParams.New(),
 		}
 	}
 
-	ctx := c.Request.Context()
-	tokenInfo, err := a.service.Login(ctx, &item)
+	validator := validation.New()
+	if err := validator.ValidateStruct(params); err != nil {
+		return gohttp.Response{
+			Error: errors.InvalidParams.New(),
+		}
+	}
+
+	tokenInfo, err := a.service.Login(c, &params)
 	if err != nil {
 		logger.Error(err.Error())
 		return gohttp.Response{
@@ -60,20 +66,27 @@ func (a *AuthAPI) Login(c *gin.Context) gohttp.Response {
 // @Description api register
 // @Accept  json
 // @Produce json
-// @Param body body schema.RegisterBodyParam true "Body"
+// @Param body body schema.RegisterBodyParams true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /register [post]
 func (a *AuthAPI) Register(c *gin.Context) gohttp.Response {
-	var item schema.RegisterBodyParam
-	if err := c.ShouldBindJSON(&item); err != nil {
+	var params schema.RegisterBodyParams
+	if err := c.ShouldBindJSON(&params); err != nil {
 		logger.Error(err.Error())
 		return gohttp.Response{
 			Error: errors.InvalidParams.New(),
 		}
 	}
 
+	validator := validation.New()
+	if err := validator.ValidateStruct(params); err != nil {
+		return gohttp.Response{
+			Error: errors.InvalidParams.New(),
+		}
+	}
+
 	ctx := c.Request.Context()
-	tokenInfo, err := a.service.Register(ctx, &item)
+	tokenInfo, err := a.service.Register(ctx, &params)
 	if err != nil {
 		logger.Error(err.Error())
 		return gohttp.Response{
@@ -93,28 +106,27 @@ func (a *AuthAPI) Register(c *gin.Context) gohttp.Response {
 // @Description api refresh token
 // @Accept  json
 // @Produce json
-// @Param body body schema.RefreshBodyParam true "Body"
+// @Param body body schema.RefreshBodyParams true "Body"
 // @Success 200 {object} schema.BaseResponse
 // @Router /refresh [post]
 func (a *AuthAPI) Refresh(c *gin.Context) gohttp.Response {
-	var bodyParam schema.RefreshBodyParam
-	if err := c.ShouldBindJSON(&bodyParam); err != nil {
+	var params schema.RefreshBodyParams
+	if err := c.ShouldBindJSON(&params); err != nil {
 		logger.Error(err.Error())
 		return gohttp.Response{
 			Error: errors.InvalidParams.New(),
 		}
 	}
 
-	validate := validator.New()
-	if err := validate.Struct(bodyParam); err != nil {
-		logger.Error("Body is invalid: ", err)
+	validator := validation.New()
+	if err := validator.ValidateStruct(params); err != nil {
 		return gohttp.Response{
 			Error: errors.InvalidParams.New(),
 		}
 	}
 
 	ctx := c.Request.Context()
-	tokenInfo, err := a.service.Refresh(ctx, &bodyParam)
+	tokenInfo, err := a.service.Refresh(ctx, &params)
 	if err != nil {
 		logger.Error(err.Error())
 		return gohttp.Response{
