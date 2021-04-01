@@ -1,5 +1,6 @@
 package errors
 
+// ErrorCodeMap define map error and error message
 var ErrorCodeMap = map[ErrorType]string{
 	Success:                    "SUCCESS",
 	Error:                      "ERROR",
@@ -32,6 +33,7 @@ var ErrorCodeMap = map[ErrorType]string{
 	ErrorTokenMalformed:        "ERROR_TOKEN_MALFORMED",
 }
 
+// GetCode get error code
 func GetCode(status int) string {
 	msg, ok := ErrorCodeMap[ErrorType(status)]
 	if ok {

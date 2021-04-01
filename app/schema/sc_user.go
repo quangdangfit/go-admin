@@ -1,5 +1,6 @@
 package schema
 
+// User schema
 type User struct {
 	ID       string      `json:"id"`
 	Username string      `json:"username"`
@@ -7,6 +8,7 @@ type User struct {
 	Extra    interface{} `json:"extra,omitempty"`
 }
 
+// RegisterBodyParam schema
 type RegisterBodyParam struct {
 	Username string `json:"username" validate:"required"`
 	Email    string `json:"email" validate:"required"`
@@ -14,15 +16,18 @@ type RegisterBodyParam struct {
 	RoleID   string `json:"role_id"`
 }
 
+// LoginBodyParam schema
 type LoginBodyParam struct {
 	Username string `json:"username" validate:"required"`
 	Password string `json:"password" validate:"required"`
 }
 
+// RefreshBodyParam schema
 type RefreshBodyParam struct {
 	RefreshToken string `json:"refresh_token,omitempty" validate:"required"`
 }
 
+// UserQueryParam schema
 type UserQueryParam struct {
 	Username string `json:"username,omitempty" form:"username,omitempty"`
 	Email    string `json:"email,omitempty" form:"email,omitempty"`
@@ -30,12 +35,14 @@ type UserQueryParam struct {
 	Limit    int    `json:"-" form:"limit,omitempty"`
 }
 
+// UserTokenInfo schema
 type UserTokenInfo struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 	TokenType    string `json:"token_type"`
 }
 
+// UserUpdateBodyParam schema
 type UserUpdateBodyParam struct {
 	Password     string `json:"password,omitempty"`
 	RoleID       string `json:"role_id,omitempty"`

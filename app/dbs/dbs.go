@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/lib/pq"
 	"github.com/quangdangfit/gosdk/utils/logger"
 
 	"github.com/quangdangfit/go-admin/app/interfaces"
@@ -15,6 +14,7 @@ type database struct {
 	db *gorm.DB
 }
 
+// NewDatabase return new IDatabase interface
 func NewDatabase() interfaces.IDatabase {
 	dbConfig := config.Config.Database
 	connectionPath := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s",
@@ -36,6 +36,7 @@ func NewDatabase() interfaces.IDatabase {
 	}
 }
 
+// GetInstance get database instance
 func (d *database) GetInstance() *gorm.DB {
 	return d.db
 }

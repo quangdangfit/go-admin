@@ -9,6 +9,7 @@ import (
 	"github.com/quangdangfit/gosdk/utils/logger"
 )
 
+// Cache interface
 type Cache interface {
 	IsConnected() bool
 	Get(key string, data interface{}) error
@@ -17,7 +18,7 @@ type Cache interface {
 	Keys(pattern string) ([]string, error)
 }
 
-// Setup Initialize the Cache instance
+// New Setup Initialize the Cache instance
 func New() Cache {
 	return NewRedis()
 }
@@ -29,11 +30,13 @@ type responseBodyWriter struct {
 	body *bytes.Buffer
 }
 
+// Write ResponseWriter
 func (r responseBodyWriter) Write(b []byte) (int, error) {
 	r.body.Write(b)
 	return r.ResponseWriter.Write(b)
 }
 
+// Cached middleware
 func Cached() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if cache == nil || !cache.IsConnected() {

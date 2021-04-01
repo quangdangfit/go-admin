@@ -7,6 +7,7 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
+// User model user
 type User struct {
 	Model        `json:"inline"`
 	Username     string `json:"username" gorm:"unique;not null;index"`
@@ -16,6 +17,7 @@ type User struct {
 	RefreshToken string `json:"refresh_token" gorm:"index"`
 }
 
+// BeforeCreate handle before create user
 func (u *User) BeforeCreate(scope *gorm.Scope) error {
 	err := u.Model.BeforeCreate(scope)
 	if err != nil {

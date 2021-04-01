@@ -14,7 +14,7 @@ func wrapUserAuthContext(c *gin.Context, userID string) {
 	c.Request = c.Request.WithContext(c)
 }
 
-// User Auth Middleware
+// UserAuthMiddleware User Auth Middleware
 func UserAuthMiddleware(a jwt.IJWTAuth, skippers ...SkipperFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if SkipHandler(c, skippers...) {

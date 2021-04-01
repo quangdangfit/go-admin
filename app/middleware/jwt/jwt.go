@@ -13,10 +13,12 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/utils"
 )
 
+// constants jwt
 const (
 	TokenExpiredTime = 300
 )
 
+// GenerateToken generate jwt token
 func GenerateToken(payload interface{}) string {
 	tokenContent := jwt.MapClaims{
 		"payload": payload,
@@ -32,6 +34,7 @@ func GenerateToken(payload interface{}) string {
 	return token
 }
 
+// ValidateToken validate jwt token
 func ValidateToken(jwtToken string) (map[string]interface{}, error) {
 	cleanJWT := strings.Replace(jwtToken, "Bearer ", "", -1)
 	tokenData := jwt.MapClaims{}
@@ -52,6 +55,7 @@ func ValidateToken(jwtToken string) (map[string]interface{}, error) {
 	return data, nil
 }
 
+// JWT middleware
 func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var code string

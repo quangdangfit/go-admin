@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// constants app request
 const (
 	prefix = "gin-go"
 	// UserIDKey
@@ -16,6 +17,7 @@ const (
 	LoggerReqBodyKey = prefix + "/logger-req-body"
 )
 
+// GetToken from header
 func GetToken(c *gin.Context) string {
 	var token string
 	auth := c.GetHeader("Authorization")
@@ -26,15 +28,16 @@ func GetToken(c *gin.Context) string {
 	return token
 }
 
+// GetUserID get user id from context
 func GetUserID(c context.Context) string {
-	userId := c.Value(UserIDKey)
-	if userId == nil {
+	userID := c.Value(UserIDKey)
+	if userID == nil {
 		return ""
 	}
-	return userId.(string)
+	return userID.(string)
 }
 
-// SetUserID
+// SetUserID to context
 func SetUserID(c *gin.Context, userID string) {
 	c.Set(UserIDKey, userID)
 }

@@ -9,6 +9,7 @@ import (
 	gohttp "github.com/quangdangfit/go-admin/pkg/http"
 )
 
+// constants wrapper http
 const (
 	DataField    = "data"
 	TraceIDField = "trace_id"
@@ -17,8 +18,10 @@ const (
 	MessageField = "message"
 )
 
+// GinHandlerFn gin handler function
 type GinHandlerFn func(c *gin.Context) gohttp.Response
 
+// Wrap return new gin.HandlerFunc by GinHandlerFn
 func Wrap(fn GinHandlerFn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// handle req
@@ -28,6 +31,7 @@ func Wrap(fn GinHandlerFn) gin.HandlerFunc {
 	}
 }
 
+// Translate gohttp.Response to response
 func Translate(c *gin.Context, res gohttp.Response) {
 	result := gin.H{}
 	if _, ok := res.Error.(errors.CustomError); ok {

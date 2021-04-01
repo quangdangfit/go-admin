@@ -9,16 +9,19 @@ import (
 //Reference article:
 //https://hackernoon.com/golang-handling-errors-gracefully-8e27f1db729f
 
+// CustomError struct
 type CustomError struct {
 	errType      ErrorType
 	wrappedError error
 	context      errorContext
 }
 
+// Error return error message
 func (err CustomError) Error() string {
 	return err.wrappedError.Error()
 }
 
+// Stacktrace return error stacktrace message
 func (err CustomError) Stacktrace() string {
 	return fmt.Sprintf("%+v\n", err.wrappedError)
 }
@@ -57,7 +60,7 @@ func Wrapf(err error, msg string, args ...interface{}) error {
 	return CustomError{errType: Error, wrappedError: wrappedError}
 }
 
-// Get Stacktrace of error
+// Stack get stacktrace of error
 func Stack(err error) string {
 	if customErr, ok := err.(CustomError); ok {
 		return fmt.Sprintf("%+v\n", customErr.wrappedError)

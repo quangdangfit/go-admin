@@ -13,12 +13,14 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
+// AuthService authentication service
 type AuthService struct {
 	jwt      jwt.IJWTAuth
 	userRepo interfaces.IUserRepository
 	roleRepo interfaces.IRoleRepository
 }
 
+// NewAuthService return new IAuthService interface
 func NewAuthService(jwt jwt.IJWTAuth, user interfaces.IUserRepository,
 	role interfaces.IRoleRepository) interfaces.IAuthService {
 	return &AuthService{
@@ -28,6 +30,7 @@ func NewAuthService(jwt jwt.IJWTAuth, user interfaces.IUserRepository,
 	}
 }
 
+// Login handle user login
 func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyParam) (*schema.UserTokenInfo, error) {
 	user, err := a.userRepo.Login(bodyParam)
 	if err != nil {
@@ -54,6 +57,7 @@ func (a *AuthService) Login(ctx context.Context, bodyParam *schema.LoginBodyPara
 	return &tokenInfo, nil
 }
 
+// Register register user
 func (a *AuthService) Register(ctx context.Context, param *schema.RegisterBodyParam) (*schema.UserTokenInfo, error) {
 	if param.RoleID == "" {
 		role, err := a.roleRepo.GetByName("user")
@@ -87,6 +91,7 @@ func (a *AuthService) Register(ctx context.Context, param *schema.RegisterBodyPa
 	return &tokenInfo, nil
 }
 
+// Refresh refresh token for user
 func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBodyParam) (*schema.UserTokenInfo, error) {
 	user, err := a.userRepo.GetUserByToken(bodyParam.RefreshToken)
 	if err != nil {
@@ -112,6 +117,7 @@ func (a *AuthService) Refresh(ctx context.Context, bodyParam *schema.RefreshBody
 	return &tokenInfo, nil
 }
 
+// Logout logout user
 func (a *AuthService) Logout(ctx context.Context) error {
 	_, err := a.userRepo.RemoveToken(app.GetUserID(ctx))
 	if err != nil {

@@ -10,11 +10,13 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/errors"
 )
 
+// UserService user service
 type UserService struct {
 	userRepo interfaces.IUserRepository
 	roleRepo interfaces.IRoleRepository
 }
 
+// NewUserService return new IUserService interface
 func NewUserService(user interfaces.IUserRepository, role interfaces.IRoleRepository) interfaces.IUserService {
 	return &UserService{
 		userRepo: user,
@@ -26,6 +28,7 @@ func (u *UserService) checkPermission(id string, data map[string]interface{}) bo
 	return data["id"] == id
 }
 
+// GetByID get user by id
 func (u *UserService) GetByID(ctx context.Context, id string) (*models.User, error) {
 	user, err := u.userRepo.GetByID(id)
 	if err != nil {
@@ -35,6 +38,7 @@ func (u *UserService) GetByID(ctx context.Context, id string) (*models.User, err
 	return user, nil
 }
 
+// List users by query
 func (u *UserService) List(ctx context.Context, param *schema.UserQueryParam) (*[]models.User, error) {
 	if param.Limit > config.Config.DefaultLimit {
 		param.Limit = config.Config.MaxLimit

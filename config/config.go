@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Schema struct
 type Schema struct {
 	Env          string `mapstructure:"env"`
 	DefaultLimit int    `mapstructure:"default_limit"`
@@ -42,6 +43,7 @@ type Schema struct {
 	} `mapstructure:"jwt_auth"`
 }
 
+// Config global parameter config
 var Config Schema
 
 func init() {
@@ -59,12 +61,12 @@ func init() {
 
 	err := config.ReadInConfig() // Find and read the config file
 	if err != nil {              // Handle errors reading the config file
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		panic(fmt.Errorf("fatal error config file: %s", err))
 	}
 
 	err = config.Unmarshal(&Config)
 	if err != nil { // Handle errors reading the config file
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		panic(fmt.Errorf("fatal error config file: %s", err))
 	}
 	// fmt.Printf("Current Config: %+v", Config)
 }
