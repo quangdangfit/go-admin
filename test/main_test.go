@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/quangdangfit/gosdk/utils/logger"
 	"go.uber.org/dig"
 
