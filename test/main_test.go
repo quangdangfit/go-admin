@@ -22,6 +22,10 @@ import (
 	"github.com/quangdangfit/go-admin/pkg/jwt"
 )
 
+const (
+	AuthTokenType = "Bearer"
+)
+
 var (
 	engine    *gin.Engine
 	container *dig.Container
@@ -156,7 +160,7 @@ func parseReader(r io.Reader, v interface{}) error {
 
 func newGetRequest(formatRouter string, v interface{}, args ...interface{}) *http.Request {
 	req, _ := http.NewRequest("GET", fmt.Sprintf(formatRouter, args...), toReader(v))
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Add("Authorization", fmt.Sprintf("%s %s", AuthTokenType, token))
 	return req
 }
 
@@ -167,7 +171,7 @@ func newPostRequest(formatRouter string, v interface{}, args ...interface{}) *ht
 
 func newPostAuthRequest(formatRouter string, v interface{}, args ...interface{}) *http.Request {
 	req, _ := http.NewRequest("POST", fmt.Sprintf(formatRouter, args...), toReader(v))
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Add("Authorization", fmt.Sprintf("%s %s", AuthTokenType, token))
 	return req
 }
 
@@ -179,12 +183,12 @@ func newInternalPostRequest(formatRouter string, v interface{}, args ...interfac
 
 func newPutRequest(formatRouter string, v interface{}, args ...interface{}) *http.Request {
 	req, _ := http.NewRequest("PUT", fmt.Sprintf(formatRouter, args...), toReader(v))
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Add("Authorization", fmt.Sprintf("%s %s", AuthTokenType, token))
 	return req
 }
 
 func newDeleteRequest(formatRouter string, args ...interface{}) *http.Request {
 	req, _ := http.NewRequest("DELETE", fmt.Sprintf(formatRouter, args...), nil)
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Add("Authorization", fmt.Sprintf("%s %s", AuthTokenType, token))
 	return req
 }
