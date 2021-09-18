@@ -2,6 +2,7 @@
 [![Master](https://github.com/quangdangfit/go-admin/workflows/master/badge.svg)](https://github.com/quangdangfit/go-admin/actions)
 
 RBAC scaffolding based on Gin + Gorm + Casbin + Dig
+Documentation [here](https://pkg.go.dev/github.com/quangdangfit/go-admin).
 
 
 ## How to run
