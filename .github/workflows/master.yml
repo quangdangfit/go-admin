@@ -69,6 +69,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
+            -X
             -Dsonar.organization=quangdangfit
             -Dsonar.branch.name=${GITHUB_HEAD_REF}
             -Dsonar.branch.target=${GITHUB_BASE_REF}
