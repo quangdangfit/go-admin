@@ -61,22 +61,3 @@ jobs:
         run: |
           make startup
           go test -timeout 9000s -a -v -coverpkg=./... ./test -coverprofile coverage.out -json > report.json
-          
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -X
-            -Dsonar.organization=quangdangfit
-            -Dsonar.branch.name=${GITHUB_HEAD_REF}
-            -Dsonar.branch.target=${GITHUB_BASE_REF}
-            -Dsonar.projectKey=quangdangfit_go-admin
-            -Dsonar.sources=.
-            -Dsonar.exclusions=**/*_test.go
-            -Dsonar.tests=test/
-            -Dsonar.test.inclusions=**/*_test.go
-            -Dsonar.go.coverage.reportPaths=coverage.out
-            -Dsonar.go.tests.reportPaths=report.json
