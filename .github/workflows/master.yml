@@ -78,3 +78,5 @@ jobs:
             -Dsonar.exclusions=**/*_test.go
             -Dsonar.tests=test/
             -Dsonar.test.inclusions=**/*_test.go
+            -Dsonar.go.coverage.reportPaths=coverage.out
+            -Dsonar.go.tests.reportPaths=report.json
