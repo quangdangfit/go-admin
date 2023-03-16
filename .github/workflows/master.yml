@@ -69,9 +69,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
+            -Dsonar.organization=quangdangfit
             -Dsonar.branch.name=${GITHUB_HEAD_REF}
             -Dsonar.branch.target=${GITHUB_BASE_REF}
-            -Dsonar.projectKey=quangdangfit_go-admin
+            -Dsonar.projectKey=go-admin
             -Dsonar.sources=.
             -Dsonar.exclusions=**/*_test.go
             -Dsonar.tests=test/
