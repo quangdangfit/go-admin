@@ -73,7 +73,7 @@ jobs:
             -Dsonar.organization=quangdangfit
             -Dsonar.branch.name=${GITHUB_HEAD_REF}
             -Dsonar.branch.target=${GITHUB_BASE_REF}
-            -Dsonar.projectKey=go-admin
+            -Dsonar.projectKey=quangdangfit_go-admin
             -Dsonar.sources=.
             -Dsonar.exclusions=**/*_test.go
             -Dsonar.tests=test/
